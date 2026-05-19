@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  },
+  "devDependencies": {}
+}

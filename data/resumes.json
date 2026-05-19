@@ -1,0 +1,923 @@
+{
+  "source": "node_local_file_store",
+  "updatedAt": "2026-05-19T05:25:24.640Z",
+  "resumes": [
+    {
+      "id": "res_mp70raj6_vvxgrr",
+      "name": "项目管理简历",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": ""
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
+            "phone": "15564667091",
+            "email": "mrsong2003@163.com",
+            "city": "",
+            "intention": "<span style=\"color: rgb(51, 51, 51);\">项目管理</span>实习生",
+            "age": "23",
+            "wechat": "",
+            "linkedin": "",
+            "github": "",
+            "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
+            "political_status": "预备党员",
+            "graduation": "2027年6月",
+            "availability": "2026.6.8",
+            "gender": "女",
+            "_basicInfoTextColor": "#111827"
+          }
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>面向科学发现的智能知识计算，将大语言模型的尖端技术与图书情报领域在知识扩散、科学计量学的深厚积累相结合，专注于开发新一代理论、方法与工具。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>2021-2022学年国家励志奖学金、校级二等奖学；2022-2023 学年学校科技创新奖学金。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>C 语言程序设计，Python 应用基础，数据结构算法，数据库技术与管理应用，计算机网络与应用，软件工程，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "大众（天津）｜IT 项目管理实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.5.29</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>在大众汽车 IT 部门并行推进大量跨工厂复杂系统项目的背景下，承担核心 PMO 角色。统筹项目进度追踪、研发效能数据度量以及系统变更发布流程，辅助管理层推进千万级项目的人力及预算节省指标落地。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>敏捷项目集群全生命周期管理：</span>建立标准化项目追踪与流转机制，每周协同十余位项目经理量化跟进各业务线系统的研发进度与排期。针对重点及高风险项目，协助提炼人力优化与预算节省等核心 ROI 指标，定期输出高管级月度报告，支撑总监层面的立项评审与资源调度。<br></span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>研发效能度量与系统负载诊断：</span>搭建业务团队运维响应时效的监测数据管道。定期清洗核心工单系统的原始数据，动态追踪项目工单趋势、人员负荷及各系统响应指标。通过挖掘数据异常，精准识别跨厂区交付效率卡点与资源分配瓶颈，为团队效能优化提供量化分析建议。<br></span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>技术交付与发版合规管控：</span>全权把控周度生产系统变更与上线发布流程。统筹天津与大连等厂区的系统上线节点，敏锐识别多系统版本发布并行的潜在停线风险。严格跟进各地业务线负责人的审批节点，完成全量版本更新追踪与跨国业务预警通报，推动决策平稳落地。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>实习期间累计审核并跟进超 1600 项系统变更与需求工单，实现系统发版流程零延期与零越权发布；编制输出数十份跨部门项目状态报告，有效消除了总部与三大厂区的信息壁垒，保障各重点业务系统的如期验收闭环。</span><br>"
+              ]
+            },
+            {
+              "title": "联想（北京）｜商务分析实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>商务部转型自动化落地：</b>深入理解同事需求场景后，写 Python 脚本和 Power Automate 工作流搭建，落地自动化；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>检索类智能体搭建跟进：</b>参与需求梳理、业务俚语表编制及 200 个高频测试问题设计；配合知识切片质量核查与索引支持，组织 UAT 测试并分类错误问题，协助复测及报告撰写；跟进上线运营，配合数据监控与知识补充对接；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>每日数据报表：</b>使用 power automate, python脚本和outlook的联动以及 Power BI 数据可视化分析每日报送超期事项预警信息；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>日常商务核心流程落地：</b>全流程规范处理审批、数据统筹、订单注册与合同管理等工作，保障业务顺畅运转。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "<span style=\"color: rgb(17, 24, 39);\">跨厂SAP EWM 仓储管理系统升级（ATJ/ATD/AC 三厂，预算 ¥129 万）</span>",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>为匹配多工厂产能扩张与复杂业务接入需求，统筹天津、大连、安徽三厂旧版仓储管理系统统一升级，管理超百万元预算并保障核心业务平稳切换。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>立项论证与供应商落定：</span>梳理前期业务需求边界，产出三套系统替代方案的可行性与成本对比分析报告。参与招标文件起草与技术评估，输出核心评估材料支撑管理层预算会议决策，推动招投标与采购合规流程落地。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>排期管控与风险识别：</span>建立跨部门周度汇报机制，量化跟进系统配置、设备联调与单元测试等研发节点的进度。过程中有效识别跨系统接口联调卡点及上线日期变更风险，提供调整建议并向上同步决策层，保障整体交付节奏不受阻。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>测试验收与业务落地：</span>协调技术与业务方推进业务蓝图确认，统筹安排用户验收测试排期与业务操作培训。跟进业务人员的验收反馈，推动研发团队解决异常问题，落实各环节的签字确认流程并顺利过渡至上线运维阶段。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>系统历时 8 个月按期成功上线，实现三个工厂核心仓储业务的平稳接轨与统一管理，沉淀立项、蓝图设计到结项测试全流程的标准交付文档。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "campus": {
+          "id": "campus",
+          "title": "校园经历",
+          "visible": false,
+          "deletable": true,
+          "order": 7,
+          "sidebar": true,
+          "items": []
+        },
+        "skills": {
+          "id": "skills",
+          "title": "技能证书",
+          "visible": false,
+          "deletable": true,
+          "order": 6,
+          "sidebar": true,
+          "data": {},
+          "items": []
+        },
+        "custom": {
+          "id": "custom",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">其他</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, SAP, Microsoft App</span>"
+              ]
+            },
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>语言：</b>英语（CET-6 : 494），普通话（二级甲等）</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        }
+      },
+      "created_at": "2026-05-15T14:35:05.106Z",
+      "updated_at": "2026-05-19T05:25:24.638Z",
+      "formatting": {
+        "textAlign": "justify",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 15,
+        "bodySize": 13,
+        "lineHeight": 1.2,
+        "moduleSpacing": "0",
+        "marginX": 30,
+        "marginY": 15
+      }
+    },
+    {
+      "id": "res_mpb9fmgc_jfnaaq",
+      "name": "快手-策略运营",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": ""
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
+            "phone": "15564667091",
+            "email": "mrsong2003@163.com",
+            "city": "",
+            "intention": "策略运营实习生",
+            "age": "23",
+            "wechat": "",
+            "linkedin": "",
+            "github": "",
+            "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
+            "political_status": "预备党员",
+            "graduation": "2027年6月",
+            "availability": "2026.6.11",
+            "gender": "女",
+            "_basicInfoTextColor": "#111827"
+          }
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>面向科学发现的智能知识计算，大语言模型的尖端技术与图书情报领域在知识扩散、科学计量学的深厚积累相结合，专注于开发新一代理论、方法与工具。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>2021-2022学年国家励志奖学金、校级二等奖学；2022-2023 学年学校科技创新奖学金。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>C 语言程序设计，Python 应用基础，数据结构算法，数据库技术与管理应用，计算机网络与应用，软件工程，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "联想（北京）｜ 商务运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>商务部门每日处理大规模跨系统订单，查账流程繁琐；同时部门正推进检索智能体落地，初期模型对业务逻辑理解受限。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务数据监控与流程自动化：</span>独立承担每日应收账款数据的提取与清洗。使用 Python 与 Excel 对齐底层数据映射表，为不同产品线配置 7 天/30 天的超期预警规则，实现“逾期 TOP10 订单”看板的自动生成与定向分发。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>智能体产品评测与反馈迭代：</span>负责智能体在业务侧的落地验收。梳理 200 个高频业务提问作为测试题库，收集真实用户反馈。建立问题分类机制，将报错细分为知识库缺失、模型理解偏差等类型，指导研发团队针对性修复。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>自动化看板替代了原有的人工制表流程，每日节省数小时工时；建立的评测与反馈机制，推动大模型业务问答准确率提升至 90% 以上，保障了产品的顺利应用。</span>"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ IT 运营分析实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2026.01-2026.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>大众国内四厂区的 IT 运维数据庞杂，管理层需直观的运维报表以支撑系统状态监控与人力调度。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>运维数据可视化与分析：</span>负责 L2 运维团队数据的常态化监控。每周处理并清洗 Jira 导出的原始工单数据，在 Power BI 中搭建报表，追踪工单解决率（SLA）与工程师工作量等关键指标。在报表中设计多层级分类查看功能，便于管理层从工厂、系统、责任人等维度排查故障源与工时负荷。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>部门项目统筹与数据流转优化：</span>规范全组十余位项目经理的数据填报格式，剔除无效更新。每周例会前统筹并输出项目总表，月末汇总预算节省等核心指标，产出月度分析报告供管理层决策。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>实习期内规范跟进了 1500 余条系统工单。搭建的 Power BI 看板为团队提供了清晰的数据支撑，提升了管理层在周会中识别风险和调度运维资源的效率。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "联想商务部知识检索智能体语料建设与运营",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">项目背景： 部门引入检索智能体以辅助日常业务咨询，但初期模型对内部流程理解不足，回答准确率低，且缺乏有效的测试与更新机制。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">语料规范与业务知识输入： 梳理业务沟通中的高频缩写与行业词汇，制作对照表协助模型理解。在拆解业务长文档时把控切分逻辑，避免表格或关键段落被截断而造成信息丢失。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">测试诊断与问题反馈机制： 编写 200 个真实业务场景提问作为测试集，组织开展用户试用。将收集到的错误回答拆解归类为内容缺失、逻辑切分问题和分类错误三大类，为研发团队提供清晰的优化方向。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">日常监控与常态化运营： 产品上线后，每周监控对话量和准确率数据，定期输出运营报告。针对模型无法回答的 Bad Case，及时寻找对应的业务文档并补充至知识库。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">项目成果： 作为业务与研发的纽带，有效保障了输入语料的质量，推动模型业务回答准确率提升至 90% 以上。整理的“发现问题 - 分类归因 - 补充知识”流程，成为部门智能体日常运营的标准操作规范（SOP）。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "campus": {
+          "id": "campus",
+          "title": "校园经历",
+          "visible": false,
+          "deletable": true,
+          "order": 7,
+          "sidebar": true,
+          "items": []
+        },
+        "skills": {
+          "id": "skills",
+          "title": "技能证书",
+          "visible": false,
+          "deletable": true,
+          "order": 6,
+          "sidebar": true,
+          "data": {},
+          "items": []
+        },
+        "custom": {
+          "id": "custom",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">其他</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, Microsoft App</span>"
+              ]
+            },
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>语言：</b>英语（CET-6 : 494），普通话（二级甲等）</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        }
+      },
+      "created_at": "2026-05-18T13:49:01.932Z",
+      "updated_at": "2026-05-19T03:27:24.838Z",
+      "formatting": {
+        "textAlign": "justify",
+        "fontFamily": "default",
+        "nameSize": 22,
+        "headingSize": 15,
+        "bodySize": 13.5,
+        "lineHeight": 1.2,
+        "moduleSpacing": "0",
+        "marginX": 36,
+        "marginY": 15
+      }
+    },
+    {
+      "id": "res_mpbxj4wc_nyrtgq",
+      "name": "京东-用户研究",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": ""
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
+            "phone": "15564667091",
+            "email": "mrsong2003@163.com",
+            "city": "",
+            "intention": "用户研究实习生",
+            "age": "23",
+            "wechat": "",
+            "linkedin": "",
+            "github": "",
+            "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
+            "political_status": "预备党员",
+            "graduation": "2027年6月",
+            "availability": "2026.6.8",
+            "gender": "女",
+            "_basicInfoTextColor": "#111827"
+          }
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>面向科学发现的智能知识计算，大语言模型的尖端技术与图书情报领域在知识扩散、科学计量学的深厚积累相结合，专注于开发新一代理论、方法与工具。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>2021-2022学年国家励志奖学金、校级二等奖学；2022-2023 学年学校科技创新奖学金。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>C 语言程序设计，Python 应用基础，数据结构算法，数据库技术与管理应用，计算机网络与应用，软件工程，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "联想（北京）｜ 产品运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">业务背景：负责内部 AI 检索产品的落地统筹以及商务数据流转优化，支持上百名一线业务人员的操作体验提升与运转效率改善。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">体验评测与问题归因：统筹组织核心业务用户的产品体验验收测试，持续跟踪真实的系统交互数据；建立标准化的“错误归因分类机制”，对海量异常数据与错答进行精准诊断，清晰界定产品体验缺陷、业务知识缺失与模型意图识别错误。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">研究洞察与自动化提效：独立撰写产品运营分析报告，监控高频搜索诉求与体验流失节点，为智能体后续迭代提供明确的优化方向。同时梳理繁琐的商务流转规则，提取清洗原始订单数据，开发自动化报表看板，将每日数小时的手工核对转化为一键追踪。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">输出标准产品体验报告并持续跟踪闭环，推动内部智能体应用达到既定的 90% 准确率基准线，大幅提升了研发团队定向调优的效率。搭建的自动化看板每日为团队节省数小时人工处理时间，报表数据错误率降至 0。</span>"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ IT PMO实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2026.01-2026.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">业务背景：参与企业级系统与日常 IT 基础服务的统筹管理，把控横跨天津、大连、安徽多厂区的发版合规与一线业务系统体验运维。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">痛点调研与数据监控：深入处理与分析多厂区业务用户的海量系统运维工单。搭建基于 Power BI 的多层级智能诊断报表，对影响一线操作体验的系统卡点与宕机进行智能归因下钻，为管理层排查系统易用性瓶颈提供直观的数据支持。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">跨团队统筹与反馈闭环：作为中德跨国业务线的信息中转枢纽，统筹全线 IT 产品的体验反馈与发布合规审查；通过定期撰写跨地域、全英文的调研与系统通报邮件，消除研发、IT 及一线业务线间的沟通壁垒。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">工作成果：实习期间累计高效跟进上百条缺陷追踪工单，实现部门全量系统发版的 100% 流程合规流转。输出的数据诊断报表彻底改变了团队以往“凭感觉排查”的模式，极大提升了对体验异常与系统负荷瓶颈的发现效率。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "GEMS 集团员工体验调研平台落地与产品迭代",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">项目背景：大众汽车集团亟需引入全新平台以收集数千名员工的体验数据，同时车间缺乏高效的数据工具，面临系统层级复杂、跨部门试用反馈难以统一的挑战。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">用户访谈与需求提炼：深入装配与机加等核心一线车间，开展针对蓝/白领员工的实地用户访谈，发掘业务人员在系统操作中的易用性痛点；配合用研团队，将复杂的体验管理场景与多级诉求，梳理并转化为具有高精度分发逻辑的产品需求文档。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">体验验收与缺陷追踪：主导核心模块的用户验收测试计划，系统性收集业务方的试用反馈与界面交互卡点；将零散的用户痛点清晰转化为结构化的系统缺陷工单，协同研发团队排定修复优先级；针对一线突发的前台修改诉求，协助制定了不影响底层架构的解耦替代方案。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">跨部门协同与成果落地：作为业务诉求与技术实现的沟通桥梁，串联业务线、研发与安全等多职能团队，打通跨部门沟通壁垒，确保前期的体验痛点研究能够精准转化为实际落地的产品功能。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">项目成果：推动千万级体验调研平台与生产系统按期平稳上线，成功承载多厂区数千名员工的多维度数据收集。沉淀的需求反馈闭环有效化解了突发需求蔓延带来的延期风险，为高层管理策略调整提供了稳健的数据与工具支撑。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "campus": {
+          "id": "campus",
+          "title": "校园经历",
+          "visible": false,
+          "deletable": true,
+          "order": 7,
+          "sidebar": true,
+          "items": []
+        },
+        "skills": {
+          "id": "skills",
+          "title": "技能证书",
+          "visible": false,
+          "deletable": true,
+          "order": 6,
+          "sidebar": true,
+          "data": {},
+          "items": []
+        },
+        "custom": {
+          "id": "custom",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">其他</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, Microsoft App</span>"
+              ]
+            },
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>语言：</b>英语（CET-6 : 494），普通话（二级甲等）</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        }
+      },
+      "created_at": "2026-05-19T01:03:36.588Z",
+      "updated_at": "2026-05-19T02:30:06.406Z",
+      "formatting": {
+        "textAlign": "justify",
+        "fontFamily": "default",
+        "nameSize": 22,
+        "headingSize": 15,
+        "bodySize": 13.2,
+        "lineHeight": 1.2,
+        "moduleSpacing": "0",
+        "marginX": 31,
+        "marginY": 3
+      }
+    },
+    {
+      "id": "res_mpc2oedi_scy04v",
+      "name": "京东-产品运营",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": ""
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
+            "phone": "15564667091",
+            "email": "mrsong2003@163.com",
+            "city": "",
+            "intention": "策略运营实习生",
+            "age": "23",
+            "wechat": "",
+            "linkedin": "",
+            "github": "",
+            "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
+            "political_status": "预备党员",
+            "graduation": "2027年6月",
+            "availability": "2026.6.11",
+            "gender": "女",
+            "_basicInfoTextColor": "#111827"
+          }
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>面向科学发现的智能知识计算，大语言模型的尖端技术与图书情报领域在知识扩散、科学计量学的深厚积累相结合，专注于开发新一代理论、方法与工具。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>2021-2022学年国家励志奖学金、校级二等奖学；2022-2023 学年学校科技创新奖学金。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>C 语言程序设计，Python 应用基础，数据结构算法，数据库技术与管理应用，计算机网络与应用，软件工程，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "联想（北京）｜ 商务运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>商务部门每日处理大规模跨系统订单，查账流程繁琐；同时部门正推进检索智能体落地，初期模型对业务逻辑理解受限。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务数据监控与流程自动化：</span>独立承担每日应收账款数据的提取与清洗。使用 Python 与 Excel 对齐底层数据映射表，为不同产品线配置 7 天/30 天的超期预警规则，实现“逾期 TOP10 订单”看板的自动生成与定向分发。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>智能体产品评测与反馈迭代：</span>负责智能体在业务侧的落地验收。梳理 200 个高频业务提问作为测试题库，收集真实用户反馈。建立问题分类机制，将报错细分为知识库缺失、模型理解偏差等类型，指导研发团队针对性修复。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>自动化看板替代了原有的人工制表流程，每日节省数小时工时；建立的评测与反馈机制，推动大模型业务问答准确率提升至 90% 以上，保障了产品的顺利应用。</span>"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ IT 运营分析实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2026.01-2026.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>大众国内四厂区的 IT 运维数据庞杂，管理层需直观的运维报表以支撑系统状态监控与人力调度。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>运维数据可视化与分析：</span>负责 L2 运维团队数据的常态化监控。每周处理并清洗 Jira 导出的原始工单数据，在 Power BI 中搭建报表，追踪工单解决率（SLA）与工程师工作量等关键指标。在报表中设计多层级分类查看功能，便于管理层从工厂、系统、责任人等维度排查故障源与工时负荷。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>部门项目统筹与数据流转优化：</span>规范全组十余位项目经理的数据填报格式，剔除无效更新。每周例会前统筹并输出项目总表，月末汇总预算节省等核心指标，产出月度分析报告供管理层决策。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>实习期内规范跟进了 1500 余条系统工单。搭建的 Power BI 看板为团队提供了清晰的数据支撑，提升了管理层在周会中识别风险和调度运维资源的效率。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "联想商务部知识检索智能体语料建设与运营",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">项目背景： 部门引入检索智能体以辅助日常业务咨询，但初期模型对内部流程理解不足，回答准确率低，且缺乏有效的测试与更新机制。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">语料规范与业务知识输入： 梳理业务沟通中的高频缩写与行业词汇，制作对照表协助模型理解。在拆解业务长文档时把控切分逻辑，避免表格或关键段落被截断而造成信息丢失。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">测试诊断与问题反馈机制： 编写 200 个真实业务场景提问作为测试集，组织开展用户试用。将收集到的错误回答拆解归类为内容缺失、逻辑切分问题和分类错误三大类，为研发团队提供清晰的优化方向。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">日常监控与常态化运营： 产品上线后，每周监控对话量和准确率数据，定期输出运营报告。针对模型无法回答的 Bad Case，及时寻找对应的业务文档并补充至知识库。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">项目成果： 作为业务与研发的纽带，有效保障了输入语料的质量，推动模型业务回答准确率提升至 90% 以上。整理的“发现问题 - 分类归因 - 补充知识”流程，成为部门智能体日常运营的标准操作规范（SOP）。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "campus": {
+          "id": "campus",
+          "title": "校园经历",
+          "visible": false,
+          "deletable": true,
+          "order": 7,
+          "sidebar": true,
+          "items": []
+        },
+        "skills": {
+          "id": "skills",
+          "title": "技能证书",
+          "visible": false,
+          "deletable": true,
+          "order": 6,
+          "sidebar": true,
+          "data": {},
+          "items": []
+        },
+        "custom": {
+          "id": "custom",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">其他</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, Microsoft App</span>"
+              ]
+            },
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>语言：</b>英语（CET-6 : 494），普通话（二级甲等）</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        }
+      },
+      "created_at": "2026-05-19T03:27:40.230Z",
+      "updated_at": "2026-05-19T03:27:40.232Z",
+      "formatting": {
+        "textAlign": "justify",
+        "fontFamily": "default",
+        "nameSize": 22,
+        "headingSize": 15,
+        "bodySize": 13.5,
+        "lineHeight": 1.2,
+        "moduleSpacing": "0",
+        "marginX": 36,
+        "marginY": 15
+      }
+    },
+    {
+      "id": "res_mpc59fxe_vf5446",
+      "name": "京东-项目管理",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": ""
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
+            "phone": "15564667091",
+            "email": "mrsong2003@163.com",
+            "city": "",
+            "intention": "PMO 实习生",
+            "age": "23",
+            "wechat": "",
+            "linkedin": "",
+            "github": "",
+            "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
+            "political_status": "预备党员",
+            "graduation": "2027年6月",
+            "availability": "2026.6.8",
+            "gender": "女",
+            "_basicInfoTextColor": "#111827"
+          }
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>面向科学发现的智能知识计算，将大语言模型的尖端技术与图书情报领域在知识扩散、科学计量学的深厚积累相结合，专注于开发新一代理论、方法与工具。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>2021-2022学年国家励志奖学金、校级二等奖学；2022-2023 学年学校科技创新奖学金。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>C 语言程序设计，Python 应用基础，数据结构算法，数据库技术与管理应用，计算机网络与应用，软件工程，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "大众（天津）｜IT PMO 实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2026.01-2026.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\">业务背景：IT 部门并行推进多个涉及天津、大连、安徽厂区的核心系统开发与升级项目，需统筹多方资源、识别项目风险，并确保各项系统按期合规上线。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">敏捷追踪与跨端协调：协助统筹部门核心 IT 项目进度，规范化使用 Jira 追踪系统开发任务与测试工单（累计跟进超 130 项任务）；每周主导收集 10 余位 IT 项目经理的进度更新，维护项目主数据表，并统筹安排 UAT 验收与业务蓝图确认。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">风险监控与高管汇报：针对项目推进中的突发需求延展或外部接口对接延迟等风险，及时协调内部业务线与外部供应商探讨应对策略；定期清洗进度数据，输出部门月度高级管理报告，以直观形式呈现项目健康度与异常预警。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\">工作成果：保障了部门全量核心项目的敏捷流转与透明化，其中深度协助的 SAP EWM 等重量级系统于三地工厂实现 100% 平稳过渡上线，显著降低了因信息不对称导致的延期风险。</span>"
+              ]
+            },
+            {
+              "title": "联想（北京）｜商务分析实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>商务部转型自动化落地：</b>深入理解同事需求场景后，写 Python 脚本和 Power Automate 工作流搭建，落地自动化；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>检索类智能体搭建跟进：</b>参与需求梳理、业务俚语表编制及 200 个高频测试问题设计；配合知识切片质量核查与索引支持，组织 UAT 测试并分类错误问题，协助复测及报告撰写；跟进上线运营，配合数据监控与知识补充对接；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>每日数据报表：</b>使用 power automate, python脚本和outlook的联动以及 Power BI 数据可视化分析每日报送超期事项预警信息；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>日常商务核心流程落地：</b>全流程规范处理审批、数据统筹、订单注册与合同管理等工作，保障业务顺畅运转。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "知识检索智能体落地与测试验收统筹｜联想商务部",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.04-2025.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><span>项目背景：</span>业务线面临庞杂文档检索效率低下的痛点，亟需从 0 到 1 落地一款定制化的检索智能体。面临的核心挑战是跨团队协同难度大，且初期缺乏对大模型测试调优的标准流程。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>目标对齐与测试进度管控：</span>前期协助业务与研发侧梳理需求说明书，定义 90% 的核心验收指标；在测试期，统筹组织真实业务用户的 UAT 测试，收集反馈并建立标准化的错误问题分类机制，将其转化为结构化工单并排定修复优先级。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>跨组推进与文档沉淀：</span>作为业务运营与技术团队沟通的枢纽，持续追踪问题修复进度，推动研发团队高效完成定向调优；协助梳理并沉淀标准化的智能体产品使用手册及长效运营规范。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span>项目成果：</span>推动该检索智能体顺利达到既定的准确率基准并按时上线，构建的测试归因体系大幅缩短了跨部门调优的沟通周期，为部门后续 AI 应用落地沉淀了可复用的项目管理规范。</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "campus": {
+          "id": "campus",
+          "title": "校园经历",
+          "visible": false,
+          "deletable": true,
+          "order": 7,
+          "sidebar": true,
+          "items": []
+        },
+        "skills": {
+          "id": "skills",
+          "title": "技能证书",
+          "visible": false,
+          "deletable": true,
+          "order": 6,
+          "sidebar": true,
+          "data": {},
+          "items": []
+        },
+        "custom": {
+          "id": "custom",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">其他</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, Microsoft App</span>"
+              ]
+            },
+            {
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>语言：</b>英语（CET-6 : 494），普通话（二级甲等）</span>"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        }
+      },
+      "created_at": "2026-05-19T04:40:01.250Z",
+      "updated_at": "2026-05-19T04:40:01.253Z",
+      "formatting": {
+        "textAlign": "justify",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 15,
+        "bodySize": 13.5,
+        "lineHeight": 1.2,
+        "moduleSpacing": "0",
+        "marginX": 38,
+        "marginY": 29
+      }
+    }
+  ],
+  "deliveryRecords": [
+    {
+      "id": "res_mpbyanii_4mxf9p",
+      "resumeId": "res_mpb9fmgc_jfnaaq",
+      "resumeName": "快手-策略运营",
+      "company": "快手",
+      "position": "策略运营",
+      "email": "lina25@kuaishou.com",
+      "date": "2026-05-19",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-19T01:25:00.426Z"
+    },
+    {
+      "id": "res_mpbzzlbn_35vz4m",
+      "resumeId": "res_mpbxj4wc_nyrtgq",
+      "resumeName": "京东-用户研究",
+      "company": "京东",
+      "position": "用户研究",
+      "email": "maoyi.eva@jd.com",
+      "date": "2026-05-19",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-19T02:12:23.603Z"
+    }
+  ],
+  "settings": {}
+}
