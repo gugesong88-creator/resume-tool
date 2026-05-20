@@ -4613,12 +4613,56 @@ function toggleLeftPanel() {
   toggle.title = isCollapsed ? '展开编辑面板' : '收起编辑面板';
 }
 
-function checkPageOverflow() {
+function getActualContentHeight() {
   const canvas = document.getElementById('a4-preview');
+  if (!canvas) return 0;
+  
+  // 创建影子测量盒
+  const tempDiv = document.createElement('div');
+  tempDiv.className = canvas.className;
+  tempDiv.innerHTML = canvas.innerHTML;
+  
+  // 按照标准 A4 物理像素宽度 794px，设定影子测量盒样式，移出视口并隐藏
+  tempDiv.style.cssText = 'width:794px;min-height:1123px;position:absolute;left:-9999px;top:0;box-sizing:border-box;visibility:hidden;';
+  
+  document.body.appendChild(tempDiv);
+  
+  if (editState && editState.formatting) {
+    const f = editState.formatting;
+    
+    // 1. 调用底层安全样式格式化函数，将字体、所有字号、行高、对齐方式应用到子元素
+    applyFormattingToElements(tempDiv, f);
+    
+    // 2. 局部应用影子盒子所需的页面边距
+    const marginY = f.marginY !== undefined ? f.marginY : 48;
+    const marginX = f.marginX !== undefined ? f.marginX : 52;
+    tempDiv.style.padding = `${marginY}px ${marginX}px`;
+    
+    // 3. 局部应用影子盒子的模块间距
+    const moduleSpacing = f.moduleSpacing !== undefined ? f.moduleSpacing : 8;
+    const sections = tempDiv.querySelectorAll('.section');
+    sections.forEach(sec => {
+      sec.style.marginTop = `${moduleSpacing}px`;
+    });
+  }
+  
+  // 隐藏影子测量盒中的所有编辑专用辅助元素以匹配导出 PDF 时的状态
+  const nonPrintElements = tempDiv.querySelectorAll('.inline-add-btn, .entry-delete-btn, .section-actions, .resume-photo-placeholder');
+  nonPrintElements.forEach(el => el.style.display = 'none');
+  
+  const height = tempDiv.scrollHeight;
+  document.body.removeChild(tempDiv);
+  return height;
+}
+
+function checkPageOverflow() {
   const warning = document.getElementById('page-overflow-warning');
-  if (!canvas || !warning) return;
-  // A4 标准高度近似 1123px，设定 1124px 为预警阈值
-  if (canvas.scrollHeight > 1124) {
+  if (!warning) return;
+  
+  const height = getActualContentHeight();
+  
+  // A4 标准物理像素高度 1123px，高 DPI 及亚像素缩放容差设为 1125px
+  if (height > 1125) {
     warning.style.display = 'inline-block';
   } else {
     warning.style.display = 'none';
@@ -4637,8 +4681,6 @@ window.addEventListener('load', () => {
 
 function autoCompressLayout() {
   if (!editState || !editState.formatting) return;
-  const canvas = document.getElementById('a4-preview');
-  if (!canvas) return;
 
   let f = editState.formatting;
   let iterations = 0;
@@ -4649,7 +4691,7 @@ function autoCompressLayout() {
   const minMarginY = 24;
   const minBodySize = 10.5;
   
-  while (canvas.scrollHeight > 1124 && iterations < 20) {
+  while (getActualContentHeight() > 1125 && iterations < 20) {
     iterations++;
     let changed = false;
     
@@ -4662,11 +4704,9 @@ function autoCompressLayout() {
     
     updateFormattingUI();
     applyFormatting();
-    // 强制触发同步重排以获取真实高度
-    void canvas.offsetHeight;
   }
   
-  if (canvas.scrollHeight > 1124) {
+  if (getActualContentHeight() > 1125) {
     showToast('已压缩至参数底限，须人工删减文本数据');
   } else {
     showToast('排版参数已自适应至一页规格');
