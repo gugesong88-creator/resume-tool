@@ -58,10 +58,17 @@ function readJsonIfExists(file) {
 
 function normalizeStore(input) {
   const store = input && typeof input === 'object' ? input : {};
+  const resumes = Array.isArray(store.resumes) ? store.resumes : [];
+  resumes.forEach(resume => {
+    if (resume && resume.modules) {
+      delete resume.modules.campus;
+      delete resume.modules.skills;
+    }
+  });
   return {
     source: 'node_local_file_store',
     updatedAt: new Date().toISOString(),
-    resumes: Array.isArray(store.resumes) ? store.resumes : [],
+    resumes: resumes,
     deliveryRecords: Array.isArray(store.deliveryRecords) ? store.deliveryRecords : [],
     settings: store.settings && typeof store.settings === 'object' ? store.settings : {}
   };

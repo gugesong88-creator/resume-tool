@@ -1905,18 +1905,8 @@ function getDefaultModules() {
       sidebar: false,
       items: []
     },
-    campus: {
-      id: 'campus', title: '校园经历', visible: false, deletable: true, order: 5,
-      sidebar: true,
-      items: []
-    },
-    skills: {
-      id: 'skills', title: '技能证书', visible: true, deletable: true, order: 6,
-      sidebar: true,
-      data: { tags: '' }
-    },
     custom: {
-      id: 'custom', title: '其他', visible: false, deletable: true, order: 7,
+      id: 'custom', title: '其他', visible: false, deletable: true, order: 5,
       sidebar: false,
       items: []
     }
@@ -3017,8 +3007,6 @@ function renderEditorPanels() {
     let bodyHtml = '';
     if (mod.id === 'basic_info') {
       bodyHtml = renderBasicInfoForm(mod);
-    } else if (mod.id === 'skills') {
-      bodyHtml = renderSkillsForm(mod);
     } else {
       bodyHtml = renderItemsForm(mod);
     }
@@ -3145,16 +3133,6 @@ function renderBasicInfoForm(mod) {
   return formHtml;
 }
 
-function renderSkillsForm(mod) {
-  const tags = mod.data && mod.data.tags ? mod.data.tags : '';
-  return `
-    <div class="info-field">
-      <label>技能证书 / 其他技能（用分号；分隔）</label>
-      <input value="${escHtml(richTextToPlain(tags))}" placeholder="SQL；Canva；剪映；AI提效"
-        oninput="onFieldChange('${mod.id}', 'tags', this.value)">
-    </div>`;
-}
-
 function renderItemsForm(mod) {
   const items = mod.items || [];
 
@@ -3196,10 +3174,8 @@ function renderItemsForm(mod) {
           <input value="${escHtml(richTextToPlain(item.major||''))}" placeholder="专业 / 学位" oninput="onItemFieldChange('${mod.id}',${idx},'major',this.value)">
           <input value="${escHtml(richTextToPlain(item.time||''))}" placeholder="时间，如 2022.09-2026.06" oninput="onItemFieldChange('${mod.id}',${idx},'time',this.value)">
         </div>`;
-    } else if (mod.id === 'skills') {
-      // handled separately
     } else {
-      // internship, project, campus, custom
+      // internship, project, custom
       fieldsHtml = `
         <div class="entry-row">
           <input value="${escHtml(richTextToPlain(item.title||item.project_name||item.company||''))}" placeholder="${mod.id==='project'?'项目名称':'公司/组织名称'}" oninput="onItemFieldChange('${mod.id}',${idx},'title',this.value)">
@@ -3520,8 +3496,7 @@ function renderResumeHTML(t, modules, meta) {
 
 // Icons for T02 module titles
 const MODULE_ICONS = {
-  education: '🎓', internship: '💼', project: '📋', campus: '🏫',
-  skills: '🛠', custom: '📌'
+  education: '🎓', internship: '💼', project: '📋', custom: '📌'
 };
 
 function renderModuleHTML(mod, t) {
@@ -3575,23 +3550,7 @@ function renderModuleHTML(mod, t) {
       </div>`;
   }
 
-  if (modId === 'skills') {
-    const tags = (mod.data && mod.data.tags) ? mod.data.tags.split(/[;；]+/).map(s => s.trim()).filter(Boolean) : [];
-    if (tags.length > 0) {
-      if (t.id === 'T03_minimal_ats') {
-        bodyHtml = `<div class="skill-list">${tags.map((tag, i) => {
-          const hasKw = /^(Java|Spring|MySQL|Redis|Python|Go|C\+\+|TensorFlow|PyTorch|K8s|Docker|AWS|Git|Linux|SQL|Figma|Excel)$/i.test(tag);
-          return `<span class="skill-tag" data-editable="skills.tag.${i}">${hasKw ? '<span class="kw">' + escHtml(tag) + '</span>' : escHtml(tag)}</span>`;
-        }).join(' · ')}</div>`;
-      } else {
-        bodyHtml = `<div class="skill-tags">${tags.map((tag, i) =>
-          `<span class="skill-tag" data-editable="skills.tag.${i}">${escHtml(tag)}</span>`
-        ).join('')}</div>`;
-      }
-    } else {
-      bodyHtml = `<button class="inline-add-btn" onclick="event.preventDefault();focusSkillsInput()" contenteditable="false">+ 添加技能标签</button>`;
-    }
-  } else if (mod.items) {
+  if (mod.items) {
     const items = mod.items || [];
     if (items.length > 0) {
       bodyHtml = items.map((item, idx) => {
@@ -4618,16 +4577,6 @@ function toggleLeftPanel() {
   toggle.title = isCollapsed ? '展开编辑面板' : '收起编辑面板';
 }
 
-function focusSkillsInput() {
-  // Expand left panel if collapsed, then focus skills input
-  const panel = document.getElementById('editor-left-panel');
-  if (panel.classList.contains('collapsed')) toggleLeftPanel();
-  setTimeout(() => {
-    const skillsInput = document.querySelector('#editor-left-panel input[placeholder*="SQL"], #editor-left-panel input[placeholder*="Python"]');
-    if (skillsInput) skillsInput.focus();
-  }, 200);
-}
-
 function checkPageOverflow() {
   const canvas = document.getElementById('a4-preview');
   const warning = document.getElementById('page-overflow-warning');
@@ -5607,8 +5556,15 @@ bootstrap();
 (function initLocalDiskBridge() {
     function normalizeStore(data) {
         data = data && typeof data === 'object' ? data : {};
+        const resumes = Array.isArray(data.resumes) ? data.resumes : [];
+        resumes.forEach(resume => {
+            if (resume && resume.modules) {
+                delete resume.modules.campus;
+                delete resume.modules.skills;
+            }
+        });
         return {
-            resumes: Array.isArray(data.resumes) ? data.resumes : [],
+            resumes: resumes,
             deliveryRecords: Array.isArray(data.deliveryRecords) ? data.deliveryRecords : [],
             settings: data.settings && typeof data.settings === 'object' ? data.settings : {}
         };
