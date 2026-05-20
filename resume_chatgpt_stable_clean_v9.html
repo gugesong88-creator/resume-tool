@@ -1715,6 +1715,10 @@ textarea { resize: vertical; min-height: 60px; }
     <input type="number" id="fmt-margin-x" min="0" max="100" value="52" onchange="onFormatChange('marginX', this.value)">
     <label>模块间距</label>
     <input type="number" id="fmt-module-spacing" min="0" max="50" value="8" onchange="onFormatChange('moduleSpacing', this.value)">
+    <span class="fmt-separator"></span>
+    <label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-weight:600;" title="从外部复制内容粘贴到简历中时，是否过滤格式、只保留纯文本">
+      <input type="checkbox" id="fmt-paste-plain" style="cursor:pointer;" onchange="togglePastePlainSetting(this.checked)">仅粘纯文本
+    </label>
   </div>
   <div class="editor-container" style="position:relative">
     <div class="editor-left" id="editor-left-panel"></div>
@@ -2859,7 +2863,25 @@ function onFormatChange(key, value) {
 }
 
 
+function isPastePlainEnabled() {
+  const store = loadStore();
+  if (store.settings && store.settings.paste_plain !== undefined) {
+    return store.settings.paste_plain;
+  }
+  return true; // 默认开启
+}
+
+function togglePastePlainSetting(checked) {
+  const store = loadStore();
+  if (!store.settings) store.settings = {};
+  store.settings.paste_plain = checked;
+  saveStore(store);
+}
+
 function updateFormattingUI() {
+  const fp = document.getElementById('fmt-paste-plain');
+  if (fp) fp.checked = isPastePlainEnabled();
+
   if (!editState || !editState.formatting) return;
 
   const f = editState.formatting;
@@ -3790,6 +3812,20 @@ function attachEditableHandlers(canvas) {
     el.addEventListener('blur', onEditableBlur);
     el.addEventListener('mouseup', saveRichTextSelection);
     el.addEventListener('keyup', saveRichTextSelection);
+    el.addEventListener('paste', (e) => {
+      if (isPastePlainEnabled()) {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        if (document.queryCommandSupported('insertText')) {
+          document.execCommand('insertText', false, text);
+        } else {
+          const selection = window.getSelection();
+          if (!selection.rangeCount) return;
+          selection.deleteFromDocument();
+          selection.getRangeAt(0).insertNode(document.createTextNode(text));
+        }
+      }
+    });
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         if (el.tagName.toLowerCase() === 'ul') return;
