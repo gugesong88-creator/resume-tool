@@ -107,3 +107,22 @@ Server-side PDF 导出（可选）
 - 集成一个基础的 AI 文案润色入口（只需接入一个 API key）；
 
 如果你想让我继续实现其中任意一项，请告诉我优先级。 
+
+## 架构重构进度 (Architecture Refactoring Progress)
+
+目前项目正在进行**渐进式架构重构**，从单文件巨石架构（Monolith）迁移到现代模块化架构，为未来可能的 React/Vue 迁移铺路。
+
+### 已完成阶段
+- **Phase 1a/1b/1c: 基础剥离**
+  - 将内嵌 CSS 剥离至 `assets/styles/` (base, editor, templates, delivery)。
+  - 提取纯工具函数至 `src/utils/html.js` 和 `src/utils/time.js`。
+  - 建立统一的数据契约 `src/schema.js`。
+- **Phase 1d/1e: 状态与通信解耦**
+  - 彻底移除了导致假死的同步 XHR 请求，重构为基于 `fetch` 的异步 API 客户端 (`src/api/client.js`)。
+  - 引入全局状态容器 `src/store.js`，采用"乐观更新"策略，消除了多处全局变量污染，并通过代理完美兼容了遗留的 `window.editState` 和存储读写调用。
+
+### 下一步计划
+- **Phase 1f: 模板系统分离** - 将超大函数 `renderResumeHTML` 拆分为独立模板引擎文件。
+- **Phase 1g: PDF 导出统一** - 消除导出代码的多版本冗余。
+- **Phase 1h: 编辑器面板合并** - 消除所有 UI 事件的猴子补丁（Monkey Patch）包装链。
+- **Phase 1i: 纯净入口** - 建立全新的 `index.html` 外壳，挂载模块化架构。

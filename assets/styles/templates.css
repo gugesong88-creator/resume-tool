@@ -1,0 +1,357 @@
+/* ===== TEMPLATE STYLES ===== */
+
+/* ==============================================
+   T01: 经典高密度型 — 参照北大风格
+   黑白灰单栏，模块紧凑，时间右对齐，无装饰
+   ============================================== */
+.t01-classic-dense { font-family: 'Microsoft YaHei', 'SimSun', 'PingFang SC', sans-serif; }
+.t01-classic-dense .resume-header { padding-bottom: 6px; margin-bottom: 0; }
+.t01-classic-dense .resume-name { font-size: 26px; font-weight: 700; color: #111; letter-spacing: 2px; margin-bottom: 6px; }
+.t01-classic-dense .resume-contact { font-size: 10.5px; color: #555; }
+.t01-classic-dense .resume-contact-line1,
+.t01-classic-dense .resume-contact-line2,
+.t01-classic-dense .resume-contact-line3 { font-size: 10.5px; color: #555; margin-bottom: 2px; }
+.t01-classic-dense .section { margin-top: 8px; }
+.t01-classic-dense .section-title { font-size: 14px; font-weight: 700; color: #111; border-bottom: 1.5px solid #222; padding-bottom: 5px; margin-bottom: 10px; letter-spacing: 1px; display: block; width: 100%; }
+.t01-classic-dense .exp-item { margin-bottom: 11px; }
+.t01-classic-dense .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 700; color: #111; margin-bottom: 3px; }
+.t01-classic-dense .exp-header .exp-left { font-weight: 700; }
+.t01-classic-dense .exp-header .exp-right { font-size: 10.5px; color: #666; font-weight: 400; white-space: nowrap; margin-left: 12px; }
+.t01-classic-dense .exp-sub { font-size: 10.5px; color: #555; margin-bottom: 4px; }
+.t01-classic-dense .exp-desc { font-size: 10.5px; color: #444; line-height: 1.45; padding-left: 18px; margin: 0; list-style: disc; }
+.t01-classic-dense .exp-desc li { margin-bottom: 3px; display: list-item; }
+.t01-classic-dense .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.t01-classic-dense .skill-tag { font-size: 10px; background: #F3F4F6; padding: 2px 10px; border-radius: 2px; color: #444; border: 1px solid #E5E7EB; }
+.t01-classic-dense .info-table { width: 100%; font-size: 10.5px; color: #444; border-collapse: collapse; }
+.t01-classic-dense .info-table td { padding: 2px 0; vertical-align: top; }
+.t01-classic-dense .info-table td:first-child { font-weight: 600; width: 100px; color: #111; }
+
+/* ==============================================
+   T02: 现代图标型 — 参照清华AI产品简历风格
+   青蓝色强调，模块图标，bullet关键词加粗
+   ============================================== */
+.t02-modern-icon { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; }
+.t02-modern-icon .resume-header { padding-bottom: 6px; margin-bottom: 0; }
+.t02-modern-icon .resume-header-logo { width: 52px; height: 52px; background: #F0FDFA; border: 1.5px solid #99F6E4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #0D9488; flex-shrink: 0; text-align: center; line-height: 1.3; }
+.t02-modern-icon .resume-name { font-size: 26px; font-weight: 700; color: #111; letter-spacing: 1px; margin-bottom: 4px; }
+.t02-modern-icon .resume-contact { font-size: 10.5px; color: #555; line-height: 1.6; }
+.t02-modern-icon .resume-contact-line1,
+.t02-modern-icon .resume-contact-line2,
+.t02-modern-icon .resume-contact-line3 { font-size: 10.5px; color: #555; margin-bottom: 2px; }
+.t02-modern-icon .section { margin-top: 8px; }
+.t02-modern-icon .section-title { font-size: 14px; font-weight: 700; color: #0D9488; border-bottom: 2px solid #0D9488; padding-bottom: 5px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; width: 100%; }
+.t02-modern-icon .section-title .section-icon { display: inline-flex; width: 20px; height: 20px; background: #0D9488; color: #fff; border-radius: 4px; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.t02-modern-icon .exp-item { margin-bottom: 13px; }
+.t02-modern-icon .exp-header { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: baseline; }
+.t02-modern-icon .exp-header .exp-right { font-size: 10.5px; color: #666; font-weight: 400; white-space: nowrap; margin-left: 12px; }
+.t02-modern-icon .exp-sub { font-size: 10.5px; color: #0D9488; margin-bottom: 5px; font-weight: 500; }
+.t02-modern-icon .exp-desc { font-size: 10.5px; color: #444; line-height: 1.55; padding-left: 18px; margin: 0; list-style: disc; }
+.t02-modern-icon .exp-desc li { margin-bottom: 5px; display: list-item; }
+.t02-modern-icon .exp-desc li::marker { color: #0D9488; }
+.t02-modern-icon .exp-desc li .kw { font-weight: 700; color: #111; }
+.t02-modern-icon .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.t02-modern-icon .skill-tag { font-size: 10px; background: #F0FDFA; padding: 3px 10px; border-radius: 4px; color: #0F766E; border: 1px solid #99F6E4; }
+
+/* ==============================================
+   T03: 极简ATS型 — 参照后端开发简历风格
+   多列对齐，技术关键词加粗，无任何装饰
+   ============================================== */
+.t03-minimal-ats { font-family: 'Microsoft YaHei', 'Helvetica Neue', 'PingFang SC', sans-serif; }
+.t03-minimal-ats .resume-header { padding-bottom: 4px; margin-bottom: 0; }
+.t03-minimal-ats .resume-name { font-size: 24px; font-weight: 700; color: #1E3A5F; margin-bottom: 3px; }
+.t03-minimal-ats .resume-intention { font-size: 11px; color: #1E3A5F; font-weight: 600; margin-bottom: 6px; }
+.t03-minimal-ats .resume-contact { font-size: 10.5px; color: #555; display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.t03-minimal-ats .resume-contact-line1,
+.t03-minimal-ats .resume-contact-line2,
+.t03-minimal-ats .resume-contact-line3 { font-size: 10.5px; color: #555; margin-bottom: 2px; }
+.t03-minimal-ats .section { margin-top: 8px; }
+.t03-minimal-ats .section-title { font-size: 13px; font-weight: 700; color: #1E3A5F; border-bottom: 1.5px solid #1E3A5F; padding-bottom: 4px; margin-bottom: 8px; display: block; width: 100%; }
+.t03-minimal-ats .exp-table { width: 100%; font-size: 10.5px; color: #333; border-collapse: collapse; }
+.t03-minimal-ats .exp-table td { padding: 2px 0; vertical-align: top; }
+.t03-minimal-ats .exp-table .col-time { width: 130px; color: #555; font-size: 10px; }
+.t03-minimal-ats .exp-table .col-org { width: 160px; font-weight: 700; color: #111; }
+.t03-minimal-ats .exp-table .col-role { width: 140px; color: #444; }
+.t03-minimal-ats .exp-table .col-dept { color: #555; font-size: 10px; }
+.t03-minimal-ats .exp-item { margin-bottom: 10px; }
+.t03-minimal-ats .exp-header { font-size: 11px; font-weight: 700; color: #111; margin-bottom: 4px; }
+.t03-minimal-ats .exp-desc { font-size: 10.5px; color: #444; line-height: 1.5; padding-left: 18px; margin: 4px 0 0 0; list-style: disc; }
+.t03-minimal-ats .exp-desc li { margin-bottom: 3px; display: list-item; }
+.t03-minimal-ats .exp-desc li .kw { font-weight: 700; color: #111; }
+.t03-minimal-ats .skill-list { font-size: 10.5px; color: #444; line-height: 1.6; }
+.t03-minimal-ats .skill-list .kw { font-weight: 700; color: #111; }
+.t03-minimal-ats .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.t03-minimal-ats .skill-tag { font-size: 10.5px; color: #333; }
+.t03-minimal-ats .skill-tag .kw { font-weight: 700; color: #111; }
+
+/* ==============================================
+   T04: 商务清爽型 — 前三模板基础上的留白型
+   更多呼吸感，模块疏朗，正式商务
+   ============================================== */
+.t04-business-clean { font-family: 'Microsoft YaHei', 'Segoe UI', 'PingFang SC', sans-serif; }
+.t04-business-clean .resume-header { padding-bottom: 10px; margin-bottom: 0; }
+.t04-business-clean .resume-header-avatar { width: 52px; height: 52px; border-radius: 50%; background: #2C5282; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; flex-shrink: 0; }
+.t04-business-clean .resume-header-info { flex: 1; }
+.t04-business-clean .resume-name { font-size: 28px; font-weight: 700; color: #111; letter-spacing: 1px; margin-bottom: 5px; }
+.t04-business-clean .resume-contact { font-size: 11px; color: #666; line-height: 1.6; }
+.t04-business-clean .resume-contact-line1,
+.t04-business-clean .resume-contact-line2,
+.t04-business-clean .resume-contact-line3 { font-size: 11px; color: #666; margin-bottom: 2px; }
+.t04-business-clean .section { margin-top: 10px; }
+.t04-business-clean .section-title { font-size: 15px; font-weight: 700; color: #2C5282; padding-bottom: 6px; margin-bottom: 12px; border-bottom: 2px solid #2C5282; letter-spacing: 0.5px; display: block; width: 100%; }
+.t04-business-clean .exp-item { margin-bottom: 14px; }
+.t04-business-clean .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; font-weight: 700; color: #111; margin-bottom: 4px; }
+.t04-business-clean .exp-header .exp-left { font-weight: 700; }
+.t04-business-clean .exp-header .exp-right { font-size: 11px; color: #777; font-weight: 400; white-space: nowrap; margin-left: 14px; }
+.t04-business-clean .exp-sub { font-size: 11px; color: #555; margin-bottom: 5px; }
+.t04-business-clean .exp-desc { font-size: 11px; color: #555; line-height: 1.6; padding-left: 18px; margin: 0; list-style: disc; }
+.t04-business-clean .exp-desc li { margin-bottom: 4px; display: list-item; }
+.t04-business-clean .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.t04-business-clean .skill-tag { font-size: 10.5px; background: #F8FAFC; padding: 3px 12px; border-radius: 14px; color: #2C5282; border: 1px solid #BEE3F8; }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body { background: #fff; }
+  .top-nav, .editor-toolbar, .editor-left, .toast, .modal-overlay, .formatting-bar, .editor-left-toggle { display: none !important; }
+  .editor-container { display: block !important; height: auto !important; }
+  .editor-right { display: block !important; overflow: visible !important; padding: 0 !important; background: #fff !important; }
+  .a4-canvas { box-shadow: none !important; width: 100% !important; min-height: auto !important; padding: 0 !important; }
+  .a4-canvas [data-editable]:hover { outline: none !important; background: none !important; }
+  .a4-canvas .inline-add-btn { display: none !important; }
+  .a4-canvas .entry-delete-btn { display: none !important; }
+  .a4-canvas .section-actions { display: none !important; }
+  .resume-photo-placeholder { display: none !important; }
+  @page { size: A4; margin: 12mm; }
+}
+
+/* ===== Confirm Dialog ===== */
+.confirm-content { font-size: 14px; line-height: 1.6; }
+.confirm-content strong { color: var(--primary); }
+
+/* Responsive */
+@media (max-width: 1300px) {
+  .editor-left {
+    width: clamp(280px, 30vw, 360px);
+    max-width: 46vw;
+  }
+
+  .a4-canvas {
+    width: 650px;
+    padding: 36px 40px;
+    min-height: 920px;
+  }
+}
+
+@media (max-width: 900px) {
+  #view-editor.active {
+    overflow: hidden;
+  }
+
+  .editor-container {
+    flex-direction: row;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .editor-left {
+    width: clamp(240px, 42vw, 320px);
+    min-width: 0;
+    max-width: 50vw;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+  }
+
+  .editor-right {
+    height: 100%;
+    min-width: 0;
+    overflow: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .a4-canvas {
+    width: 650px;
+    min-width: 650px;
+    padding: 36px 40px;
+    min-height: 920px;
+  }
+}
+
+/* ===== JD Panel in Editor ===== */
+.jd-panel { margin-top: 8px; }
+.jd-panel textarea { font-size: 11px; min-height: 80px; }
+
+/* ===== v4 Rich Text Toolbar ===== */
+.color-palette {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.color-btn {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #D1D5DB;
+  background: #111827;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.color-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px rgba(30,58,138,0.16);
+}
+
+.color-btn.color-white {
+  background: #FFFFFF;
+  border: 1px solid #9CA3AF;
+}
+
+.color-btn.color-black { background: #111827; }
+.color-btn.color-darkgray { background: #374151; }
+.color-btn.color-gray { background: #6B7280; }
+.color-btn.color-blue { background: #1E3A8A; }
+.color-btn.color-red { background: #DC2626; }
+.color-btn.color-yellow { background: #D97706; }
+.color-btn.color-green { background: #059669; }
+
+.btn-clear-color {
+  padding: 2px 6px;
+  font-size: 11px;
+  background: #fff;
+  color: #4B5563;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+}
+
+.btn-clear-color:hover {
+  background: #F3F4F6;
+}
+
+
+/* ============================================================
+   v6 enhancements: personal info color, module divider color,
+   item sorting
+   ============================================================ */
+
+.v6-enhance-box {
+  margin: 8px 0 10px;
+  padding: 8px;
+  border: 1px dashed #D1D5DB;
+  border-radius: 8px;
+  background: #F9FAFB;
+  font-size: 12px;
+}
+
+.v6-enhance-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.v6-color-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.v6-color-dot {
+  width: 17px;
+  height: 17px;
+  border-radius: 999px;
+  border: 1px solid #D1D5DB;
+  cursor: pointer;
+  padding: 0;
+  background: #111827;
+}
+
+.v6-color-dot:hover {
+  transform: scale(1.14);
+  box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.16);
+}
+
+.v6-color-dot.white {
+  background: #FFFFFF;
+  border-color: #9CA3AF;
+}
+
+.v6-color-dot.black { background: #111827; }
+.v6-color-dot.darkgray { background: #374151; }
+.v6-color-dot.gray { background: #6B7280; }
+.v6-color-dot.blue { background: #1E3A8A; }
+.v6-color-dot.red { background: #DC2626; }
+.v6-color-dot.yellow { background: #D97706; }
+.v6-color-dot.green { background: #059669; }
+
+.v6-clear-btn {
+  border: 1px solid #D1D5DB;
+  background: #FFFFFF;
+  color: #4B5563;
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.v6-clear-btn:hover {
+  background: #F3F4F6;
+}
+
+.v6-sort-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.v6-sort-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+}
+
+.v6-sort-name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #374151;
+}
+
+.v6-sort-btn {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background: #FFFFFF;
+  color: #374151;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.v6-sort-btn:hover:not(:disabled) {
+  background: #EEF2FF;
+  border-color: #93C5FD;
+  color: #1E3A8A;
+}
+
+.v6-sort-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
