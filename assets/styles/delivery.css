@@ -1,0 +1,99 @@
+/* ===== DELIVERY TRACKING ===== */
+.delivery-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.filter-group input,
+.filter-group select {
+  width: 180px;
+  font-size: 13px;
+}
+
+.delivery-table-container {
+  overflow-x: auto;
+}
+
+.delivery-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.delivery-table th,
+.delivery-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.delivery-table th {
+  background: #F9FAFB;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 12px;
+}
+
+.delivery-table tr:last-child td { border-bottom: none; }
+
+.delivery-table tr:hover { background: #F9FAFB; }
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.status-已投递 { background: #E0F2FE; color: #0369A1; }
+.status-面试邀请 { background: #DCFCE7; color: #15803D; }
+.status-已拒绝 { background: #FEE2E2; color: #B91C1C; }
+.status-已录用 { background: #FDE68A; color: #92400E; }
+.status-待定 { background: #E5E7EB; color: #374151; }
+
+.delivery-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.delivery-actions button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+/* Delivery modal styles */
+.delivery-modal-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.delivery-modal-fields .field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.delivery-modal-fields .field-group.full-width {
+  grid-column: 1 / -1;
+}
