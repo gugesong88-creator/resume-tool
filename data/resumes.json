@@ -1,6 +1,6 @@
 {
   "source": "node_local_file_store",
-  "updatedAt": "2026-05-20T05:30:55.527Z",
+  "updatedAt": "2026-05-20T06:32:12.231Z",
   "resumes": [
     {
       "id": "res_mp70raj6_vvxgrr",
@@ -150,14 +150,14 @@
         }
       },
       "created_at": "2026-05-15T14:35:05.106Z",
-      "updated_at": "2026-05-20T05:30:55.525Z",
+      "updated_at": "2026-05-20T06:32:12.228Z",
       "formatting": {
         "textAlign": "justify",
         "fontFamily": "default",
         "nameSize": 24,
         "headingSize": 15,
         "bodySize": 13,
-        "lineHeight": 1.2,
+        "lineHeight": 1.35,
         "moduleSpacing": "0",
         "marginX": 30,
         "marginY": 15
