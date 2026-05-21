@@ -28,7 +28,7 @@ function renderResumeHTML(t, modules, meta) {
   let html = '';
   
   if (templateDef && templateDef.renderHeader) {
-      html += templateDef.renderHeader(biData, L, window.escHtml);
+      html += templateDef.renderHeader(biData, L, window.escHtml, bi);
   }
 
   const visibleModules = Object.values(modules)

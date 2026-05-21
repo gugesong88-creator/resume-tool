@@ -7,33 +7,21 @@ window.AppTemplates.T03_minimal_ats = {
   fontName: '22px', fontHead: '13px', fontBody: '10.5px', lineHeight: '1.5',
   showIcons: false, showAvatar: false, showLogo: false,
 
-  renderHeader(biData, L, escHtml) {
-    const { name, phone, email, city, intention, gender, age, wechat, linkedin, github, political_status, availability, graduation, photo } = biData;
-    let t03Line1Parts = [];
-    t03Line1Parts.push(L('gender', '性别', gender, '男/女'));
-    if (age) t03Line1Parts.push(L('age', '年龄', age, '年龄'));
-    if (phone) t03Line1Parts.push(L('phone', '电话', phone, '点击填写'));
-    if (email) t03Line1Parts.push(L('email', '邮箱', email, '点击填写'));
-    if (wechat) t03Line1Parts.push(L('wechat', '微信', wechat, '点击填写'));
-    if (city) t03Line1Parts.push(L('city', '城市', city, '点击填写'));
-    if (political_status) t03Line1Parts.push(L('political_status', '政治面貌', political_status, '中共党员/团员/群众'));
-    if (t03Line1Parts.length === 0) t03Line1Parts.push(L('phone', '电话', '', '点击填写'));
+  renderHeader(biData, L, escHtml, bi) {
+    const { name, photo } = biData;
+    const items = bi.items || [];
+    let contactParts = items.map((item, idx) => L(idx, item));
+
     return `<div class="resume-header">
       <div class="resume-header-info">
         <div class="resume-name" data-editable="basic_info.name">${escHtml(name)}</div>
-        <div class="resume-contact-line1">
-          <span class="contact-item"><span class="static-label">求职意向：</span><span data-editable="basic_info.intention" class="resume-intention" style="${intention ? '' : 'color:#9CA3AF'}">${intention ? escHtml(intention) : '点击填写'}</span></span>
-        </div>
-        <div class="resume-contact-line2">${t03Line1Parts.join('')}</div>
-        <div class="resume-contact-line3">
-          ${L('graduation', '毕业时间', graduation, '2026.06')}
-          ${L('availability', '到岗时间', availability, '随时到岗')}
+        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 8px;">
+          ${contactParts.join('')}
         </div>
       </div>
       ${photo ? `<div class="resume-header-photo"><img src="${escHtml(photo)}" alt="照片" onerror="this.style.display='none'"></div>` : `<div class="resume-header-photo resume-photo-placeholder" data-editable="basic_info._photo">📷<br>添加照片</div>`}
     </div>`;
   },
-
   renderModuleTitle(title, modId, escHtml) {
     return escHtml(title);
   },

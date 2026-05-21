@@ -112,6 +112,8 @@
     <input type="number" id="fmt-margin-y" min="0" max="100" value="48" onchange="onFormatChange('marginY', this.value)">
     <label>左右边距</label>
     <input type="number" id="fmt-margin-x" min="0" max="100" value="52" onchange="onFormatChange('marginX', this.value)">
+    <label>整体色调</label>
+    <input type="color" id="fmt-theme-color" onchange="onFormatChange('themeColor', this.value)" style="padding:0;width:24px;height:24px;border:none;cursor:pointer;margin-right:8px;">
     <label>模块间距</label>
     <input type="number" id="fmt-module-spacing" min="0" max="50" value="8" onchange="onFormatChange('moduleSpacing', this.value)">
     <span class="fmt-separator"></span>
@@ -1419,7 +1421,7 @@ function attachEditableHandlers(canvas) {
         el.blur();
       }
       // Ctrl+B / Cmd+B for bold
-      if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B' || e.code === 'KeyB')) {
         e.preventDefault();
         document.execCommand('bold', false, null);
       }
@@ -2312,6 +2314,34 @@ bootstrap();
 
 <script>
 (function initHistoryStack() {
+
+        // Migrate basic_info fixed fields to dynamic items
+        if (editState && editState.resume && editState.resume.modules && editState.resume.modules.basic_info) {
+            let bi = editState.resume.modules.basic_info;
+            if (bi.data && !bi.items) {
+                bi.items = [];
+                const mapping = [
+                    { key: 'intention', label: '求职意向' },
+                    { key: 'phone', label: '电话' },
+                    { key: 'email', label: '邮箱' },
+                    { key: 'gender', label: '性别' },
+                    { key: 'age', label: '年龄' },
+                    { key: 'political_status', label: '政治面貌' },
+                    { key: 'graduation', label: '毕业时间' },
+                    { key: 'availability', label: '到岗时间' },
+                    { key: 'city', label: '城市' },
+                    { key: 'wechat', label: '微信' },
+                    { key: 'linkedin', label: '个人网站' },
+                    { key: 'github', label: 'GitHub' }
+                ];
+                mapping.forEach(m => {
+                    if (bi.data[m.key]) {
+                        bi.items.push({ label: m.label, value: bi.data[m.key] });
+                        delete bi.data[m.key];
+                    }
+                });
+            }
+        }
     window.historyStack = [];
     window.historyIndex = -1;
     window.isHistoryNavigating = false;
@@ -2401,6 +2431,34 @@ bootstrap();
     const _originalLoadEditor = window.loadEditor;
     window.loadEditor = function(id) {
         const res = typeof _originalLoadEditor === 'function' ? _originalLoadEditor.apply(this, arguments) : undefined;
+
+        // Migrate basic_info fixed fields to dynamic items
+        if (editState && editState.resume && editState.resume.modules && editState.resume.modules.basic_info) {
+            let bi = editState.resume.modules.basic_info;
+            if (bi.data && !bi.items) {
+                bi.items = [];
+                const mapping = [
+                    { key: 'intention', label: '求职意向' },
+                    { key: 'phone', label: '电话' },
+                    { key: 'email', label: '邮箱' },
+                    { key: 'gender', label: '性别' },
+                    { key: 'age', label: '年龄' },
+                    { key: 'political_status', label: '政治面貌' },
+                    { key: 'graduation', label: '毕业时间' },
+                    { key: 'availability', label: '到岗时间' },
+                    { key: 'city', label: '城市' },
+                    { key: 'wechat', label: '微信' },
+                    { key: 'linkedin', label: '个人网站' },
+                    { key: 'github', label: 'GitHub' }
+                ];
+                mapping.forEach(m => {
+                    if (bi.data[m.key]) {
+                        bi.items.push({ label: m.label, value: bi.data[m.key] });
+                        delete bi.data[m.key];
+                    }
+                });
+            }
+        }
         window.historyStack = [];
         window.historyIndex = -1;
         window.isHistoryNavigating = false;

@@ -136,30 +136,15 @@ window.renderEditorPanels = function() {
 
 window.renderBasicInfoForm = function(mod) {
   const d = mod.data || {};
-  const fields = [
-    { key: 'name', label: '姓名', placeholder: '张三' },
-    { key: 'intention', label: '求职意向', placeholder: '产品经理实习生 / 后端开发' },
-    { key: 'phone', label: '手机', placeholder: '13800000000' },
-    { key: 'email', label: '邮箱', placeholder: 'example@email.com' },
-    { key: 'gender', label: '性别', placeholder: '男 / 女' },
-    { key: 'age', label: '年龄', placeholder: '22' },
-    { key: 'political_status', label: '政治面貌', placeholder: '中共党员 / 共青团员 / 群众' },
-    { key: 'graduation', label: '毕业时间', placeholder: '2026.06' },
-    { key: 'availability', label: '到岗时间', placeholder: '随时到岗 / 2026.07' },
-    { key: 'wechat', label: '微信', placeholder: '微信号' },
-    { key: 'city', label: '城市', placeholder: '北京 / 上海' },
-    { key: 'linkedin', label: 'LinkedIn/个人网站', placeholder: 'https://...' },
-    { key: 'github', label: 'GitHub', placeholder: 'github.com/...' }
-  ];
-  let formHtml = fields.map(f => `
+  let formHtml = `
     <div class="info-field">
-      <label>${f.label}</label>
-      <input value="${window.escHtml(window.richTextToPlain(d[f.key]||''))}" placeholder="${f.placeholder}"
-        oninput="window.onFieldChange('${mod.id}', '${f.key}', this.value)">
-    </div>`).join('');
-  
+      <label>姓名</label>
+      <input value="${window.escHtml(window.richTextToPlain(d.name||''))}" placeholder="张三"
+        oninput="window.onFieldChange('${mod.id}', 'name', this.value)">
+    </div>`;
+    
   formHtml += `
-    <div class="info-field">
+    <div class="info-field" style="margin-bottom: 12px;">
       <label>简历照片</label>
       <div style="display:flex;gap:8px;align-items:center">
         <button class="btn-outline btn-sm" onclick="document.getElementById('photo-upload-input').click()">上传照片</button>
@@ -167,6 +152,21 @@ window.renderBasicInfoForm = function(mod) {
       </div>
       ${d.photo ? '<div style="margin-top:6px;font-size:11px;color:var(--text-muted)">✓ 已设置照片</div>' : ''}
     </div>`;
+
+  const items = mod.items || [];
+  formHtml += items.map((item, idx) => `
+    <div class="entry-item" style="padding-bottom: 8px;">
+      <div class="entry-item-header" style="margin-bottom: 4px;">
+        <input style="font-weight:600; width: 100px; padding: 2px 4px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 11px;" value="${window.escHtml(window.richTextToPlain(item.label||''))}" oninput="window.onItemFieldChange('${mod.id}',${idx},'label',this.value)">
+        <button class="btn-xs btn-danger" onclick="window.deleteEntry('${mod.id}',${idx})">删除</button>
+      </div>
+      <div class="entry-row" style="margin-top: 0;">
+        <input value="${window.escHtml(window.richTextToPlain(item.value||''))}" placeholder="填写内容" oninput="window.onItemFieldChange('${mod.id}',${idx},'value',this.value)">
+      </div>
+    </div>
+  `).join('');
+
+  formHtml += `<button class="add-entry-btn" onclick="window.addEntry('${mod.id}')">+ 添加个人信息</button>`;
   return formHtml;
 };
 
@@ -385,7 +385,9 @@ window.addEntry = function(modId) {
   const mod = window.editState.resume.modules[modId];
   if (!mod) return;
   if (!mod.items) mod.items = [];
-  if (mod.id === 'education') {
+  if (mod.id === 'basic_info') {
+    mod.items.push({ label: '新信息', value: '' });
+  } else   if (mod.id === 'education') {
     mod.items.push(window.AppSchema.createEducationItem());
   } else if (mod.id === 'custom') {
     mod.items.push({ bullets: [''] });
