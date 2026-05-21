@@ -1060,6 +1060,12 @@ function applyFormatting() {
   });
 
   applyFormattingToElements(canvas, f);
+
+  // Also apply theme color live
+  const t = getTemplate(editState.resume.template_id);
+  const tc = f.themeColor || t.accent || '#374151';
+  canvas.style.setProperty('--accent', tc);
+  document.documentElement.style.setProperty('--accent', tc);
 }
 
 
@@ -1209,8 +1215,9 @@ function renderPreview() {
 
 
   // Set accent color CSS variable
-  canvas.style.setProperty('--accent', t.accent);
-  document.documentElement.style.setProperty('--accent', t.accent);
+  const themeColor = (editState.formatting && editState.formatting.themeColor) ? editState.formatting.themeColor : t.accent;
+  canvas.style.setProperty('--accent', themeColor);
+  document.documentElement.style.setProperty('--accent', themeColor);
 
   // Apply formatting overrides
   applyFormatting();
