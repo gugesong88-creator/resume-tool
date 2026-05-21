@@ -4,39 +4,8 @@
 (function() {
 
 // Helper: Basic Info Color Box
-function renderBasicInfoColorBoxHTML() {
-  const c = window.editState.resume.meta || {};
-  return `
-    <div class="v6-enhance-box" style="margin: 8px 0; padding: 8px; border: 1px dashed #D1D5DB; border-radius: 8px; background: #F3F4F6;">
-      <div style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">姓名与基本信息颜色重载</div>
-      <div style="display: flex; gap: 12px; font-size: 11px; align-items: center;">
-        <label>姓名颜色:</label>
-        <input type="color" value="${window.normalizeColorValue(c.nameColor)}" oninput="updateMetaField('nameColor', this.value)">
-        <button class="btn-clear-color" onclick="updateMetaField('nameColor', '')">清除</button>
-      </div>
-      <div style="display: flex; gap: 12px; font-size: 11px; align-items: center; margin-top: 4px;">
-        <label>信息颜色:</label>
-        <input type="color" value="${window.normalizeColorValue(c.basicInfoColor)}" oninput="updateMetaField('basicInfoColor', this.value)">
-        <button class="btn-clear-color" onclick="updateMetaField('basicInfoColor', '')">清除</button>
-      </div>
-    </div>
-  `;
-}
 
 // Helper: Divider Color Box
-function renderDividerColorBoxHTML(modId) {
-  const mod = window.editState.resume.modules[modId];
-  const c = mod.dividerColor || '';
-  return `
-    <div class="v6-enhance-box" style="margin: 8px 0; padding: 8px; border: 1px dashed #D1D5DB; border-radius: 8px; background: #F3F4F6;">
-      <div style="font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #374151;">模块底轴颜色</div>
-      <div style="display: flex; gap: 12px; font-size: 11px; align-items: center;">
-        <input type="color" value="${window.normalizeColorValue(c)}" oninput="updateModuleDividerColor('${modId}', this.value)">
-        <button class="btn-clear-color" onclick="updateModuleDividerColor('${modId}', '')">清除自定义</button>
-      </div>
-    </div>
-  `;
-}
 
 // Helper: Sort Box
 function renderSortBoxHTML(modId, mod) {
@@ -62,24 +31,6 @@ function renderSortBoxHTML(modId, mod) {
 }
 
 // Helper: Local Format Box (v10)
-function renderLocalFormatBoxHTML(modId, mod) {
-  return `
-    <div class="v10-local-format v10-local-box" style="margin: 8px 0 10px; padding: 8px; border: 1px dashed #D1D5DB; border-radius: 8px; background: #F9FAFB; font-size: 12px;">
-      <div class="v10-local-title" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: #374151; font-weight: 600;">
-        <span>局部排版约束</span>
-        <span style="font-weight:400;color:#6B7280;">优先级最高，仅作用于当前模块</span>
-      </div>
-      <div style="display:flex;gap:12px;font-size:11px;align-items:center;margin-top:8px;">
-        <label>上部间距(px):</label>
-        <input type="number" style="width:60px;padding:4px;border:1px solid #D1D5DB;border-radius:4px;" value="${mod.localMargin !== undefined ? mod.localMargin : ''}"
-               oninput="updateLocalFormat('${modId}', 'localMargin', this.value)" placeholder="默认">
-        <label>行高缩放:</label>
-        <input type="number" step="0.1" style="width:60px;padding:4px;border:1px solid #D1D5DB;border-radius:4px;" value="${mod.localLineHeight !== undefined ? mod.localLineHeight : ''}"
-               oninput="updateLocalFormat('${modId}', 'localLineHeight', this.value)" placeholder="默认">
-      </div>
-    </div>
-  `;
-}
 
 window.renderEditorPanels = function() {
   if (!window.editState) return;
@@ -92,11 +43,8 @@ window.renderEditorPanels = function() {
     
     // Inject Enhancements cleanly
     if (mod.id === 'basic_info') {
-      bodyHtml += renderBasicInfoColorBoxHTML();
     }
-    bodyHtml += renderDividerColorBoxHTML(mod.id);
     bodyHtml += renderSortBoxHTML(mod.id, mod);
-    bodyHtml += renderLocalFormatBoxHTML(mod.id, mod);
 
     if (mod.id === 'basic_info') {
       bodyHtml += window.renderBasicInfoForm(mod);
@@ -308,36 +256,8 @@ window.v6SwapItem = function(modId, idx1, idx2) {
   window.markDirty();
 };
 
-window.updateLocalFormat = function(modId, key, value) {
-    if (!window.editState) return;
-    const mod = window.editState.resume.modules[modId];
-    if (!mod) return;
-    
-    if (value === '' || isNaN(value)) {
-        delete mod[key];
-    } else {
-        mod[key] = parseFloat(value);
-    }
-    
-    window.renderPreview();
-    window.markDirty();
-};
 
-window.updateMetaField = function(key, val) {
-    if (!window.editState) return;
-    if (!window.editState.resume.meta) window.editState.resume.meta = {};
-    window.editState.resume.meta[key] = val;
-    window.renderPreview();
-    window.markDirty();
-};
 
-window.updateModuleDividerColor = function(modId, val) {
-    if (!window.editState) return;
-    const mod = window.editState.resume.modules[modId];
-    if (mod) mod.dividerColor = val;
-    window.renderPreview();
-    window.markDirty();
-};
 
 // Data handling
 window.onFieldChange = function(modId, field, val) {
@@ -388,11 +308,11 @@ window.addEntry = function(modId) {
   if (mod.id === 'basic_info') {
     mod.items.push({ label: '新信息', value: '' });
   } else   if (mod.id === 'education') {
-    mod.items.push(window.AppSchema.createEducationItem());
+    mod.items.push({ school: '', major: '', time: '', bullets: [''] });
   } else if (mod.id === 'custom') {
     mod.items.push({ bullets: [''] });
   } else {
-    mod.items.push(window.AppSchema.createExperienceItem());
+    mod.items.push({ title: '', role: '', time: '', bullets: [''] });
   }
   window.renderEditorPanels();
   window.renderPreview();
@@ -447,82 +367,5 @@ window.removePhoto = function() {
 };
 
 // Preview Enhancements (v6 colors and v10 local formatting)
-window.applyPreviewEnhancements = function(canvas) {
-  if (!window.editState || !window.editState.resume) return;
-  const meta = window.editState.resume.meta || {};
-  const modules = window.editState.resume.modules || {};
-
-  // 1. Basic Info Text Color
-  const basicInfoColor = meta.basicInfoColor || meta._basicInfoTextColor; // fallback to old key
-  const nameColor = meta.nameColor;
-  
-  const basicRoot = canvas.querySelector('[data-editable^="basic_info."]')?.closest('.resume-header, .basic-info, .basic-section, .personal-info, .resume-section, .section, header');
-  
-  if (basicRoot) {
-    // Name color
-    const nameEl = basicRoot.querySelector('.name, .resume-name');
-    if (nameEl) {
-      if (nameColor) nameEl.style.color = nameColor;
-      else nameEl.style.color = '';
-    }
-
-    // Contact info color
-    const targets = basicRoot.querySelectorAll(
-      '.resume-contact, .resume-contact-line1, .resume-contact-line2, .resume-contact-line3, ' +
-      '.contact-item, .contact-label, .static-label, .info-label, .resume-intention, ' +
-      '[data-editable^="basic_info."]'
-    );
-    targets.forEach(el => {
-      // Don't overwrite if it's the name element and nameColor is set
-      if (nameColor && (el.classList.contains('name') || el.classList.contains('resume-name'))) return;
-      
-      if (basicInfoColor) {
-        el.style.color = basicInfoColor;
-      } else {
-        // Only clear if we explicitly set it before, but since we re-render, it's fine.
-      }
-    });
-  }
-
-  // 2. Module Divider Colors & v10 Local formatting
-  Object.keys(modules).forEach(modId => {
-    const mod = modules[modId];
-    if (!mod) return;
-    
-    // Find module root in preview
-    const modRoot = canvas.querySelector(`[data-module="${modId}"], [data-module-id="${modId}"]`);
-    if (!modRoot) return;
-
-    // Apply Divider Color
-    const dividerColor = mod.dividerColor;
-    if (dividerColor) {
-      const targets = modRoot.querySelectorAll('.section-title, .module-title, .resume-section-title, hr, .divider, .section-divider');
-      targets.forEach(el => {
-        el.style.borderColor = dividerColor;
-        el.style.borderBottomColor = dividerColor;
-        el.style.borderTopColor = dividerColor;
-        if (el.tagName === 'HR') {
-          el.style.backgroundColor = dividerColor;
-          el.style.color = dividerColor;
-        }
-      });
-    }
-
-    // Apply v10 Local Margin
-    if (mod.localMargin !== undefined) {
-      modRoot.style.setProperty('padding-bottom', mod.localMargin + 'px', 'important');
-      modRoot.style.setProperty('margin-top', mod.localMargin + 'px', 'important');
-    }
-
-    // Apply v10 Local Line Height
-    if (mod.localLineHeight !== undefined) {
-      // Apply to items inside the module
-      const itemNodes = modRoot.querySelectorAll('.item, .entry, .experience-item, .project-item, .education-item, p, li, span, div');
-      itemNodes.forEach(node => {
-        node.style.setProperty('line-height', mod.localLineHeight, 'important');
-      });
-    }
-  });
-};
 
 })();
