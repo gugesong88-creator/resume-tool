@@ -370,6 +370,7 @@ function navigate(route, data) {
     loadEditor(data);
   } else if (route === 'delivery') {
     document.getElementById('view-delivery').classList.add('active');
+    document.querySelector('[data-route="delivery"]').classList.add('active');
     renderDeliveryView();
   }
   window.location.hash = route + (data ? '/' + data : '');
