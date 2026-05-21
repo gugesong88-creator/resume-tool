@@ -1207,9 +1207,6 @@ function renderPreview() {
   // 这样姓名、电话、学校名、时间、公司、岗位、项目名等结构字段也能保留局部颜色。
   decodeEscapedRichTextInPreview(canvas);
 
-  if (typeof window.applyPreviewEnhancements === 'function') {
-    window.applyPreviewEnhancements(canvas);
-  }
 
   // Set accent color CSS variable
   canvas.style.setProperty('--accent', t.accent);
@@ -2342,6 +2339,34 @@ bootstrap();
                 });
             }
         }
+
+        // Migrate basic_info fixed fields to dynamic items
+        if (editState && editState.resume && editState.resume.modules && editState.resume.modules.basic_info) {
+            let bi = editState.resume.modules.basic_info;
+            if (bi.data && !bi.items) {
+                bi.items = [];
+                const mapping = [
+                    { key: 'intention', label: '求职意向' },
+                    { key: 'phone', label: '电话' },
+                    { key: 'email', label: '邮箱' },
+                    { key: 'gender', label: '性别' },
+                    { key: 'age', label: '年龄' },
+                    { key: 'political_status', label: '政治面貌' },
+                    { key: 'graduation', label: '毕业时间' },
+                    { key: 'availability', label: '到岗时间' },
+                    { key: 'city', label: '城市' },
+                    { key: 'wechat', label: '微信' },
+                    { key: 'linkedin', label: '个人网站' },
+                    { key: 'github', label: 'GitHub' }
+                ];
+                mapping.forEach(m => {
+                    if (bi.data[m.key]) {
+                        bi.items.push({ label: m.label, value: bi.data[m.key] });
+                        delete bi.data[m.key];
+                    }
+                });
+            }
+        }
     window.historyStack = [];
     window.historyIndex = -1;
     window.isHistoryNavigating = false;
@@ -2431,6 +2456,34 @@ bootstrap();
     const _originalLoadEditor = window.loadEditor;
     window.loadEditor = function(id) {
         const res = typeof _originalLoadEditor === 'function' ? _originalLoadEditor.apply(this, arguments) : undefined;
+
+        // Migrate basic_info fixed fields to dynamic items
+        if (editState && editState.resume && editState.resume.modules && editState.resume.modules.basic_info) {
+            let bi = editState.resume.modules.basic_info;
+            if (bi.data && !bi.items) {
+                bi.items = [];
+                const mapping = [
+                    { key: 'intention', label: '求职意向' },
+                    { key: 'phone', label: '电话' },
+                    { key: 'email', label: '邮箱' },
+                    { key: 'gender', label: '性别' },
+                    { key: 'age', label: '年龄' },
+                    { key: 'political_status', label: '政治面貌' },
+                    { key: 'graduation', label: '毕业时间' },
+                    { key: 'availability', label: '到岗时间' },
+                    { key: 'city', label: '城市' },
+                    { key: 'wechat', label: '微信' },
+                    { key: 'linkedin', label: '个人网站' },
+                    { key: 'github', label: 'GitHub' }
+                ];
+                mapping.forEach(m => {
+                    if (bi.data[m.key]) {
+                        bi.items.push({ label: m.label, value: bi.data[m.key] });
+                        delete bi.data[m.key];
+                    }
+                });
+            }
+        }
 
         // Migrate basic_info fixed fields to dynamic items
         if (editState && editState.resume && editState.resume.modules && editState.resume.modules.basic_info) {
