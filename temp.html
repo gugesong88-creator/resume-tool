@@ -186,7 +186,6 @@
 
 
 <script src="/src/schema.js"></script>
-  <script src="./src/modules/editor.js"></script>
   <script src="./src/modules/export.js"></script>
 <script src="./src/api/client.js"></script>
 <script src="./src/store.js"></script>
@@ -223,6 +222,15 @@ function onPhotoUpload(event) {
   reader.readAsDataURL(file);
 }
 
+function removePhoto() {
+  if (!editState) return;
+  if (editState.resume.modules.basic_info.data) {
+    editState.resume.modules.basic_info.data.photo = '';
+  }
+  renderPreview();
+  markDirty();
+  showToast('照片已移除');
+}
 
 function showToast(msg, duration = 2000) {
   const container = document.getElementById('toast-container');
@@ -1133,20 +1141,289 @@ function applyFormattingToElements(canvas, f) {
 // ============================================================
 // 7. EDITOR LEFT PANEL (Structured Edit)
 // ============================================================
+function renderEditorPanels() {
+  if (!editState) return;
+  const modules = editState.resume.modules;
+  const container = document.getElementById('editor-left-panel');
+  const orderedModules = Object.values(modules).sort((a,b) => a.order - b.order);
 
+  container.innerHTML = orderedModules.map(mod => {
+    let bodyHtml = '';
+    if (mod.id === 'basic_info') {
+      bodyHtml = renderBasicInfoForm(mod);
+    } else {
+      bodyHtml = renderItemsForm(mod);
+    }
 
+    const collapsed = !mod.visible && mod.deletable;
+    let headerExtra = '';
+    if (!mod.deletable) {
+      headerExtra = '<span class="panel-tag required">必选</span>';
+    } else if (!mod.visible) {
+      headerExtra = '<span class="panel-tag hidden-tag">已隐藏</span>';
+    }
 
+    return `
+      <div class="module-panel ${collapsed ? 'collapsed' : 'open'} ${mod.visible ? '' : 'hidden-module'}" data-module="${mod.id}">
+        <div class="module-panel-header" onclick="toggleModulePanel('${mod.id}')">
+          <div class="module-panel-title">
+            <span class="collapse-icon">▼</span>
+            <span data-editable-module-title="${mod.id}">${escHtml(richTextToPlain(mod.title))}</span>
+            ${headerExtra}
+          </div>
+          <div class="module-panel-actions" onclick="event.stopPropagation()">
+            ${mod.deletable ? `
+              <button class="btn-xs btn-reorder" onclick="moveModuleUp('${mod.id}')" title="上移">↑</button>
+              <button class="btn-xs btn-reorder" onclick="moveModuleDown('${mod.id}')" title="下移">↓</button>
+              <button class="btn-xs btn-outline" onclick="toggleModuleVisible('${mod.id}')" title="${mod.visible ? '隐藏' : '显示'}">${mod.visible ? '👁' : '👁‍🗨'}</button>
+              <button class="btn-xs btn-danger" onclick="deleteModuleConfirm('${mod.id}')" title="删除">✕</button>
+            ` : ''}
+          </div>
+        </div>
+        <div class="module-panel-body">${bodyHtml}</div>
+      </div>`;
+  }).join('');
 
+  // Add custom module button (outside the loop, at bottom)
+  // P1 feature - skip for now
+}
 
+function moveModuleUp(modId) {
+  if (!editState) return;
+  const modules = editState.resume.modules;
+  const ordered = Object.values(modules).sort((a,b) => a.order - b.order);
+  const idx = ordered.findIndex(m => m.id === modId);
+  if (idx <= 0) return;
+  // Swap orders
+  const a = ordered[idx-1];
+  const b = ordered[idx];
+  const tmp = a.order;
+  a.order = b.order;
+  b.order = tmp;
+  renderEditorPanels();
+  renderPreview();
+  markDirty();
+}
+
+function moveModuleDown(modId) {
+  if (!editState) return;
+  const modules = editState.resume.modules;
+  const ordered = Object.values(modules).sort((a,b) => a.order - b.order);
+  const idx = ordered.findIndex(m => m.id === modId);
+  if (idx < 0 || idx >= ordered.length - 1) return;
+  // Swap orders
+  const a = ordered[idx];
+  const b = ordered[idx+1];
+  const tmp = a.order;
+  a.order = b.order;
+  b.order = tmp;
+  renderEditorPanels();
+  renderPreview();
+  markDirty();
+}
+
+function toggleModulePanel(modId) {
+  const panel = document.querySelector(`.module-panel[data-module="${modId}"]`);
+  if (!panel) return;
+  const body = panel.querySelector('.module-panel-body');
+  const icon = panel.querySelector('.collapse-icon');
+  if (!body) return;
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    panel.classList.remove('collapsed');
+    panel.classList.add('open');
+    if (icon) icon.style.transform = '';
+  } else {
+    body.style.display = 'none';
+    panel.classList.add('collapsed');
+    panel.classList.remove('open');
+    if (icon) icon.style.transform = 'rotate(-90deg)';
+  }
+}
+
+function renderBasicInfoForm(mod) {
+  const d = mod.data || {};
+  const fields = [
+    { key: 'name', label: '姓名', placeholder: '张三' },
+    { key: 'intention', label: '求职意向', placeholder: '产品经理实习生 / 后端开发' },
+    { key: 'phone', label: '手机', placeholder: '13800000000' },
+    { key: 'email', label: '邮箱', placeholder: 'example@email.com' },
+    { key: 'gender', label: '性别', placeholder: '男 / 女' },
+    { key: 'age', label: '年龄', placeholder: '22' },
+    { key: 'political_status', label: '政治面貌', placeholder: '中共党员 / 共青团员 / 群众' },
+    { key: 'graduation', label: '毕业时间', placeholder: '2026.06' },
+    { key: 'availability', label: '到岗时间', placeholder: '随时到岗 / 2026.07' },
+    { key: 'wechat', label: '微信', placeholder: '微信号' },
+    { key: 'city', label: '城市', placeholder: '北京 / 上海' },
+    { key: 'linkedin', label: 'LinkedIn/个人网站', placeholder: 'https://...' },
+    { key: 'github', label: 'GitHub', placeholder: 'github.com/...' }
+  ];
+  let formHtml = fields.map(f => `
+    <div class="info-field">
+      <label>${f.label}</label>
+      <input value="${escHtml(richTextToPlain(d[f.key]||''))}" placeholder="${f.placeholder}"
+        oninput="onFieldChange('${mod.id}', '${f.key}', this.value)">
+    </div>`).join('');
+  // Photo upload row
+  formHtml += `
+    <div class="info-field">
+      <label>简历照片</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn-outline btn-sm" onclick="document.getElementById('photo-upload-input').click()">上传照片</button>
+        ${d.photo ? '<button class="btn-danger btn-sm" onclick="removePhoto()">移除照片</button>' : ''}
+      </div>
+      ${d.photo ? '<div style="margin-top:6px;font-size:11px;color:var(--text-muted)">✓ 已设置照片</div>' : ''}
+    </div>`;
+  return formHtml;
+}
+
+function renderItemsForm(mod) {
+  const items = mod.items || [];
+
+  if (mod.id === 'custom') {
+    let customHtml = items.map((item, idx) => {
+      const bullets = item.bullets || item.details || [''];
+
+      let bulletsHtml = '<div class="entry-bullets">';
+      bullets.forEach((b, bi) => {
+        bulletsHtml += `<textarea placeholder="例如：技能：熟练使用 SQL、Canva、剪映；语言：英语 CET-6 594"
+          onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); addBullet('${mod.id}',${idx}); }"
+          oninput="onBulletChange('${mod.id}',${idx},${bi},this.value)">${escHtml(richTextToPlain(b))}</textarea>`;
+      });
+      bulletsHtml += `<span class="add-bullet" onclick="addBullet('${mod.id}',${idx})">+ 添加一条内容</span></div>`;
+
+      return `
+        <div class="entry-item">
+          <div class="entry-item-header">
+            <span class="entry-title">其他内容</span>
+            <button class="btn-xs btn-danger" onclick="deleteEntry('${mod.id}',${idx})">删除</button>
+          </div>
+          ${bulletsHtml}
+        </div>`;
+    }).join('');
+
+    customHtml += `<button class="add-entry-btn" onclick="addEntry('${mod.id}')">+ 添加其他内容</button>`;
+    return customHtml;
+  }
+
+  let html = items.map((item, idx) => {
+    const title = item.title || item.school || item.company || item.project_name || '';
+    let fieldsHtml = '';
+    if (mod.id === 'education') {
+      fieldsHtml = `
+        <div class="entry-row">
+          <input value="${escHtml(richTextToPlain(item.school||''))}" placeholder="学校名称" oninput="onItemFieldChange('${mod.id}',${idx},'school',this.value)">
+        </div>
+        <div class="entry-row">
+          <input value="${escHtml(richTextToPlain(item.major||''))}" placeholder="专业 / 学位" oninput="onItemFieldChange('${mod.id}',${idx},'major',this.value)">
+          <input value="${escHtml(richTextToPlain(item.time||''))}" placeholder="时间，如 2022.09-2026.06" oninput="onItemFieldChange('${mod.id}',${idx},'time',this.value)">
+        </div>`;
+    } else {
+      // internship, project, custom
+      fieldsHtml = `
+        <div class="entry-row">
+          <input value="${escHtml(richTextToPlain(item.title||item.project_name||item.company||''))}" placeholder="${mod.id==='project'?'项目名称':'公司/组织名称'}" oninput="onItemFieldChange('${mod.id}',${idx},'title',this.value)">
+          <input value="${escHtml(richTextToPlain(item.role||item.subtitle||''))}" placeholder="角色/岗位" oninput="onItemFieldChange('${mod.id}',${idx},'role',this.value)">
+        </div>
+        <div class="entry-row">
+          <input value="${escHtml(richTextToPlain(item.time||''))}" placeholder="时间，如 2025.06-2025.09" oninput="onItemFieldChange('${mod.id}',${idx},'time',this.value)">
+        </div>`;
+    }
+
+    // Bullets
+    const bullets = item.bullets || item.details || [];
+    let bulletsHtml = '<div class="entry-bullets">';
+    bullets.forEach((b, bi) => {
+      bulletsHtml += `<textarea placeholder="bullet 内容" onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); addBullet('${mod.id}',${idx}); }" oninput="onBulletChange('${mod.id}',${idx},${bi},this.value)">${escHtml(richTextToPlain(b))}</textarea>`;
+    });
+    bulletsHtml += `<span class="add-bullet" onclick="addBullet('${mod.id}',${idx})">+ 添加要点</span></div>`;
+
+    return `
+      <div class="entry-item">
+        <div class="entry-item-header">
+          <span class="entry-title">${richTextToPlain(title) || '新条目'}</span>
+          <button class="btn-xs btn-danger" onclick="deleteEntry('${mod.id}',${idx})">删除</button>
+        </div>
+        ${fieldsHtml}
+        ${bulletsHtml}
+      </div>`;
+  }).join('');
+
+  html += `<button class="add-entry-btn" onclick="addEntry('${mod.id}')">+ 添加条目</button>`;
+  return html;
+}
 
 // ============================================================
 // 8. FIELD CHANGE HANDLERS
 // ============================================================
+function onFieldChange(modId, key, value) {
+  if (!editState) return;
+  if (!editState.resume.modules[modId].data) editState.resume.modules[modId].data = {};
+  editState.resume.modules[modId].data[key] = value;
+  renderPreview();
+  markDirty();
+}
 
+function onItemFieldChange(modId, idx, key, value) {
+  if (!editState) return;
+  const items = editState.resume.modules[modId].items;
+  if (!items[idx]) return;
+  items[idx][key] = value;
+  renderPreview();
+  markDirty();
+}
 
+function onBulletChange(modId, idx, bi, value) {
+  if (!editState) return;
+  const items = editState.resume.modules[modId].items;
+  if (!items[idx]) return;
+  if (!items[idx].bullets && !items[idx].details) items[idx].bullets = [];
+  const bullets = items[idx].bullets || items[idx].details;
+  bullets[bi] = value;
+  renderPreview();
+  markDirty();
+}
 
+function addBullet(modId, idx) {
+  if (!editState) return;
+  const items = editState.resume.modules[modId].items;
+  if (!items[idx]) return;
+  if (!items[idx].bullets && !items[idx].details) items[idx].bullets = [];
+  const bullets = items[idx].bullets || items[idx].details;
+  bullets.push('');
+  renderEditorPanels();
+  renderPreview();
+  markDirty();
+}
 
+function addEntry(modId) {
+  if (!editState) return;
+  if (!editState.resume.modules[modId].items) editState.resume.modules[modId].items = [];
 
+  let newItem;
+
+  if (modId === 'education') {
+    newItem = { school: '', major: '', time: '', bullets: [''] };
+  } else if (modId === 'custom') {
+    newItem = { bullets: [''] };
+  } else {
+    newItem = { title: '', role: '', time: '', bullets: [''] };
+  }
+
+  editState.resume.modules[modId].items.push(newItem);
+  renderEditorPanels();
+  renderPreview();
+  markDirty();
+}
+
+function deleteEntry(modId, idx) {
+  if (!editState) return;
+  editState.resume.modules[modId].items.splice(idx, 1);
+  renderEditorPanels();
+  renderPreview();
+  markDirty();
+  showToast('条目已删除');
+}
 
 function toggleModuleVisible(modId) {
   if (!editState) return;
@@ -1204,10 +1481,6 @@ function renderPreview() {
   // v5：把被 escHtml 转义后的富文本恢复成真正的 span / b 等标签。
   // 这样姓名、电话、学校名、时间、公司、岗位、项目名等结构字段也能保留局部颜色。
   decodeEscapedRichTextInPreview(canvas);
-
-  if (typeof window.applyPreviewEnhancements === 'function') {
-    window.applyPreviewEnhancements(canvas);
-  }
 
   // Set accent color CSS variable
   canvas.style.setProperty('--accent', t.accent);
@@ -2222,7 +2495,602 @@ bootstrap();
 
 
 // ============================================================
+// v6. PERSONAL INFO COLOR + MODULE DIVIDER COLOR + ITEM SORTING
 // ============================================================
+(function initV6Enhancements() {
+  if (window.__resumeEditorV6Installed) return;
+  window.__resumeEditorV6Installed = true;
+
+  const V6_COLORS = [
+    { name: '黑色', cls: 'black', value: '#111827' },
+    { name: '白色', cls: 'white', value: '#FFFFFF' },
+    { name: '深灰', cls: 'darkgray', value: '#374151' },
+    { name: '灰色', cls: 'gray', value: '#6B7280' },
+    { name: '蓝色', cls: 'blue', value: '#1E3A8A' },
+    { name: '红色', cls: 'red', value: '#DC2626' },
+    { name: '黄色', cls: 'yellow', value: '#D97706' },
+    { name: '绿色', cls: 'green', value: '#059669' }
+  ];
+
+  function v6Toast(msg) {
+    if (typeof showToast === 'function') showToast(msg);
+    else console.log(msg);
+  }
+
+  function v6Plain(value) {
+    if (typeof richTextToPlain === 'function') {
+      return richTextToPlain(value || '');
+    }
+    const div = document.createElement('div');
+    div.innerHTML = value || '';
+    return div.textContent || div.innerText || '';
+  }
+
+  function v6GetModules() {
+    if (!editState || !editState.resume || !editState.resume.modules) return {};
+    return editState.resume.modules;
+  }
+
+  function v6GetModule(modId) {
+    const modules = v6GetModules();
+    return modules ? modules[modId] : null;
+  }
+
+  function v6MarkDirtyAndRefresh(options) {
+    options = options || {};
+
+    if (typeof markDirty === 'function') {
+      markDirty();
+    } else if (editState) {
+      editState.dirty = true;
+    }
+
+    if (options.renderEditor !== false && typeof renderEditorPanels === 'function') {
+      renderEditorPanels();
+    }
+
+    if (options.renderPreview !== false && typeof renderPreview === 'function') {
+      renderPreview();
+    }
+  }
+
+  function v6FindLeftContainer() {
+    return document.getElementById('editor-panels') ||
+           document.getElementById('left-panel') ||
+           document.querySelector('.left-panel') ||
+           document.querySelector('.editor-left') ||
+           document.querySelector('.structured-editor') ||
+           document.querySelector('.editor-sidebar') ||
+           document.querySelector('.side-panel');
+  }
+
+  function v6CandidatePanels() {
+    return Array.from(document.querySelectorAll(
+      '.module-card, .module-panel, .editor-module, .panel-section, .form-section, .module-editor, .card, section, details'
+    ));
+  }
+
+  function v6FindModulePanel(modId) {
+    if (!modId) return null;
+
+    const byData = document.querySelector(
+      `[data-module-id="${modId}"], [data-module="${modId}"], [data-mod-id="${modId}"]`
+    );
+
+    if (byData) {
+      return byData.closest('.module-card, .module-panel, .editor-module, .panel-section, .form-section, .module-editor, .card, section, details') || byData;
+    }
+
+    const candidates = v6CandidatePanels();
+
+    // 1. 通过 inline handler 识别
+    for (const panel of candidates) {
+      const hit = panel.querySelector(
+        `[onclick*="'${modId}'"], [onclick*="\\"${modId}\\""], ` +
+        `[onchange*="'${modId}'"], [onchange*="\\"${modId}\\""], ` +
+        `[oninput*="'${modId}'"], [oninput*="\\"${modId}\\""]`
+      );
+      if (hit) return panel;
+    }
+
+    // 2. 通过模块标题识别
+    const mod = v6GetModule(modId);
+    const title = mod ? v6Plain(mod.title || '') : '';
+
+    if (title) {
+      for (const panel of candidates) {
+        const text = (panel.textContent || '').replace(/\s+/g, '');
+        const t = title.replace(/\s+/g, '');
+        if (t && text.includes(t)) return panel;
+      }
+    }
+
+    return null;
+  }
+
+  function v6ColorButtonHTML(actionName, modId) {
+    const buttons = V6_COLORS.map(c => {
+      return `<button type="button"
+        class="v6-color-dot ${c.cls}"
+        title="${c.name}"
+        onclick="${actionName}('${modId}', '${c.value}')"></button>`;
+    }).join('');
+
+    return `
+      <div class="v6-color-row">
+        ${buttons}
+        <button type="button" class="v6-clear-btn" onclick="${actionName}('${modId}', '')">默认</button>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // 个人信息整体颜色
+  // ============================================================
+  window.v6SetBasicInfoColor = function v6SetBasicInfoColor(_unused, color) {
+    const mod = v6GetModule('basic_info');
+
+    if (!mod) {
+      v6Toast('没有找到个人信息模块');
+      return;
+    }
+
+    if (!mod.data) mod.data = {};
+
+    if (color) {
+      mod.data._basicInfoTextColor = color;
+    } else {
+      delete mod.data._basicInfoTextColor;
+    }
+
+    v6MarkDirtyAndRefresh();
+    v6Toast(color ? '已设置个人信息文字颜色' : '已恢复个人信息默认颜色');
+  };
+
+  function v6FindBasicInfoRoot(root) {
+    if (!root) return null;
+
+    const basicEditable = root.querySelector('[data-editable^="basic_info."]');
+    if (!basicEditable) return null;
+
+    return basicEditable.closest(
+      '.resume-header, .basic-info, .basic-section, .personal-info, .resume-section, .section, header'
+    ) || basicEditable.parentElement;
+  }
+
+  function v6ApplyBasicInfoColor(root) {
+    const mod = v6GetModule('basic_info');
+    if (!mod || !mod.data) return;
+
+    const color = mod.data._basicInfoTextColor || '';
+    const basicRoot = v6FindBasicInfoRoot(root);
+
+    if (!basicRoot) return;
+
+    const targets = basicRoot.querySelectorAll(
+      '.resume-name, .resume-contact, .resume-contact-line1, .resume-contact-line2, .resume-contact-line3, ' +
+      '.contact-item, .contact-label, .static-label, .info-label, .resume-intention, ' +
+      '[data-editable^="basic_info."]'
+    );
+
+    targets.forEach(el => {
+      if (color) {
+        el.style.color = color;
+      } else {
+        el.style.color = '';
+      }
+    });
+  }
+
+  // ============================================================
+  // 个人信息静态标签选中文字后上色
+  // 说明：
+  // v5 已支持 contenteditable 字段内部局部上色。
+  // v6 额外支持部分非 contenteditable 的个人信息静态标签整体上色。
+  // ============================================================
+  function v6SelectionInsideBasicInfo() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+
+    const range = sel.getRangeAt(0);
+    const canvas = document.getElementById('a4-preview');
+
+    if (!canvas || !canvas.contains(range.commonAncestorContainer)) return null;
+
+    let node = range.commonAncestorContainer;
+    if (node.nodeType !== 1) node = node.parentNode;
+
+    const basicRoot = v6FindBasicInfoRoot(canvas);
+    if (!basicRoot || !basicRoot.contains(node)) return null;
+
+    const editable = node.closest && node.closest('[data-editable]');
+    if (editable) return null;
+
+    const label = node.closest && node.closest(
+      '.static-label, .contact-label, .info-label, .contact-item'
+    );
+
+    return label || null;
+  }
+
+  function v6StoreStaticBasicInfoColor(el, color) {
+    const mod = v6GetModule('basic_info');
+    if (!mod) return;
+
+    if (!mod.data) mod.data = {};
+    if (!mod.data._staticTextColors) mod.data._staticTextColors = {};
+
+    const key = (el.textContent || '').trim().replace(/\s+/g, ' ');
+    if (!key) return;
+
+    if (color) {
+      mod.data._staticTextColors[key] = color;
+    } else {
+      delete mod.data._staticTextColors[key];
+    }
+  }
+
+  function v6ApplyStaticBasicInfoColors(root) {
+    const mod = v6GetModule('basic_info');
+    if (!mod || !mod.data || !mod.data._staticTextColors) return;
+
+    const basicRoot = v6FindBasicInfoRoot(root);
+    if (!basicRoot) return;
+
+    const map = mod.data._staticTextColors || {};
+
+    const targets = basicRoot.querySelectorAll(
+      '.static-label, .contact-label, .info-label, .contact-item'
+    );
+
+    targets.forEach(el => {
+      const key = (el.textContent || '').trim().replace(/\s+/g, ' ');
+      if (key && map[key]) {
+        el.style.color = map[key];
+      }
+    });
+  }
+
+  // 包装 v5 的选中文字改颜色函数
+  if (typeof applySelectedTextColor === 'function' && !applySelectedTextColor.__v6Wrapped) {
+    const oldApplySelectedTextColor = applySelectedTextColor;
+
+    window.applySelectedTextColor = function v6ApplySelectedTextColor(color) {
+      const staticLabel = v6SelectionInsideBasicInfo();
+
+      if (staticLabel) {
+        staticLabel.style.color = color;
+        v6StoreStaticBasicInfoColor(staticLabel, color);
+        v6MarkDirtyAndRefresh({ renderEditor: false, renderPreview: false });
+        v6Toast('已设置个人信息标签颜色');
+        return;
+      }
+
+      return oldApplySelectedTextColor(color);
+    };
+
+    window.applySelectedTextColor.__v6Wrapped = true;
+  }
+
+  if (typeof clearSelectedTextColor === 'function' && !clearSelectedTextColor.__v6Wrapped) {
+    const oldClearSelectedTextColor = clearSelectedTextColor;
+
+    window.clearSelectedTextColor = function v6ClearSelectedTextColor() {
+      const staticLabel = v6SelectionInsideBasicInfo();
+
+      if (staticLabel) {
+        staticLabel.style.color = '';
+        v6StoreStaticBasicInfoColor(staticLabel, '');
+        v6MarkDirtyAndRefresh({ renderEditor: false, renderPreview: false });
+        v6Toast('已恢复个人信息标签默认颜色');
+        return;
+      }
+
+      return oldClearSelectedTextColor();
+    };
+
+    window.clearSelectedTextColor.__v6Wrapped = true;
+  }
+
+  // ============================================================
+  // 模块分割线颜色
+  // ============================================================
+  window.v6SetModuleDividerColor = function v6SetModuleDividerColor(modId, color) {
+    const mod = v6GetModule(modId);
+
+    if (!mod) {
+      v6Toast('没有找到模块：' + modId);
+      return;
+    }
+
+    if (color) {
+      mod.dividerColor = color;
+    } else {
+      delete mod.dividerColor;
+    }
+
+    v6MarkDirtyAndRefresh();
+    v6Toast(color ? '已设置模块分割线颜色' : '已恢复模块分割线默认颜色');
+  };
+
+  function v6FindSectionTitle(root, modId) {
+    if (!root || !modId) return null;
+
+    return root.querySelector(`[data-editable="${modId}._title"]`) ||
+           root.querySelector(`[data-editable='${modId}._title']`);
+  }
+
+  function v6ApplyModuleDividerColors(root) {
+    const modules = v6GetModules();
+
+    Object.keys(modules || {}).forEach(modId => {
+      const mod = modules[modId];
+      if (!mod) return;
+
+      const color = mod.dividerColor || '';
+      const titleEl = v6FindSectionTitle(root, modId);
+
+      if (!titleEl) return;
+
+      const section = titleEl.closest(
+        '.resume-section, .section, .module-section, .exp-section, .resume-block'
+      ) || titleEl.parentElement;
+
+      const targets = [];
+
+      targets.push(titleEl);
+
+      if (section) {
+        targets.push(section);
+        section.querySelectorAll(
+          '.section-title, .module-title, .resume-section-title, hr, .divider, .section-divider'
+        ).forEach(el => targets.push(el));
+      }
+
+      targets.forEach(el => {
+        if (!el || !el.style) return;
+
+        if (color) {
+          el.style.borderColor = color;
+          el.style.borderBottomColor = color;
+          el.style.borderTopColor = color;
+
+          if (el.tagName === 'HR') {
+            el.style.backgroundColor = color;
+            el.style.color = color;
+          }
+        } else {
+          el.style.borderColor = '';
+          el.style.borderBottomColor = '';
+          el.style.borderTopColor = '';
+
+          if (el.tagName === 'HR') {
+            el.style.backgroundColor = '';
+            el.style.color = '';
+          }
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // 模块条目排序
+  // ============================================================
+  window.v6MoveModuleItem = function v6MoveModuleItem(modId, index, delta) {
+    const mod = v6GetModule(modId);
+
+    if (!mod || !Array.isArray(mod.items)) {
+      v6Toast('该模块没有可排序的条目');
+      return;
+    }
+
+    const from = Number(index);
+    const to = from + Number(delta);
+
+    if (Number.isNaN(from) || Number.isNaN(to)) return;
+    if (from < 0 || from >= mod.items.length) return;
+    if (to < 0 || to >= mod.items.length) return;
+
+    const temp = mod.items[from];
+    mod.items[from] = mod.items[to];
+    mod.items[to] = temp;
+
+    v6MarkDirtyAndRefresh();
+    v6Toast('已调整条目顺序');
+  };
+
+  function v6GetItemLabel(modId, item, index) {
+    if (!item) return `第 ${index + 1} 项`;
+
+    const raw =
+      item.school ||
+      item.company ||
+      item.project_name ||
+      item.title ||
+      item.name ||
+      item.organization ||
+      item.org ||
+      item.role ||
+      item.major ||
+      item.subtitle ||
+      '';
+
+    const text = v6Plain(raw).trim();
+
+    if (text) return text;
+
+    if (item.bullets && item.bullets[0]) {
+      const b = v6Plain(item.bullets[0]).trim();
+      if (b) return b.slice(0, 18);
+    }
+
+    return `第 ${index + 1} 项`;
+  }
+
+  function v6SortBoxHTML(modId, mod) {
+    if (!mod || !Array.isArray(mod.items) || mod.items.length <= 1) return '';
+
+    const rows = mod.items.map((item, idx) => {
+      const label = v6GetItemLabel(modId, item, idx);
+      const safeLabel = label
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+      return `
+        <div class="v6-sort-item">
+          <span class="v6-sort-name" title="${safeLabel}">${idx + 1}. ${safeLabel}</span>
+          <button type="button" class="v6-sort-btn" ${idx === 0 ? 'disabled' : ''} onclick="v6MoveModuleItem('${modId}', ${idx}, -1)">↑</button>
+          <button type="button" class="v6-sort-btn" ${idx === mod.items.length - 1 ? 'disabled' : ''} onclick="v6MoveModuleItem('${modId}', ${idx}, 1)">↓</button>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="v6-enhance-box" data-v6-box="sort-${modId}">
+        <div class="v6-enhance-title">
+          <span>条目排序</span>
+          <span style="font-weight:400;color:#6B7280;">上移 / 下移</span>
+        </div>
+        <div class="v6-sort-list">${rows}</div>
+      </div>
+    `;
+  }
+
+  function v6DividerColorBoxHTML(modId) {
+    return `
+      <div class="v6-enhance-box" data-v6-box="divider-${modId}">
+        <div class="v6-enhance-title">
+          <span>模块分割线颜色</span>
+        </div>
+        ${v6ColorButtonHTML('v6SetModuleDividerColor', modId)}
+      </div>
+    `;
+  }
+
+  function v6BasicInfoColorBoxHTML() {
+    return `
+      <div class="v6-enhance-box" data-v6-box="basic-color">
+        <div class="v6-enhance-title">
+          <span>个人信息整体文字颜色</span>
+        </div>
+        ${v6ColorButtonHTML('v6SetBasicInfoColor', 'basic_info')}
+      </div>
+    `;
+  }
+
+  function v6EnhanceEditorPanels() {
+    const modules = v6GetModules();
+    const left = v6FindLeftContainer();
+
+    if (!left || !modules) return;
+
+    // 清理旧增强 UI，避免重复
+    left.querySelectorAll('.v6-enhance-box').forEach(el => el.remove());
+
+    Object.keys(modules).forEach(modId => {
+      const mod = modules[modId];
+      const panel = v6FindModulePanel(modId);
+
+      if (!panel) return;
+
+      const insertTarget = panel.querySelector('.module-body, .panel-body, .card-body, .form-body') || panel;
+
+      const holder = document.createElement('div');
+
+      let html = '';
+
+      if (modId === 'basic_info') {
+        html += v6BasicInfoColorBoxHTML();
+      }
+
+      // 每个模块都允许设置分割线颜色
+      html += v6DividerColorBoxHTML(modId);
+
+      // 有 items 的模块支持条目排序
+      html += v6SortBoxHTML(modId, mod);
+
+      holder.innerHTML = html;
+
+      if (insertTarget.firstChild) {
+        insertTarget.insertBefore(holder, insertTarget.firstChild);
+      } else {
+        insertTarget.appendChild(holder);
+      }
+    });
+  }
+
+  // ============================================================
+  // Preview after-render enhancement
+  // ============================================================
+  function v6ApplyPreviewEnhancements() {
+    const canvas = document.getElementById('a4-preview');
+
+    if (!canvas) return;
+
+    v6ApplyBasicInfoColor(canvas);
+    v6ApplyStaticBasicInfoColors(canvas);
+    v6ApplyModuleDividerColors(canvas);
+  }
+
+  // 包装 renderPreview
+  if (typeof renderPreview === 'function' && !renderPreview.__v6Wrapped) {
+    const oldRenderPreview = renderPreview;
+
+    renderPreview = function v6RenderPreviewWrapper() {
+      const result = oldRenderPreview.apply(this, arguments);
+      v6ApplyPreviewEnhancements();
+      return result;
+    };
+
+    renderPreview.__v6Wrapped = true;
+  }
+
+  // 包装 renderEditorPanels
+  if (typeof renderEditorPanels === 'function' && !renderEditorPanels.__v6Wrapped) {
+    const oldRenderEditorPanels = renderEditorPanels;
+
+    renderEditorPanels = function v6RenderEditorPanelsWrapper() {
+      const result = oldRenderEditorPanels.apply(this, arguments);
+
+      setTimeout(() => {
+        try {
+          v6EnhanceEditorPanels();
+        } catch (err) {
+          console.error('v6EnhanceEditorPanels failed:', err);
+        }
+      }, 0);
+
+      return result;
+    };
+
+    renderEditorPanels.__v6Wrapped = true;
+  }
+
+  // 包装 applyFormatting，避免全局格式刷新后覆盖颜色
+  if (typeof applyFormatting === 'function' && !applyFormatting.__v6Wrapped) {
+    const oldApplyFormatting = applyFormatting;
+
+    applyFormatting = function v6ApplyFormattingWrapper() {
+      const result = oldApplyFormatting.apply(this, arguments);
+      v6ApplyPreviewEnhancements();
+      return result;
+    };
+
+    applyFormatting.__v6Wrapped = true;
+  }
+
+  // 初始执行一次
+  setTimeout(() => {
+    try {
+      v6EnhanceEditorPanels();
+      v6ApplyPreviewEnhancements();
+    } catch (err) {
+      console.error('v6 init enhancement failed:', err);
+    }
+  }, 100);
+})();
 
 
 
@@ -2425,6 +3293,113 @@ bootstrap();
 
 
 <script>
+(function initV10LocalFormattingV2() {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .v10-local-box { margin: 8px 0 10px; padding: 8px; border: 1px dashed #D1D5DB; border-radius: 8px; background: #F9FAFB; font-size: 12px; }
+        .v10-local-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: #374151; font-weight: 600; }
+    `;
+    document.head.appendChild(style);
+
+    const _originalRenderEditorPanels = window.renderEditorPanels;
+    window.renderEditorPanels = function() {
+        const result = typeof _originalRenderEditorPanels === 'function' ? _originalRenderEditorPanels.apply(this, arguments) : undefined;
+        setTimeout(mountLocalFormatUI, 100);
+        return result;
+    };
+
+    function mountLocalFormatUI() {
+        if (!window.editState || !window.editState.resume) return;
+        const modules = window.editState.resume.modules;
+        
+        Object.keys(modules).forEach(modId => {
+            const mod = modules[modId];
+            const panelBody = document.querySelector(`.module-panel[data-module="${modId}"] .module-panel-body`);
+            if (!panelBody) return;
+            if (panelBody.querySelector('.v10-local-format')) return;
+
+            const uiContainer = document.createElement('div');
+            uiContainer.className = 'v10-local-format v10-local-box';
+            uiContainer.innerHTML = `
+                <div class="v10-local-title">
+                    <span>局部排版约束</span>
+                    <span style="font-weight:400;color:#6B7280;">优先级最高，仅作用于当前模块</span>
+                </div>
+                <div style="display:flex;gap:12px;font-size:11px;align-items:center;margin-top:8px;">
+                    <label>上部间距(px):</label>
+                    <input type="number" style="width:60px;padding:4px;border:1px solid #D1D5DB;border-radius:4px;" value="${mod.localMargin !== undefined ? mod.localMargin : ''}"
+                           oninput="updateLocalFormat('${modId}', 'localMargin', this.value)" placeholder="默认">
+                    <label>行高缩放:</label>
+                    <input type="number" step="0.1" style="width:60px;padding:4px;border:1px solid #D1D5DB;border-radius:4px;" value="${mod.localLineHeight !== undefined ? mod.localLineHeight : ''}"
+                           oninput="updateLocalFormat('${modId}', 'localLineHeight', this.value)" placeholder="默认">
+                </div>
+            `;
+            panelBody.insertBefore(uiContainer, panelBody.firstChild);
+        });
+    }
+
+    window.updateLocalFormat = function(modId, key, value) {
+        if (!window.editState) return;
+        const mod = window.editState.resume.modules[modId];
+        if (!mod) return;
+        
+        if (value === '' || isNaN(value)) {
+            delete mod[key];
+        } else {
+            mod[key] = parseFloat(value);
+        }
+        if(typeof window.markDirty === 'function') window.markDirty();
+        if(typeof window.renderPreview === 'function') window.renderPreview();
+    };
+
+    const _originalApplyFormatting = window.applyFormatting;
+    window.applyFormatting = function() {
+        if (typeof _originalApplyFormatting === 'function') _originalApplyFormatting.apply(this, arguments);
+        enforceLocalFormat();
+    };
+
+    function enforceLocalFormat() {
+        if (!window.editState || !window.editState.resume) return;
+        const canvas = document.getElementById('a4-preview');
+        if (!canvas) return;
+        const modules = window.editState.resume.modules;
+
+        Object.keys(modules).forEach(modId => {
+            const mod = modules[modId];
+            if (mod.localMargin === undefined && mod.localLineHeight === undefined) return;
+
+            let sectionTarget = null;
+            if (modId === 'basic_info') {
+                sectionTarget = canvas.querySelector('.resume-header');
+            } else {
+                const titleAnchor = canvas.querySelector(`[data-editable="${modId}._title"]`);
+                if (titleAnchor) sectionTarget = titleAnchor.closest('.section');
+            }
+
+            if (!sectionTarget) return;
+
+            if (mod.localMargin !== undefined) {
+                if (modId === 'basic_info') {
+                    sectionTarget.style.setProperty('padding-bottom', mod.localMargin + 'px', 'important');
+                } else {
+                    sectionTarget.style.setProperty('margin-top', mod.localMargin + 'px', 'important');
+                }
+            }
+            
+            if (mod.localLineHeight !== undefined) {
+                let textNodes;
+                if (modId === 'basic_info') {
+                    textNodes = sectionTarget.querySelectorAll('.resume-contact, .resume-contact-line1, .resume-contact-line2, .resume-contact-line3, .resume-intention, .contact-item, .static-label');
+                } else {
+                    textNodes = sectionTarget.querySelectorAll('.exp-desc, .exp-desc li, .skill-list, .exp-sub, .exp-header, .exp-table td, .skill-tag');
+                }
+                textNodes.forEach(node => {
+                    node.style.setProperty('line-height', mod.localLineHeight, 'important');
+                });
+            }
+        });
+    }
+})();
 </script>
 
 <script>

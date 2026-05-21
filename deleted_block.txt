@@ -1,0 +1,244 @@
+        input.focus();
+        input.select();
+      }
+    }, 50);
+  };
+
+  setTimeout(() => setEditorViewMode(window.currentEditorViewMode || 'split'), 0);
+})();
+
+
+<script>
+(function enforceDataPointers() {
+    // 1. 修复底层查找链路，阻断首页 PDF 空白渲染
+    window.getAllResumes = function() {
+        return (window.loadStore().resumes || []).sort((a,b) => new Date(b.updated_at || 0) - new Date(a.updated_at || 0));
+    };
+    window.getResume = function(id) {
+        const resumes = window.loadStore().resumes || [];
+        return resumes.find(r => r.id === id) || null;
+    };
+    window.getResumeById = function(id) { 
+        const resumes = window.loadStore().resumes || [];
+        return resumes.find(r => r.id === id) || null; 
+    };
+    
+    // 2. 增强保存与删除闭环
+    window.saveResume = function(resume) {
+        const store = window.loadStore();
+        const idx = store.resumes.findIndex(r => r.id === resume.id);
+        resume.updated_at = new Date().toISOString();
+        if(idx !== -1) store.resumes[idx] = resume;
+        else store.resumes.push(resume);
+        window.saveStore(store);
+        return resume;
+    };
+    window.deleteResume = function(id) {
+        const store = window.loadStore();
+        store.resumes = store.resumes.filter(r => r.id !== id);
+        store.deliveryRecords = (store.deliveryRecords || []).filter(r => r.resumeId !== id);
+        window.saveStore(store);
+    };
+
+
+})();
+</script>
+
+<script>
+(function finalEmergencyPatch() {
+    // 1. 重构 Markdown 导出：修正实体架构映射与指针寻找规则
+
+    // 2. 修复首页 PDF 渲染空白：解除离屏截断限制
+})();
+</script>
+
+<script>
+(function enforcePDFScaleAndOffset() {
+    // 强制声明零点渲染约束基准，彻底熔断外部流布局污染
+    function buildRobustOptions(name, tempDiv) {
+        return {
+            margin: 0,
+            filename: (name || '简历') + '.pdf',
+            image: { type: 'jpeg', quality: 1.0 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                width: 794,
+                windowWidth: 794,
+                x: 0,         // 强制锁定物理渲染系 X 坐标轴原点
+                y: 0,         // 强制锁定物理渲染系 Y 坐标轴原点
+                scrollX: 0,   // 物理阻断窗口横向滑动视差系数
+                scrollY: 0    // 物理阻断窗口纵向滑动视差系数
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+    }
+
+    // 构建绝对脱离文档流的暗盒环境
+    const ISOLATED_CSS = 'width:794px;min-height:1123px;padding:48px 52px;background:#fff;box-sizing:border-box;position:fixed;left:0;top:0;z-index:-9999;margin:0;border:none;transform:none;';
+
+    // 1. 修复编辑器视图内【导出 PDF】算子
+
+    // 2. 修复首页列表【快速导出】算子
+})();
+</script>
+
+<script>
+(function initHistoryStack() {
+    window.historyStack = [];
+    window.historyIndex = -1;
+    window.isHistoryNavigating = false;
+
+    window.recordHistory = function() {
+        if (window.isHistoryNavigating || (typeof editState === 'undefined' || !editState) || !editState.resume) return;
+        const currentState = JSON.stringify(editState.resume);
+        if (window.historyIndex >= 0 && window.historyStack[window.historyIndex] === currentState) return;
+
+        if (window.historyIndex < window.historyStack.length - 1) {
+            window.historyStack = window.historyStack.slice(0, window.historyIndex + 1);
+        }
+
+        window.historyStack.push(currentState);
+        if (window.historyStack.length > 50) {
+            window.historyStack.shift();
+        } else {
+            window.historyIndex++;
+        }
+        updateHistoryUI();
+    };
+
+    window.undo = function() {
+        if (window.historyIndex > 0) {
+            window.isHistoryNavigating = true;
+            window.historyIndex--;
+            restoreHistoryState(window.historyStack[window.historyIndex]);
+            window.isHistoryNavigating = false;
+        }
+    };
+
+    window.redo = function() {
+        if (window.historyIndex < window.historyStack.length - 1) {
+            window.isHistoryNavigating = true;
+            window.historyIndex++;
+            restoreHistoryState(window.historyStack[window.historyIndex]);
+            window.isHistoryNavigating = false;
+        }
+    };
+
+    function restoreHistoryState(stateString) {
+        try {
+            editState.resume = JSON.parse(stateString);
+            if (typeof window.renderEditorPanels === 'function') window.renderEditorPanels();
+            if (typeof window.renderPreview === 'function') window.renderPreview();
+            updateHistoryUI();
+            if (typeof window.showToast === 'function') window.showToast('状态回滚完成');
+            
+            // 物理落盘，绕过新历史记录生成
+            if (typeof window.saveStore === 'function') {
+                const store = window.loadStore();
+                const idx = store.resumes.findIndex(r => r.id === editState.resume.id);
+                if (idx !== -1) store.resumes[idx] = editState.resume;
+                window.saveStore(store);
+            }
+        } catch (e) {
+            console.error('状态回滚异常:', e);
+        }
+    }
+
+    function updateHistoryUI() {
+        const btnUndo = document.getElementById('btn-undo');
+        const btnRedo = document.getElementById('btn-redo');
+        if (btnUndo) {
+            btnUndo.disabled = window.historyIndex <= 0;
+            btnUndo.style.opacity = btnUndo.disabled ? '0.5' : '1';
+            btnUndo.style.cursor = btnUndo.disabled ? 'not-allowed' : 'pointer';
+        }
+        if (btnRedo) {
+            btnRedo.disabled = window.historyIndex >= window.historyStack.length - 1;
+            btnRedo.style.opacity = btnRedo.disabled ? '0.5' : '1';
+            btnRedo.style.cursor = btnRedo.disabled ? 'not-allowed' : 'pointer';
+        }
+    }
+
+    // 拦截 markDirty 算子，挂载防抖机制（500ms）
+    const _originalMarkDirty = window.markDirty;
+    window.markDirty = function() {
+        if (!window.isHistoryNavigating) {
+            clearTimeout(window._historyDebounce);
+            window._historyDebounce = setTimeout(window.recordHistory, 500);
+        }
+        if (typeof _originalMarkDirty === 'function') return _originalMarkDirty.apply(this, arguments);
+    };
+
+    // 拦截 loadEditor 算子，初始化当前简历快照
+    const _originalLoadEditor = window.loadEditor;
+    window.loadEditor = function(id) {
+        const res = typeof _originalLoadEditor === 'function' ? _originalLoadEditor.apply(this, arguments) : undefined;
+        window.historyStack = [];
+        window.historyIndex = -1;
+        window.isHistoryNavigating = false;
+        setTimeout(window.recordHistory, 200);
+        return res;
+    };
+
+    // 绑定物理键盘事件侦听
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+            if (e.shiftKey) {
+                e.preventDefault();
+                window.redo();
+            } else {
+                e.preventDefault();
+                window.undo();
+            }
+        }
+    });
+})();
+</script>
+
+
+<script>
+</script>
+
+<script>
+(function initV11DataManagement() {
+    // 物理存储容量计算器与探针
+    window.checkStorageStatus = function() {
+        try {
+            const data = window.loadStore();
+            const jsonStr = JSON.stringify(data);
+            const bytes = new Blob([jsonStr]).size;
+            const kb = (bytes / 1024).toFixed(2);
+            const count = data.resumes ? data.resumes.length : 0;
+            alert(`当前物理存储区状态：\n实体数量：${count} 份\n空间占用：${kb} KB\n\n约束建议：定期使用顶部导航的 [导出备份] 功能将全量数据归档。`);
+        } catch(e) {
+            alert('执行中断：存储状态寻址失败。');
+        }
+    };
+
+    // 单项实体定向导出机制
+
+    // 拦截首页渲染器，注入单项导出按钮
+
+    // 挂载顶部导航探针按钮
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLeft = document.querySelector('.nav-left');
+        if (navLeft && !document.getElementById('storage-status-btn')) {
+            const btn = document.createElement('button');
+            btn.id = 'storage-status-btn';
+            btn.className = 'btn-outline btn-sm';
+            btn.style.marginLeft = '8px';
+            btn.style.borderColor = 'var(--border)';
+            btn.textContent = '💽 存储探针';
+            btn.onclick = window.checkStorageStatus;
+            navLeft.appendChild(btn);
+        }
+    });
+})();
+</script>
+</body>
+
+
+
+</html>
