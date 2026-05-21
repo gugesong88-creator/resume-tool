@@ -14,7 +14,7 @@
 .t01-classic-dense .section { margin-top: 8px; }
 .t01-classic-dense .section-title { font-size: 14px; font-weight: 700; color: var(--accent); border-bottom: 1.5px solid var(--accent); padding-bottom: 5px; margin-bottom: 10px; letter-spacing: 1px; display: block; width: 100%; }
 .t01-classic-dense .exp-item { margin-bottom: 11px; }
-.t01-classic-dense .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
+.t01-classic-dense .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 700; color: #222; margin-bottom: 3px; }
 .t01-classic-dense .exp-header .exp-left { font-weight: 700; }
 .t01-classic-dense .exp-header .exp-right { font-size: 10.5px; color: #666; font-weight: 400; white-space: nowrap; margin-left: 12px; }
 .t01-classic-dense .exp-sub { font-size: 10.5px; color: #555; margin-bottom: 4px; }
@@ -24,7 +24,7 @@
 .t01-classic-dense .skill-tag { font-size: 10px; background: #F3F4F6; padding: 2px 10px; border-radius: 2px; color: #444; border: 1px solid #E5E7EB; }
 .t01-classic-dense .info-table { width: 100%; font-size: 10.5px; color: #444; border-collapse: collapse; }
 .t01-classic-dense .info-table td { padding: 2px 0; vertical-align: top; }
-.t01-classic-dense .info-table td:first-child { font-weight: 600; width: 100px; color: var(--accent); }
+.t01-classic-dense .info-table td:first-child { font-weight: 600; width: 100px; color: #222; }
 
 /* ==============================================
    T02: 现代图标型 — 参照清华AI产品简历风格
@@ -42,13 +42,13 @@
 .t02-modern-icon .section-title { font-size: 14px; font-weight: 700; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; width: 100%; }
 .t02-modern-icon .section-title .section-icon { display: inline-flex; width: 20px; height: 20px; background: var(--accent); color: #fff; border-radius: 4px; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
 .t02-modern-icon .exp-item { margin-bottom: 13px; }
-.t02-modern-icon .exp-header { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 4px; display: flex; justify-content: space-between; align-items: baseline; }
+.t02-modern-icon .exp-header { font-size: 12px; font-weight: 700; color: #222; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: baseline; }
 .t02-modern-icon .exp-header .exp-right { font-size: 10.5px; color: #666; font-weight: 400; white-space: nowrap; margin-left: 12px; }
-.t02-modern-icon .exp-sub { font-size: 10.5px; color: var(--accent); margin-bottom: 5px; font-weight: 500; }
+.t02-modern-icon .exp-sub { font-size: 10.5px; color: #222; margin-bottom: 5px; font-weight: 500; }
 .t02-modern-icon .exp-desc { font-size: 10.5px; color: #444; line-height: 1.55; padding-left: 18px; margin: 0; list-style: disc; }
 .t02-modern-icon .exp-desc li { margin-bottom: 5px; display: list-item; }
-.t02-modern-icon .exp-desc li::marker { color: var(--accent); }
-.t02-modern-icon .exp-desc li .kw { font-weight: 700; color: var(--accent); }
+.t02-modern-icon .exp-desc li::marker { color: #222; }
+.t02-modern-icon .exp-desc li .kw { font-weight: 700; color: #222; }
 .t02-modern-icon .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .t02-modern-icon .skill-tag { font-size: 10px; background: #F0FDFA; padding: 3px 10px; border-radius: 4px; color: #0F766E; border: 1px solid #99F6E4; }
 
@@ -59,7 +59,7 @@
 .t03-minimal-ats { font-family: 'Microsoft YaHei', 'Helvetica Neue', 'PingFang SC', sans-serif; }
 .t03-minimal-ats .resume-header { padding-bottom: 4px; margin-bottom: 0; }
 .t03-minimal-ats .resume-name { font-size: 24px; font-weight: 700; color: var(--accent); margin-bottom: 3px; }
-.t03-minimal-ats .resume-intention { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+.t03-minimal-ats .resume-intention { font-size: 11px; color: #222; font-weight: 600; margin-bottom: 6px; }
 .t03-minimal-ats .resume-contact { font-size: 10.5px; color: #555; display: flex; flex-wrap: wrap; gap: 2px 14px; }
 .t03-minimal-ats .resume-contact-line1,
 .t03-minimal-ats .resume-contact-line2,
@@ -69,19 +69,19 @@
 .t03-minimal-ats .exp-table { width: 100%; font-size: 10.5px; color: #333; border-collapse: collapse; }
 .t03-minimal-ats .exp-table td { padding: 2px 0; vertical-align: top; }
 .t03-minimal-ats .exp-table .col-time { width: 130px; color: #555; font-size: 10px; }
-.t03-minimal-ats .exp-table .col-org { width: 160px; font-weight: 700; color: var(--accent); }
+.t03-minimal-ats .exp-table .col-org { width: 160px; font-weight: 700; color: #222; }
 .t03-minimal-ats .exp-table .col-role { width: 140px; color: #444; }
 .t03-minimal-ats .exp-table .col-dept { color: #555; font-size: 10px; }
 .t03-minimal-ats .exp-item { margin-bottom: 10px; }
-.t03-minimal-ats .exp-header { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.t03-minimal-ats .exp-header { font-size: 11px; font-weight: 700; color: #222; margin-bottom: 4px; }
 .t03-minimal-ats .exp-desc { font-size: 10.5px; color: #444; line-height: 1.5; padding-left: 18px; margin: 4px 0 0 0; list-style: disc; }
 .t03-minimal-ats .exp-desc li { margin-bottom: 3px; display: list-item; }
-.t03-minimal-ats .exp-desc li .kw { font-weight: 700; color: var(--accent); }
+.t03-minimal-ats .exp-desc li .kw { font-weight: 700; color: #222; }
 .t03-minimal-ats .skill-list { font-size: 10.5px; color: #444; line-height: 1.6; }
-.t03-minimal-ats .skill-list .kw { font-weight: 700; color: var(--accent); }
+.t03-minimal-ats .skill-list .kw { font-weight: 700; color: #222; }
 .t03-minimal-ats .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .t03-minimal-ats .skill-tag { font-size: 10.5px; color: #333; }
-.t03-minimal-ats .skill-tag .kw { font-weight: 700; color: var(--accent); }
+.t03-minimal-ats .skill-tag .kw { font-weight: 700; color: #222; }
 
 /* ==============================================
    T04: 商务清爽型 — 前三模板基础上的留白型
@@ -99,14 +99,14 @@
 .t04-business-clean .section { margin-top: 10px; }
 .t04-business-clean .section-title { font-size: 15px; font-weight: 700; color: var(--accent); padding-bottom: 6px; margin-bottom: 12px; border-bottom: 2px solid var(--accent); letter-spacing: 0.5px; display: block; width: 100%; }
 .t04-business-clean .exp-item { margin-bottom: 14px; }
-.t04-business-clean .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.t04-business-clean .exp-header { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; font-weight: 700; color: #222; margin-bottom: 4px; }
 .t04-business-clean .exp-header .exp-left { font-weight: 700; }
 .t04-business-clean .exp-header .exp-right { font-size: 11px; color: #777; font-weight: 400; white-space: nowrap; margin-left: 14px; }
 .t04-business-clean .exp-sub { font-size: 11px; color: #555; margin-bottom: 5px; }
 .t04-business-clean .exp-desc { font-size: 11px; color: #555; line-height: 1.6; padding-left: 18px; margin: 0; list-style: disc; }
 .t04-business-clean .exp-desc li { margin-bottom: 4px; display: list-item; }
 .t04-business-clean .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-.t04-business-clean .skill-tag { font-size: 10.5px; background: #F8FAFC; padding: 3px 12px; border-radius: 14px; color: var(--accent); border: 1px solid #BEE3F8; }
+.t04-business-clean .skill-tag { font-size: 10.5px; background: #F8FAFC; padding: 3px 12px; border-radius: 14px; color: #222; border: 1px solid #BEE3F8; }
 
 /* ===== PRINT STYLES ===== */
 @media print {
