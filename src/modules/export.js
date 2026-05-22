@@ -98,6 +98,18 @@
         const tempDiv = document.createElement('div');
         tempDiv.className = canvas.className;
         tempDiv.style.cssText = ISOLATED_CSS;
+        
+        // Apply dynamic theme color to the cloned node
+        const f = window.editState.formatting || {};
+        const t = window.getTemplate(window.editState.resume.template_id);
+        const tc = f.themeColor || t.accent || '#374151';
+        tempDiv.style.setProperty('--accent', tc);
+        
+        // Apply dynamic margins
+        const marginY = f.marginY !== undefined ? f.marginY : 48;
+        const marginX = f.marginX !== undefined ? f.marginX : 52;
+        tempDiv.style.padding = `${marginY}px ${marginX}px`;
+        
         tempDiv.innerHTML = canvas.innerHTML;
         document.body.appendChild(tempDiv);
 
@@ -135,10 +147,28 @@
         const tempDiv = document.createElement('div');
         tempDiv.className = 'a4-canvas ' + t.cssClass;
         tempDiv.style.cssText = ISOLATED_CSS;
+        
+        // Apply dynamic theme color to the cloned node
+        const f = r.formatting || {};
+        const tc = f.themeColor || t.accent || '#374151';
+        tempDiv.style.setProperty('--accent', tc);
+
+        // Apply dynamic margins
+        const marginY = f.marginY !== undefined ? f.marginY : 48;
+        const marginX = f.marginX !== undefined ? f.marginX : 52;
+        tempDiv.style.padding = `${marginY}px ${marginX}px`;
+
         tempDiv.innerHTML = html;
 
         if (typeof window.decodeEscapedRichTextInPreview === 'function') window.decodeEscapedRichTextInPreview(tempDiv);
         if (r.formatting && typeof window.applyFormattingToElements === 'function') window.applyFormattingToElements(tempDiv, r.formatting);
+
+        // Apply dynamic module spacing
+        const moduleSpacing = f.moduleSpacing !== undefined ? f.moduleSpacing : 8;
+        const sections = tempDiv.querySelectorAll('.section');
+        sections.forEach(sec => {
+            sec.style.marginTop = `${moduleSpacing}px`;
+        });
 
         document.body.appendChild(tempDiv);
 
@@ -169,6 +199,7 @@
         const canvas = document.getElementById('a4-preview');
 
         const f = window.editState.formatting || {};
+        const tc = f.themeColor || t.accent || '#374151';
         const printFontFamily = (f.fontFamily && f.fontFamily !== 'default') ? f.fontFamily : '';
         const printNameSize = Number(f.nameSize) || parseInt(t.fontName) || 24;
         const printHeadingSize = Number(f.headingSize) || parseInt(t.fontHead) || 14;
@@ -224,7 +255,7 @@
             </head>
             <body>
                 <div class="print-page">
-                    <div class="a4-canvas ${cssClass}">${resumeHTML}</div>
+                    <div class="a4-canvas ${cssClass}" style="--accent: ${tc}">${resumeHTML}</div>
                 </div>
                 <script>
                     window.onload = function() { setTimeout(function() { window.print(); }, 500); };

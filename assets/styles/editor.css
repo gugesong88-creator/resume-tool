@@ -18,8 +18,11 @@
   justify-content: space-between;
   gap: 12px;
   flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
-.toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 8px; }
+.toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .resume-name-input {
   border: 1px solid transparent;
   font-size: 14px;
@@ -51,10 +54,16 @@
   white-space: nowrap;
 }
 /* 自定义细滚动条 */
-.formatting-bar::-webkit-scrollbar { height: 4px; }
-.formatting-bar::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 4px; }
-.formatting-bar::-webkit-scrollbar-thumb:hover { background: #D1D5DB; }
+.formatting-bar::-webkit-scrollbar, .editor-toolbar::-webkit-scrollbar { height: 4px; }
+.formatting-bar::-webkit-scrollbar-thumb, .editor-toolbar::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 4px; }
+.formatting-bar::-webkit-scrollbar-thumb:hover, .editor-toolbar::-webkit-scrollbar-thumb:hover { background: #D1D5DB; }
 .formatting-bar label { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+.formatting-bar input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+}
 .formatting-bar select, .formatting-bar input[type="number"] {
   padding: 4px 6px;
   border: 1px solid var(--border);
@@ -399,4 +408,24 @@
   color: #059669;
   background: #F0FDF4;
   text-align: center;
+}
+
+/* ===== 整体色调选择器专属样式重置 ===== */
+input[type="color"]#fmt-theme-color {
+  -webkit-appearance: none;
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  flex-shrink: 0 !important;
+  cursor: pointer;
+}
+input[type="color"]#fmt-theme-color::-webkit-color-swatch-wrapper {
+  padding: 0 !important;
+}
+input[type="color"]#fmt-theme-color::-webkit-color-swatch {
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
 }

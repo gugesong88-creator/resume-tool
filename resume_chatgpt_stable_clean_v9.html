@@ -912,14 +912,23 @@ function loadEditor(id) {
       fontFamily: 'default',
       nameSize: parseInt(t.fontName) || 24,
       headingSize: parseInt(t.fontHead) || 14,
-      bodySize: parseInt(t.fontBody) || 11,
+      bodySize: parseFloat(t.fontBody) || 11,
       lineHeight: parseFloat(t.lineHeight) || 1.5,
-      textAlign: 'left'
+      textAlign: t.textAlign || 'left',
+      themeColor: t.accent || '#374151',
+      marginY: t.marginY !== undefined ? t.marginY : 48,
+      marginX: t.marginX !== undefined ? t.marginX : 52,
+      moduleSpacing: t.moduleSpacing !== undefined ? t.moduleSpacing : 8
     };
   }
-  // v4 兼容旧简历：补充段落对齐字段
+  // v4 兼容旧简历：补充段落对齐字段与主题色及默认边距等
+  const tForAccent = getTemplate(resume.template_id);
   editState.formatting = Object.assign({
-    textAlign: 'left'
+    textAlign: tForAccent.textAlign || 'left',
+    themeColor: tForAccent.accent || '#374151',
+    marginY: tForAccent.marginY !== undefined ? tForAccent.marginY : 48,
+    marginX: tForAccent.marginX !== undefined ? tForAccent.marginX : 52,
+    moduleSpacing: tForAccent.moduleSpacing !== undefined ? tForAccent.moduleSpacing : 8
   }, editState.formatting || {});
 
   updateFormattingUI();
@@ -944,9 +953,13 @@ function onTemplateSwitch(templateId) {
     fontFamily: 'default',
     nameSize: parseInt(t.fontName) || 24,
     headingSize: parseInt(t.fontHead) || 14,
-    bodySize: parseInt(t.fontBody) || 11,
+    bodySize: parseFloat(t.fontBody) || 11,
     lineHeight: parseFloat(t.lineHeight) || 1.5,
-    textAlign: 'left'
+    textAlign: t.textAlign || 'left',
+    themeColor: t.accent || '#374151',
+    marginY: t.marginY !== undefined ? t.marginY : 48,
+    marginX: t.marginX !== undefined ? t.marginX : 52,
+    moduleSpacing: t.moduleSpacing !== undefined ? t.moduleSpacing : 8
   };
   updateFormattingUI();
   renderPreview();
@@ -964,17 +977,22 @@ function onFormatChange(key, value) {
       headingSize: parseInt(t.fontHead) || 14,
       bodySize: parseFloat(t.fontBody) || 11,
       lineHeight: parseFloat(t.lineHeight) || 1.5,
-      textAlign: 'left'
+      textAlign: t.textAlign || 'left',
+      themeColor: t.accent || '#374151',
+      marginY: t.marginY !== undefined ? t.marginY : 48,
+      marginX: t.marginX !== undefined ? t.marginX : 52,
+      moduleSpacing: t.moduleSpacing !== undefined ? t.moduleSpacing : 8
     };
   }
 
-  if (key === 'fontFamily' || key === 'textAlign') {
+  if (key === 'fontFamily' || key === 'textAlign' || key === 'themeColor') {
     editState.formatting[key] = value;
   } else {
     editState.formatting[key] = parseFloat(value) || value;
   }
 
   applyFormatting();
+  updateFormattingUI();
   markDirty();
 }
 
@@ -1022,6 +1040,12 @@ function updateFormattingUI() {
   if (my) my.value = f.marginY !== undefined ? f.marginY : 48;
   if (mx) mx.value = f.marginX !== undefined ? f.marginX : 52;
   if (ms) ms.value = f.moduleSpacing !== undefined ? f.moduleSpacing : 8;
+
+  const ft = document.getElementById('fmt-theme-color');
+  if (ft) {
+    const t = getTemplate(editState.resume.template_id);
+    ft.value = f.themeColor || t.accent || '#374151';
+  }
 }
 
 
@@ -1065,7 +1089,6 @@ function applyFormatting() {
   const t = getTemplate(editState.resume.template_id);
   const tc = f.themeColor || t.accent || '#374151';
   canvas.style.setProperty('--accent', tc);
-  document.documentElement.style.setProperty('--accent', tc);
 }
 
 
@@ -1217,7 +1240,6 @@ function renderPreview() {
   // Set accent color CSS variable
   const themeColor = (editState.formatting && editState.formatting.themeColor) ? editState.formatting.themeColor : t.accent;
   canvas.style.setProperty('--accent', themeColor);
-  document.documentElement.style.setProperty('--accent', themeColor);
 
   // Apply formatting overrides
   applyFormatting();
@@ -2417,6 +2439,10 @@ bootstrap();
     function restoreHistoryState(stateString) {
         try {
             editState.resume = JSON.parse(stateString);
+            if (editState.resume.formatting) {
+                editState.formatting = editState.resume.formatting;
+            }
+            if (typeof window.updateFormattingUI === 'function') window.updateFormattingUI();
             if (typeof window.renderEditorPanels === 'function') window.renderEditorPanels();
             if (typeof window.renderPreview === 'function') window.renderPreview();
             updateHistoryUI();

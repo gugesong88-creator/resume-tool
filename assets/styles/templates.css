@@ -355,3 +355,21 @@
   opacity: 0.35;
   cursor: not-allowed;
 }
+
+/* ===== 整体色调强制覆写规则 ===== */
+/* 强制整体色调覆盖姓名与模块标题里的行内颜色样式 */
+.a4-canvas .resume-name,
+.a4-canvas .resume-name *,
+.a4-canvas .section-title,
+.a4-canvas .section-title *:not(.section-icon):not(.section-icon *) {
+  color: var(--accent) !important;
+}
+.a4-canvas .section-title {
+  border-color: var(--accent) !important;
+}
+
+/* ===== 个人基本信息对齐规则 ===== */
+/* 强制个人基本信息排版块保持水平居中对齐 */
+.a4-canvas .resume-contact-lines {
+  justify-content: center !important;
+}
