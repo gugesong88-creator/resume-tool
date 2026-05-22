@@ -15,7 +15,7 @@ window.AppTemplates.T04_business_clean = {
     return `<div class="resume-header">
       <div class="resume-header-info">
         <div class="resume-name" data-editable="basic_info.name">${escHtml(name)}</div>
-        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 8px;">
+        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; margin-top: 8px;">
           ${contactParts.join('')}
         </div>
       </div>

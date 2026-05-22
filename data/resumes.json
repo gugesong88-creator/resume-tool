@@ -1,6 +1,6 @@
 {
   "source": "node_local_file_store",
-  "updatedAt": "2026-05-21T10:48:07.010Z",
+  "updatedAt": "2026-05-22T02:30:47.356Z",
   "resumes": [
     {
       "id": "res_mp70raj6_vvxgrr",
@@ -22,22 +22,37 @@
           "sidebar": false,
           "data": {
             "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
-            "phone": "15564667091",
-            "email": "mrsong2003@163.com",
             "city": "",
-            "intention": "<span style=\"color: #333333;\"><span style=\"color: rgb(51, 51, 51);\">PMO</span></span>实习生",
-            "age": "23",
             "wechat": "",
             "linkedin": "",
             "github": "",
             "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
-            "political_status": "预备党员",
-            "graduation": "2027年6月",
-            "availability": "2026.6.8",
-            "gender": "女",
-            "_basicInfoTextColor": "#111827"
+            "_basicInfoTextColor": "#111827",
+            "items": "<br>"
           },
-          "dividerColor": "#059669"
+          "dividerColor": "#059669",
+          "items": [
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "政治面貌",
+              "value": "预备党员"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027年6月"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.8"
+            }
+          ]
         },
         "education": {
           "id": "education",
@@ -137,7 +152,7 @@
           "items": [
             {
               "bullets": [
-                "<span style=\"color: rgb(17, 24, 39);\"><b>技能：</b>Power BI, SQL, Python, Java, Jira, SAP, Microsoft App</span>"
+                "技能：掌握 Python, Java, R 编程语言；熟练使用Jira, SAP, Power BI, Microsoft App办公软件；"
               ]
             },
             {
@@ -150,14 +165,15 @@
         }
       },
       "created_at": "2026-05-15T14:35:05.106Z",
-      "updated_at": "2026-05-20T13:57:40.104Z",
+      "updated_at": "2026-05-22T01:51:52.737Z",
       "formatting": {
+        "textAlign": "justify",
+        "themeColor": "#1f3a8a",
         "fontFamily": "default",
         "nameSize": 24,
         "headingSize": 15,
         "bodySize": 13,
         "lineHeight": 1.2,
-        "textAlign": "justify",
         "marginY": 12,
         "marginX": 30,
         "moduleSpacing": "0"
@@ -183,21 +199,47 @@
           "sidebar": false,
           "data": {
             "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
-            "phone": "15564667091",
-            "email": "mrsong2003@163.com",
             "city": "",
-            "intention": "策略运营实习生",
-            "age": "23",
             "wechat": "",
             "linkedin": "",
             "github": "",
             "photo": "/data/images/res_mp70raj6_vvxgrr_2a24806845bbdb8c.heic",
-            "political_status": "预备党员",
-            "graduation": "2027年6月",
-            "availability": "2026.6.11",
-            "gender": "女",
             "_basicInfoTextColor": "#111827"
-          }
+          },
+          "items": [
+            {
+              "label": "求职意向",
+              "value": "策略运营实习生"
+            },
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "性别",
+              "value": "女"
+            },
+            {
+              "label": "年龄",
+              "value": "23"
+            },
+            {
+              "label": "政治面貌",
+              "value": "预备党员"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027年6月"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.11"
+            }
+          ]
         },
         "education": {
           "id": "education",
@@ -309,17 +351,18 @@
         }
       },
       "created_at": "2026-05-18T13:49:01.932Z",
-      "updated_at": "2026-05-20T02:16:00.726Z",
+      "updated_at": "2026-05-22T02:30:47.349Z",
       "formatting": {
-        "textAlign": "justify",
         "fontFamily": "default",
-        "nameSize": 22,
+        "nameSize": 24,
         "headingSize": 15,
         "bodySize": 13.5,
         "lineHeight": 1.2,
-        "moduleSpacing": "0",
-        "marginX": 36,
-        "marginY": 15
+        "textAlign": "justify",
+        "themeColor": "#1E3A8A",
+        "marginY": 12,
+        "marginX": 30,
+        "moduleSpacing": 0
       }
     },
     {
@@ -489,7 +532,9 @@
         "target_company": "",
         "target_position": "",
         "jd_text": "",
-        "note": ""
+        "note": "",
+        "nameColor": "#942192",
+        "basicInfoColor": "#000000"
       },
       "modules": {
         "basic_info": {
@@ -500,12 +545,13 @@
           "order": 1,
           "sidebar": false,
           "data": {
+            "0": "",
             "name": "<span style=\"color: rgb(30, 58, 138);\">宋玫融</span>",
             "phone": "15564667091",
             "email": "mrsong2003@163.com",
             "city": "",
-            "intention": "策略运营实习生",
-            "age": "23",
+            "intention": "<span style=\"color: rgb(17, 24, 39);\">策略运营实习生</span>",
+            "age": "<br>",
             "wechat": "",
             "linkedin": "",
             "github": "",
@@ -514,8 +560,32 @@
             "graduation": "2027年6月",
             "availability": "2026.6.11",
             "gender": "女",
-            "_basicInfoTextColor": "#111827"
-          }
+            "_basicInfoTextColor": "#111827",
+            "items": "新信息："
+          },
+          "items": [
+            {
+              "label": "求职意向",
+              "value": "产品运营实习生"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027年6月"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.8"
+            }
+          ],
+          "dividerColor": "#0433ff"
         },
         "education": {
           "id": "education",
@@ -546,7 +616,7 @@
               "title": "山东医药大学｜信息管理与信息系统｜本科"
             }
           ],
-          "dividerColor": "#1E3A8A"
+          "dividerColor": "#ff2600"
         },
         "internship": {
           "id": "internship",
@@ -557,14 +627,14 @@
           "sidebar": false,
           "items": [
             {
-              "title": "联想（北京）｜ 商务运营实习生",
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 商务运营实习生</span>",
               "role": "",
               "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
               "bullets": [
-                "<span style=\"color: rgb(17, 24, 39);\"><span>业务背景：</span>商务部门每日处理大规模跨系统订单，查账流程繁琐；同时部门正推进检索智能体落地，初期模型对业务逻辑理解受限。</span>",
-                "<span style=\"color: rgb(17, 24, 39);\"><span>业务数据监控与流程自动化：</span>独立承担每日应收账款数据的提取与清洗。使用 Python 与 Excel 对齐底层数据映射表，为不同产品线配置 7 天/30 天的超期预警规则，实现“逾期 TOP10 订单”看板的自动生成与定向分发。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span><b>业务背景：</b></span>商务部门每日处理大规模跨系统订单，查账流程繁琐；同时部门正推进检索智能体落地，初期模型对业务逻辑理解受限。</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><span><b>业务数据监控与流程自动化：</b></span>独立承担每日应收账款数据的提取与清洗。使用 Python 与 Excel 对齐底层数据映射表，为不同产品线配置 7 天/30 天的超期预警规则，实现“逾期 TOP10 订单”看板的自动生成与定向分发。</span>",
                 "<span style=\"color: rgb(17, 24, 39);\"><span>智能体产品评测与反馈迭代：</span>负责智能体在业务侧的落地验收。梳理 200 个高频业务提问作为测试题库，收集真实用户反馈。建立问题分类机制，将报错细分为知识库缺失、模型理解偏差等类型，指导研发团队针对性修复。</span>",
-                "<span style=\"color: rgb(17, 24, 39);\"><span>工作成果：</span>自动化看板替代了原有的人工制表流程，每日节省数小时工时；建立的评测与反馈机制，推动大模型业务问答准确率提升至 90% 以上，保障了产品的顺利应用。</span>"
+                "<span style=\"color: rgb(17, 24, 39);\">工作成果：自动化看板替代了原有的人工制表流程，每日节省数小时工时；建立的评测与反馈机制，推动大模型业务问答准确率提升至 90% 以上，保障了产品的顺利应用。</span>"
               ]
             },
             {
@@ -602,7 +672,7 @@
               ]
             }
           ],
-          "dividerColor": "#1E3A8A"
+          "dividerColor": ""
         },
         "custom": {
           "id": "custom",
@@ -623,20 +693,20 @@
               ]
             }
           ],
-          "dividerColor": "#1E3A8A"
+          "dividerColor": "#0433ff"
         }
       },
       "created_at": "2026-05-19T03:27:40.230Z",
-      "updated_at": "2026-05-21T10:43:56.326Z",
+      "updated_at": "2026-05-22T01:48:13.894Z",
       "formatting": {
-        "textAlign": "justify",
+        "textAlign": "left",
+        "themeColor": "#1f3a8a",
         "fontFamily": "default",
         "nameSize": 24,
         "headingSize": 15,
-        "bodySize": 13.2,
+        "bodySize": 13,
         "lineHeight": 1.2,
-        "marginY": 38,
-        "marginX": 35,
+        "marginX": 36,
         "moduleSpacing": "0"
       }
     },
@@ -829,7 +899,8 @@
             "political_status": "",
             "availability": "",
             "graduation": ""
-          }
+          },
+          "items": []
         },
         "education": {
           "id": "education",
@@ -869,14 +940,18 @@
         }
       },
       "created_at": "2026-05-21T10:44:06.396Z",
-      "updated_at": "2026-05-21T10:44:22.826Z",
+      "updated_at": "2026-05-22T02:30:28.852Z",
       "formatting": {
         "fontFamily": "default",
         "nameSize": 24,
-        "headingSize": 14,
-        "bodySize": 11,
-        "lineHeight": 1.45,
-        "textAlign": "left"
+        "headingSize": 15,
+        "bodySize": 13.5,
+        "lineHeight": 1.2,
+        "textAlign": "justify",
+        "themeColor": "#1E3A8A",
+        "marginY": 12,
+        "marginX": 30,
+        "moduleSpacing": 0
       }
     }
   ],

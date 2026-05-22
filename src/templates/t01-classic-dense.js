@@ -3,8 +3,9 @@ window.AppTemplates.T01_classic_dense = {
   id: 'T01_classic_dense', name: '经典高密度型',
   desc: '黑白灰单栏，信息密度高，适合内容丰富的简历。参照北大风格，模块紧凑，时间右对齐。',
   layout: 'single', cssClass: 't01-classic-dense',
-  accent: '#374151', accentLight: '#9CA3AF', bg: '#FFFFFF', text: '#111827', muted: '#4B5563',
-  fontName: '24px', fontHead: '14px', fontBody: '11px', lineHeight: '1.45',
+  accent: '#1E3A8A', accentLight: '#9CA3AF', bg: '#FFFFFF', text: '#111827', muted: '#4B5563',
+  fontName: '24px', fontHead: '15px', fontBody: '13.5px', lineHeight: '1.2',
+  textAlign: 'justify', marginY: 12, marginX: 30, moduleSpacing: 0,
   showIcons: false, showAvatar: false, showLogo: false,
 
   renderHeader(biData, L, escHtml, bi) {
@@ -15,7 +16,7 @@ window.AppTemplates.T01_classic_dense = {
     return `<div class="resume-header">
       <div class="resume-header-info">
         <div class="resume-name" data-editable="basic_info.name">${escHtml(name)}</div>
-        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 8px;">
+        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; margin-top: 8px;">
           ${contactParts.join('')}
         </div>
       </div>

@@ -2,6 +2,9 @@
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
+> [!IMPORTANT]
+> **Project-Specific Guidelines**: Please refer to [LESSONS.md](file:///Users/smr/claude%20code/resume%20tool/LESSONS.md) for critical rules and architectures regarding formatting synchronization, PDF export isolation, and color override specifications.
+
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 1. Think Before Coding
