@@ -142,7 +142,8 @@
 }
 
 @media (max-width: 900px) {
-  #view-editor.active {
+  #view-editor.active,
+  #view-profile.active {
     overflow: hidden;
   }
 

@@ -108,14 +108,16 @@ textarea { resize: vertical; min-height: 60px; }
 /* ===== View Containers ===== */
 .view { display: none; }
 .view.active { display: block; }
-#view-editor.active {
+#view-editor.active,
+#view-profile.active {
   height: calc(100vh - 52px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 #view-editor.active .editor-toolbar,
-#view-editor.active .formatting-bar {
+#view-editor.active .formatting-bar,
+#view-profile.active .editor-toolbar {
   flex-shrink: 0;
 }
 
