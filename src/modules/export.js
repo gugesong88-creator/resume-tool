@@ -108,10 +108,22 @@
         // Apply dynamic margins
         const marginY = f.marginY !== undefined ? f.marginY : 48;
         const marginX = f.marginX !== undefined ? f.marginX : 52;
-        tempDiv.style.padding = `${marginY}px ${marginX}px`;
+        tempDiv.style.setProperty('padding', `${marginY}px ${marginX}px`, 'important');
+        
+        // Avoid page break inside or after canvas
+        tempDiv.style.setProperty('page-break-after', 'avoid', 'important');
+        tempDiv.style.setProperty('page-break-inside', 'avoid', 'important');
         
         tempDiv.innerHTML = canvas.innerHTML;
         document.body.appendChild(tempDiv);
+
+        // Check if one page and enforce height
+        const warning = document.getElementById('page-overflow-warning');
+        const isOnePage = !warning || warning.style.display === 'none';
+        if (isOnePage) {
+            tempDiv.style.setProperty('height', '1123px', 'important');
+            tempDiv.style.setProperty('overflow', 'hidden', 'important');
+        }
 
         if(typeof showToast === 'function') showToast('正在执行渲染，请稍候...');
         
@@ -156,7 +168,11 @@
         // Apply dynamic margins
         const marginY = f.marginY !== undefined ? f.marginY : 48;
         const marginX = f.marginX !== undefined ? f.marginX : 52;
-        tempDiv.style.padding = `${marginY}px ${marginX}px`;
+        tempDiv.style.setProperty('padding', `${marginY}px ${marginX}px`, 'important');
+
+        // Avoid page break inside or after canvas
+        tempDiv.style.setProperty('page-break-after', 'avoid', 'important');
+        tempDiv.style.setProperty('page-break-inside', 'avoid', 'important');
 
         tempDiv.innerHTML = html;
 
@@ -171,6 +187,13 @@
         });
 
         document.body.appendChild(tempDiv);
+
+        // Check if one page and enforce height
+        const isOnePage = tempDiv.scrollHeight <= 1125;
+        if (isOnePage) {
+            tempDiv.style.setProperty('height', '1123px', 'important');
+            tempDiv.style.setProperty('overflow', 'hidden', 'important');
+        }
 
         if(typeof showToast === 'function') showToast('正在生成预览 PDF...');
         
@@ -228,6 +251,14 @@
             return;
         }
 
+        const marginY = f.marginY !== undefined ? Number(f.marginY) : 48;
+        const marginX = f.marginX !== undefined ? Number(f.marginX) : 52;
+        const marginYmm = (marginY * 25.4 / 96).toFixed(2);
+        const marginXmm = (marginX * 25.4 / 96).toFixed(2);
+
+        const warning = document.getElementById('page-overflow-warning');
+        const isOnePage = !warning || warning.style.display === 'none';
+
         printWindow.document.write(`
             <!DOCTYPE html>
             <html lang="zh-CN">
@@ -237,19 +268,19 @@
                 <title>${window.escHtml ? window.escHtml(name) : name}</title>
                 ${allStyles}
                 <style>
-                    html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; width: 210mm; min-height: 297mm; }
+                    html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; width: 210mm; ${isOnePage ? 'height: 297mm !important; overflow: hidden !important;' : 'min-height: 297mm;'} }
                     @page { size: A4 portrait; margin: 0; }
                     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                    .print-page { width: 210mm !important; min-height: 297mm !important; box-sizing: border-box !important; background: #fff !important; margin: 0 auto !important; padding: 12mm 14mm !important; overflow: visible !important; }
-                    .print-page .a4-canvas { width: 100% !important; min-height: auto !important; height: auto !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; background: #fff !important; box-sizing: border-box !important; overflow: visible !important; }
+                    .print-page { width: 210mm !important; ${isOnePage ? 'height: 297mm !important; overflow: hidden !important;' : 'min-height: 297mm !important;'} box-sizing: border-box !important; background: #fff !important; margin: 0 auto !important; padding: ${marginYmm}mm ${marginXmm}mm !important; }
+                    .print-page .a4-canvas { width: 100% !important; min-height: auto !important; height: auto !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; background: #fff !important; box-sizing: border-box !important; page-break-after: avoid !important; page-break-inside: avoid !important; }
                     ${printFormatCss}
                     .a4-canvas [data-editable], .a4-canvas [data-editable]:hover, .a4-canvas [data-editable]:focus { outline: none !important; background: none !important; }
                     .inline-add-btn, .entry-delete-btn, .section-actions, .resume-photo-placeholder { display: none !important; }
                     @media print {
-                        html, body { margin: 0 !important; padding: 0 !important; width: 210mm !important; min-height: 297mm !important; background: #fff !important; }
+                        html, body { margin: 0 !important; padding: 0 !important; width: 210mm !important; ${isOnePage ? 'height: 297mm !important; overflow: hidden !important;' : 'min-height: 297mm !important;'} background: #fff !important; }
                         .top-nav, .editor-toolbar, .formatting-bar, .editor-left, .editor-left-toggle, .toast, .modal-overlay { display: none !important; }
-                        .print-page { width: 210mm !important; min-height: 297mm !important; padding: 12mm 14mm !important; margin: 0 !important; box-sizing: border-box !important; page-break-after: auto !important; }
-                        .print-page .a4-canvas { width: 100% !important; min-height: auto !important; height: auto !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; overflow: visible !important; }
+                        .print-page { width: 210mm !important; ${isOnePage ? 'height: 297mm !important; overflow: hidden !important;' : 'min-height: 297mm !important;'} padding: ${marginYmm}mm ${marginXmm}mm !important; margin: 0 !important; box-sizing: border-box !important; }
+                        .print-page .a4-canvas { width: 100% !important; min-height: auto !important; height: auto !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; page-break-after: avoid !important; page-break-inside: avoid !important; }
                     }
                 </style>
             </head>
