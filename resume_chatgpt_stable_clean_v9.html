@@ -195,42 +195,9 @@
   </div>
   
   <div class="editor-container" style="position:relative;">
-    <div class="editor-left" id="profile-editor-left" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
-    <div class="editor-right" id="profile-editor-right" style="flex: 1; overflow-y: auto; padding: 40px; background: #f9fafb; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; border-left: 1px solid #e5e7eb;">
-      <div class="profile-guide-card" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto 20px auto;">
-        <h2 style="font-size: 18px; font-weight: 600; color: #1e3a8a; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-          <span>⚙️</span> 什么是全局个人档案？
-        </h2>
-        <p style="font-size: 13.5px; line-height: 1.6; color: #4b5563; margin-bottom: 16px;">
-          全局个人档案是一个<strong>中央数据库</strong>，用于存储您在多份简历中通用的个人信息、教育经历和自定义块。
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">1</div>
-            <div>
-              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">一处修改，多份同步</h4>
-              <p style="font-size: 13px; color: #4b5563; margin: 0;">当您在此处保存修改后，所有<b>已开启</b>“链接至全局档案”的简历中的对应模块都会自动同步，无需手动逐一更新。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">2</div>
-            <div>
-              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">灵活的本地克隆 (解绑)</h4>
-              <p style="font-size: 13px; color: #4b5563; margin: 0;">如果某份简历需要针对特定的投递岗位微调教育经历或个人信息，只需在简历编辑器中取消勾选<b>“🔗 链接至全局档案”</b>。解绑后，该模块将变为独立的本地副本，可自由编辑，且不会影响全局档案和其他简历。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">3</div>
-            <div>
-              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">随时重新绑定</h4>
-              <p style="font-size: 13px; color: #4b5563; margin: 0;">重新勾选“链接全局”时，系统会用全局最新数据覆盖本地的修改，并恢复成只读同步状态。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: center; color: #9ca3af; font-size: 12px; margin-top: 10px;">
-        💡 提示：编辑全局档案后，记得点击右上角的 <b>“保存修改”</b> 按钮使之生效。
-      </div>
+    <div class="editor-left" id="profile-editor-left"></div>
+    <div class="editor-right" id="profile-editor-right">
+      <div class="a4-canvas" id="profile-a4-preview"></div>
     </div>
   </div>
 </div>
@@ -276,6 +243,7 @@ function onPhotoUpload(event) {
       if (!window.profileEditData || !window.profileEditData.basic_info || !window.profileEditData.basic_info.data) return;
       window.profileEditData.basic_info.data.photo = e.target.result;
       if (window.renderProfileEditor) window.renderProfileEditor();
+      if (window.renderProfilePreview) window.renderProfilePreview();
       window.profileDirty = true;
       showToast('照片已上传');
     };
@@ -2139,6 +2107,8 @@ async function bootstrap() {
     navigate('templates');
   } else if (hash === 'delivery') {
     navigate('delivery');
+  } else if (hash === 'profile') {
+    navigate('profile');
   } else {
     navigate('home');
   }
@@ -2523,6 +2493,7 @@ window.initProfileEditor = function() {
   window.globalProfile = globalProfile;
   window.updateProfileSaveStatus();
   window.renderProfileEditor();
+  window.renderProfilePreview();
 };
 
 window.updateProfileSaveStatus = function() {
@@ -2593,6 +2564,271 @@ window.saveGlobalProfile = function() {
   window.saveGlobalProfileData(window.profileEditData);
   window.profileDirty = false;
   window.showToast('全局个人档案保存成功，已同步至所有关联的简历');
+};
+
+window.renderProfilePreview = function() {
+  if (!window.profileEditData) return;
+
+  const t = getTemplate('T01_classic_dense');
+  const profileModules = {
+    basic_info: window.profileEditData.basic_info,
+    education: window.profileEditData.education,
+    custom: window.profileEditData.custom
+  };
+
+  let meta = {};
+  if (window.editState && window.editState.resume) {
+    meta = window.editState.resume.meta || {};
+  }
+
+  const previewHtml = renderResumeHTML(t, profileModules, meta);
+  const canvas = document.getElementById('profile-a4-preview');
+  if (!canvas) return;
+
+  canvas.className = 'a4-canvas ' + t.cssClass;
+  canvas.innerHTML = previewHtml;
+
+  decodeEscapedRichTextInPreview(canvas);
+
+  // Apply formatting overrides
+  window.applyProfileFormatting();
+
+  // Attach contenteditable handlers for profile
+  window.attachProfileEditableHandlers(canvas);
+};
+
+window.applyProfileFormatting = function() {
+  const canvas = document.getElementById('profile-a4-preview');
+  if (!canvas) return;
+
+  // Defaults
+  let f = {
+    fontFamily: 'default',
+    nameSize: 24,
+    headingSize: 14,
+    bodySize: 11,
+    lineHeight: 1.5,
+    textAlign: 'left',
+    marginY: 48,
+    marginX: 52,
+    moduleSpacing: 8,
+    themeColor: '#374151'
+  };
+
+  let templateId = 'T01_classic_dense';
+
+  if (window.editState && window.editState.formatting) {
+    f = window.editState.formatting;
+  }
+  if (window.editState && window.editState.resume) {
+    templateId = window.editState.resume.template_id || 'T01_classic_dense';
+  }
+
+  // Apply font family
+  if (f.fontFamily && f.fontFamily !== 'default') {
+    canvas.style.setProperty('--fmt-font-family', f.fontFamily);
+  } else {
+    canvas.style.removeProperty('--fmt-font-family');
+  }
+
+  // Apply sizes and spacing as CSS variables
+  canvas.style.setProperty('--fmt-name-size', f.nameSize + 'px');
+  canvas.style.setProperty('--fmt-heading-size', f.headingSize + 'px');
+  canvas.style.setProperty('--fmt-body-size', f.bodySize + 'px');
+  canvas.style.setProperty('--fmt-line-height', f.lineHeight);
+
+  canvas.style.setProperty('--fmt-text-align', f.textAlign || 'left');
+
+  const marginY = f.marginY !== undefined ? f.marginY : 48;
+  const marginX = f.marginX !== undefined ? f.marginX : 52;
+  canvas.style.padding = `${marginY}px ${marginX}px`;
+
+  const moduleSpacing = f.moduleSpacing !== undefined ? f.moduleSpacing : 8;
+  const sections = canvas.querySelectorAll('.section');
+  sections.forEach(sec => {
+    sec.style.marginTop = `${moduleSpacing}px`;
+  });
+
+  applyFormattingToElements(canvas, f);
+
+  const t = getTemplate(templateId);
+  const tc = f.themeColor || t.accent || '#374151';
+  canvas.style.setProperty('--accent', tc);
+};
+
+window.attachProfileEditableHandlers = function(canvas) {
+  const editables = canvas.querySelectorAll('[data-editable]');
+  editables.forEach(el => {
+    const path = el.getAttribute('data-editable');
+    if (!path) return;
+
+    if (el.getAttribute('contenteditable') === 'false') return;
+
+    // Photo placeholder
+    if (path === 'basic_info._photo') {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('photo-upload-input').click();
+      });
+      return;
+    }
+
+    el.setAttribute('contenteditable', 'true');
+    el.addEventListener('focus', onEditableFocus);
+    el.addEventListener('blur', window.onProfileEditableBlur);
+    el.addEventListener('mouseup', saveRichTextSelection);
+    el.addEventListener('keyup', saveRichTextSelection);
+    el.addEventListener('paste', (e) => {
+      if (isPastePlainEnabled()) {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        if (document.queryCommandSupported('insertText')) {
+          document.execCommand('insertText', false, text);
+        } else {
+          const selection = window.getSelection();
+          if (!selection.rangeCount) return;
+          selection.deleteFromDocument();
+          selection.getRangeAt(0).insertNode(document.createTextNode(text));
+        }
+      }
+    });
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        if (el.tagName.toLowerCase() === 'ul') return;
+        if (el.tagName.toLowerCase() === 'li') return;
+        e.preventDefault();
+        el.blur();
+      }
+      // Ctrl+B / Cmd+B for bold
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B' || e.code === 'KeyB')) {
+        e.preventDefault();
+        document.execCommand('bold', false, null);
+      }
+    });
+  });
+};
+
+window.onProfileEditableBlur = function(e) {
+  e.target.style.outline = '';
+  e.target.style.outlineOffset = '';
+
+  const path = e.target.getAttribute('data-editable');
+  let rawHtml = sanitizeRichHtml(e.target.innerHTML.trim());
+  let text = richTextToPlain(rawHtml).trim();
+
+  if (!path || !window.profileEditData) return;
+
+  const parts = path.split('.');
+  const modId = parts[0];
+  const mod = window.profileEditData[modId];
+  if (!mod) return;
+
+  if (path.endsWith('._title')) {
+    const clone = e.target.cloneNode(true);
+    clone.querySelectorAll('.section-icon, .section-actions').forEach(n => n.remove());
+
+    rawHtml = sanitizeRichHtml(clone.innerHTML.trim());
+    text = richTextToPlain(rawHtml).trim();
+
+    mod.title = rawHtml || text || mod.title;
+
+    window.renderProfileEditor();
+    window.renderProfilePreview();
+    window.profileDirty = true;
+    return;
+  }
+
+  if (modId === 'basic_info') {
+    const key = parts[1];
+    if (!mod.data) mod.data = {};
+
+    let cleanText = text;
+    const placeholders = [
+      '点击填写',
+      '年龄',
+      '男/女',
+      '中共党员/团员/群众',
+      '随时到岗',
+      '2026.06',
+      '时间'
+    ];
+
+    if (placeholders.includes(cleanText)) {
+      rawHtml = '';
+      cleanText = '';
+    }
+
+    if (key === 'name') {
+      mod.data.name = rawHtml || cleanText;
+    } else if (key === 'items') {
+      const itemIdx = parseInt(parts[2]);
+      const itemKey = parts[3];
+      if (mod.items && mod.items[itemIdx]) {
+        mod.items[itemIdx][itemKey] = rawHtml || cleanText;
+      }
+    }
+
+    window.renderProfileEditor();
+    window.renderProfilePreview();
+    window.profileDirty = true;
+    return;
+  }
+
+  const idx = parseInt(parts[1]);
+  if (isNaN(idx) || !mod.items || !mod.items[idx]) return;
+
+  const key = parts[2];
+
+  if (key === '_bullets') {
+    let lis = Array.from(e.target.querySelectorAll('li'))
+      .map(li => sanitizeRichHtml(li.innerHTML.trim()))
+      .filter(Boolean);
+
+    if (lis.length === 0) {
+      const fallback = sanitizeRichHtml(e.target.innerHTML.trim());
+      if (richTextToPlain(fallback).trim()) {
+        lis = [fallback];
+      }
+    }
+
+    if (modId === 'custom') {
+      mod.items = lis.map(html => ({
+        bullets: [html]
+      }));
+    } else {
+      mod.items[idx].bullets = lis.length ? lis : [''];
+    }
+
+    window.renderProfileEditor();
+    window.renderProfilePreview();
+    window.profileDirty = true;
+    return;
+  }
+
+  if (key === 'bullet') {
+    const bi = parseInt(parts[3]);
+    const bullets = mod.items[idx].bullets || mod.items[idx].details || [];
+
+    if (bi >= 0 && bi < bullets.length) {
+      if (!mod.items[idx].bullets && mod.items[idx].details) {
+        mod.items[idx].bullets = mod.items[idx].details;
+      }
+      if (!mod.items[idx].bullets) {
+        mod.items[idx].bullets = [];
+      }
+      mod.items[idx].bullets[bi] = rawHtml || text;
+    }
+
+    window.renderProfileEditor();
+    window.renderProfilePreview();
+    window.profileDirty = true;
+    return;
+  }
+
+  mod.items[idx][key] = rawHtml || text;
+  window.renderProfileEditor();
+  window.renderProfilePreview();
+  window.profileDirty = true;
 };
 
 // ============================================================

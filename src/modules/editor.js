@@ -299,6 +299,7 @@ window.v6SwapItem = function(modId, idx1, idx2) {
     items[idx2] = tmp;
     
     if (window.renderProfileEditor) window.renderProfileEditor();
+    if (window.renderProfilePreview) window.renderProfilePreview();
     window.profileDirty = true;
     return;
   }
@@ -324,6 +325,7 @@ window.onFieldChange = function(modId, field, val) {
     if (!mod) return;
     mod.data[field] = val;
     window.profileDirty = true;
+    if (window.renderProfilePreview) window.renderProfilePreview();
     return;
   }
 
@@ -354,6 +356,7 @@ window.onItemFieldChange = function(modId, idx, field, val) {
       }
     }
     window.profileDirty = true;
+    if (window.renderProfilePreview) window.renderProfilePreview();
     return;
   }
 
@@ -380,6 +383,7 @@ window.onBulletChange = function(modId, idx, bidx, val) {
     const arr = mod.items[idx].bullets || mod.items[idx].details;
     if (arr) arr[bidx] = val;
     window.profileDirty = true;
+    if (window.renderProfilePreview) window.renderProfilePreview();
     return;
   }
 
@@ -408,6 +412,7 @@ window.addEntry = function(modId) {
       mod.items.push({ title: '', role: '', time: '', bullets: [''] });
     }
     if (window.renderProfileEditor) window.renderProfileEditor();
+    if (window.renderProfilePreview) window.renderProfilePreview();
     window.profileDirty = true;
     return;
   }
@@ -438,6 +443,7 @@ window.deleteEntry = function(modId, idx) {
     if (!mod || !mod.items) return;
     mod.items.splice(idx, 1);
     if (window.renderProfileEditor) window.renderProfileEditor();
+    if (window.renderProfilePreview) window.renderProfilePreview();
     window.profileDirty = true;
     return;
   }
@@ -462,6 +468,7 @@ window.addBullet = function(modId, idx) {
     if (!arr) { item.bullets = ['']; }
     else { arr.push(''); }
     if (window.renderProfileEditor) window.renderProfileEditor();
+    if (window.renderProfilePreview) window.renderProfilePreview();
     setTimeout(() => {
       const panel = document.querySelector(`.module-panel[data-module="${modId}"]`);
       if (panel) {
@@ -509,6 +516,7 @@ window.removePhoto = function() {
       if (mod && mod.data) {
         mod.data.photo = '';
         if (window.renderProfileEditor) window.renderProfileEditor();
+        if (window.renderProfilePreview) window.renderProfilePreview();
         window.profileDirty = true;
       }
     }
