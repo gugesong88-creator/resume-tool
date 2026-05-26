@@ -55,7 +55,7 @@ function renderModuleHTML(mod, templateDef) {
   const headerActions = canDelete ? `
     <span class="section-actions" contenteditable="false">
       <button onclick="event.preventDefault();event.stopPropagation();toggleModuleVisible('${modId}')" title="${mod.visible ? '隐藏此模块' : '显示此模块'}">${mod.visible ? '👁' : '👁‍🗨'}</button>
-      <button onclick="event.preventDefault();event.stopPropagation();addEntry('${modId}')" title="添加条目">+</button>
+      ${mod.is_global_linked ? '' : `<button onclick="event.preventDefault();event.stopPropagation();addEntry('${modId}')" title="添加条目">+</button>`}
     </span>` : '';
 
   if (modId === 'custom') {
@@ -75,7 +75,7 @@ function renderModuleHTML(mod, templateDef) {
           ${bullets.map(b => `<li>${b}</li>`).join('')}
         </ul>`;
     } else {
-      bodyHtml = `<button class="inline-add-btn" onclick="event.preventDefault();addEntry('${modId}')" contenteditable="false">+ 添加其他内容</button>`;
+      bodyHtml = mod.is_global_linked ? '' : `<button class="inline-add-btn" onclick="event.preventDefault();addEntry('${modId}')" contenteditable="false">+ 添加其他内容</button>`;
     }
 
     return `
@@ -93,10 +93,10 @@ function renderModuleHTML(mod, templateDef) {
     if (items.length > 0) {
       bodyHtml = items.map((item, idx) => {
         let itemHtml = templateDef.renderModuleItem ? templateDef.renderModuleItem(item, modId, idx, window.escHtml) : '';
-        return `<div class="entry-wrapper">${itemHtml}<button class="entry-delete-btn" onclick="event.preventDefault();event.stopPropagation();deleteEntry('${modId}',${idx})" title="删除此条目" contenteditable="false">×</button></div>`;
+        return `<div class="entry-wrapper">${itemHtml}${mod.is_global_linked ? '' : `<button class="entry-delete-btn" onclick="event.preventDefault();event.stopPropagation();deleteEntry('${modId}',${idx})" title="删除此条目" contenteditable="false">×</button>`}</div>`;
       }).join('');
     } else {
-      bodyHtml = `<button class="inline-add-btn" onclick="event.preventDefault();addEntry('${modId}')" contenteditable="false">+ 添加条目</button>`;
+      bodyHtml = mod.is_global_linked ? '' : `<button class="inline-add-btn" onclick="event.preventDefault();addEntry('${modId}')" contenteditable="false">+ 添加条目</button>`;
     }
   }
 
