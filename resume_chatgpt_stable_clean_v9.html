@@ -18,6 +18,7 @@
     <span class="nav-logo">📄 Resume Editor</span>
     <a class="nav-link active" data-route="home" onclick="navigate('home')">我的简历</a>
     <a class="nav-link" data-route="delivery" onclick="navigate('delivery')">投递记录表</a>
+    <a class="nav-link" data-route="profile" onclick="navigate('profile')">全局个人档案</a>
   </div>
   <div id="nav-info"></div>
 </nav>
@@ -180,6 +181,60 @@
   </div>
 </div>
 
+<!-- ===== GLOBAL PROFILE VIEW ===== -->
+<div id="view-profile" class="view" style="display:none;">
+  <div class="editor-toolbar">
+    <div class="toolbar-left">
+      <button class="btn-back" onclick="goBack()" title="返回">←</button>
+      <span style="font-size: 16px; font-weight: 600; color: #1f2937; margin-left: 8px;">全局个人档案</span>
+    </div>
+    <div class="toolbar-right">
+      <span class="save-status" id="profile-save-status">已保存</span>
+      <button class="btn-primary btn-sm" onclick="saveGlobalProfile()">保存修改</button>
+    </div>
+  </div>
+  
+  <div class="editor-container" style="position:relative;">
+    <div class="editor-left" id="profile-editor-left" style="flex: 1; overflow-y: auto; padding: 20px;"></div>
+    <div class="editor-right" id="profile-editor-right" style="flex: 1; overflow-y: auto; padding: 40px; background: #f9fafb; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; border-left: 1px solid #e5e7eb;">
+      <div class="profile-guide-card" style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); max-width: 600px; margin: 0 auto 20px auto;">
+        <h2 style="font-size: 18px; font-weight: 600; color: #1e3a8a; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span>⚙️</span> 什么是全局个人档案？
+        </h2>
+        <p style="font-size: 13.5px; line-height: 1.6; color: #4b5563; margin-bottom: 16px;">
+          全局个人档案是一个<strong>中央数据库</strong>，用于存储您在多份简历中通用的个人信息、教育经历和自定义块。
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">1</div>
+            <div>
+              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">一处修改，多份同步</h4>
+              <p style="font-size: 13px; color: #4b5563; margin: 0;">当您在此处保存修改后，所有<b>已开启</b>“链接至全局档案”的简历中的对应模块都会自动同步，无需手动逐一更新。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">2</div>
+            <div>
+              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">灵活的本地克隆 (解绑)</h4>
+              <p style="font-size: 13px; color: #4b5563; margin: 0;">如果某份简历需要针对特定的投递岗位微调教育经历或个人信息，只需在简历编辑器中取消勾选<b>“🔗 链接至全局档案”</b>。解绑后，该模块将变为独立的本地副本，可自由编辑，且不会影响全局档案和其他简历。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="background: #eff6ff; color: #2563eb; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">3</div>
+            <div>
+              <h4 style="font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px 0;">随时重新绑定</h4>
+              <p style="font-size: 13px; color: #4b5563; margin: 0;">重新勾选“链接全局”时，系统会用全局最新数据覆盖本地的修改，并恢复成只读同步状态。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; color: #9ca3af; font-size: 12px; margin-top: 10px;">
+        💡 提示：编辑全局档案后，记得点击右上角的 <b>“保存修改”</b> 按钮使之生效。
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== MODAL CONTAINER ===== -->
 <div id="modal-container"></div>
 
@@ -213,7 +268,21 @@ function deepCopy(obj) {
 
 function onPhotoUpload(event) {
   const file = event.target.files[0];
-  if (!file || !editState) return;
+  if (!file) return;
+  if (currentRoute === 'profile') {
+    if (!window.profileEditData) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      if (!window.profileEditData || !window.profileEditData.basic_info || !window.profileEditData.basic_info.data) return;
+      window.profileEditData.basic_info.data.photo = e.target.result;
+      if (window.renderProfileEditor) window.renderProfileEditor();
+      window.profileDirty = true;
+      showToast('照片已上传');
+    };
+    reader.readAsDataURL(file);
+    return;
+  }
+  if (!editState) return;
   const reader = new FileReader();
   reader.onload = function(e) {
     if (!editState || !editState.resume.modules.basic_info.data) return;
@@ -277,6 +346,7 @@ function showModal(title, contentHtml, actions) {
 function closeModal() {
   const container = document.getElementById('modal-container');
   if (container) container.innerHTML = '';
+  if (window.renderEditorPanels) window.renderEditorPanels();
 }
 
 
@@ -347,32 +417,112 @@ function duplicateResume(id, newName) {
 let currentRoute = 'home';
 let currentResumeId = null;
 /* editState moved to store.js */
+window.currentRoute = 'home';
+window.profileEditData = null;
+window.profileDirty = false;
 
 function navigate(route, data) {
+  // If moving away from currentRoute, do dirty checks first
+  if (currentRoute === 'profile' && route !== 'profile') {
+    if (window.profileDirty) {
+      showModal('未保存的修改', '<p>全局档案有未保存的修改，离开将丢失这些修改，确定离开吗？</p>', [
+        { label: '留在当前页面', cls: 'btn-primary' },
+        { label: '不保存并离开', cls: 'btn-danger', callback: () => {
+          window.profileDirty = false;
+          navigate(route, data);
+        }}
+      ]);
+      // Revert nav-link active class back to profile
+      document.querySelectorAll('.nav-link').forEach(l => {
+        if (l.getAttribute('data-route') === 'profile') l.classList.add('active');
+        else l.classList.remove('active');
+      });
+      window.location.hash = 'profile';
+      return;
+    }
+  }
+
+  if (currentRoute === 'editor' && route !== 'editor') {
+    if (editState && editState.dirty) {
+      showModal('未保存的修改', '<p>你有未保存的修改，离开将丢失这些修改，确定离开吗？</p>', [
+        { label: '留在当前页面', cls: 'btn-primary' },
+        { label: '不保存并离开', cls: 'btn-danger', callback: () => {
+          editState.dirty = false;
+          navigate(route, data);
+        }}
+      ]);
+      window.location.hash = 'editor' + (currentResumeId ? '/' + currentResumeId : '');
+      return;
+    }
+  }
+
   currentRoute = route;
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  window.currentRoute = route;
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.remove('active');
+    v.style.display = 'none';
+  });
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
   if (route === 'home') {
-    document.getElementById('view-home').classList.add('active');
-    document.querySelector('[data-route="home"]').classList.add('active');
+    const vHome = document.getElementById('view-home');
+    if (vHome) {
+      vHome.classList.add('active');
+      vHome.style.display = 'block';
+    }
+    const homeLink = document.querySelector('[data-route="home"]');
+    if (homeLink) homeLink.classList.add('active');
     currentResumeId = null;
     editState = null;
     renderHomePage();
   } else if (route === 'editor') {
-    document.getElementById('view-editor').classList.add('active');
+    const vEditor = document.getElementById('view-editor');
+    if (vEditor) {
+      vEditor.classList.add('active');
+      vEditor.style.display = 'flex';
+    }
     currentResumeId = data;
     loadEditor(data);
   } else if (route === 'delivery') {
-    document.getElementById('view-delivery').classList.add('active');
-    document.querySelector('[data-route="delivery"]').classList.add('active');
+    const vDelivery = document.getElementById('view-delivery');
+    if (vDelivery) {
+      vDelivery.classList.add('active');
+      vDelivery.style.display = 'block';
+    }
+    const delLink = document.querySelector('[data-route="delivery"]');
+    if (delLink) delLink.classList.add('active');
     renderDeliveryView();
+  } else if (route === 'profile') {
+    const vProfile = document.getElementById('view-profile');
+    if (vProfile) {
+      vProfile.classList.add('active');
+      vProfile.style.display = 'flex';
+    }
+    const profLink = document.querySelector('[data-route="profile"]');
+    if (profLink) profLink.classList.add('active');
+    initProfileEditor();
   }
-  window.location.hash = route + (data ? '/' + data : '');
+  
+  const targetHash = route + (data ? '/' + data : '');
+  if (window.location.hash.replace('#', '') !== targetHash) {
+    window.location.hash = targetHash;
+  }
 }
 
 function goBack() {
-  if (editState && editState.dirty) {
+  if (currentRoute === 'profile') {
+    if (window.profileDirty) {
+      showModal('未保存的修改', '<p>全局档案有未保存的修改，离开将丢失这些修改，确定离开吗？</p>', [
+        { label: '留在当前页面', cls: 'btn-primary' },
+        { label: '不保存并离开', cls: 'btn-danger', callback: () => {
+          window.profileDirty = false;
+          navigate('home');
+        }}
+      ]);
+    } else {
+      navigate('home');
+    }
+  } else if (editState && editState.dirty) {
     showModal('未保存的修改', '<p>你有未保存的修改，确定要离开吗？</p>', [
       { label: '留在当前页面', cls: 'btn-primary' },
       { label: '不保存并离开', cls: 'btn-danger', callback: () => { editState.dirty = false; navigate('home'); } }
@@ -392,6 +542,8 @@ window.addEventListener('hashchange', () => {
     navigate('templates');
   } else if (hash === 'delivery') {
     navigate('delivery');
+  } else if (hash === 'profile') {
+    navigate('profile');
   } else {
     navigate('home');
   }
@@ -897,6 +1049,22 @@ function renderDeliveryView() {
 function loadEditor(id) {
   const resume = getResume(id);
   if (!resume) { navigate('home'); return; }
+  
+  const globalProfile = window.getGlobalProfile ? window.getGlobalProfile() : null;
+  if (resume.modules && globalProfile) {
+    for (const [modId, mod] of Object.entries(resume.modules)) {
+      if (mod.is_global_linked && globalProfile[modId]) {
+        const globalMod = globalProfile[modId];
+        if (modId === 'basic_info') {
+          mod.data = deepCopy(globalMod.data || {});
+          mod.items = deepCopy(globalMod.items || []);
+        } else {
+          mod.items = deepCopy(globalMod.items || []);
+        }
+      }
+    }
+  }
+
   editState = { resume: deepCopy(resume), dirty: false, saveTimer: null };
 
   document.getElementById('editor-resume-name').value = resume.name;
@@ -1410,8 +1578,27 @@ function clearSelectedTextColor() {
 function attachEditableHandlers(canvas) {
   const editables = canvas.querySelectorAll('[data-editable]');
   editables.forEach(el => {
-    if (el.getAttribute('contenteditable') === 'false') return;
     const path = el.getAttribute('data-editable');
+    if (!path) return;
+    
+    // Extract module ID
+    const idx = path.search(/[\._]/);
+    const modId = idx !== -1 ? path.substring(0, idx) : path;
+    
+    const isLinked = editState && editState.resume && editState.resume.modules[modId] && editState.resume.modules[modId].is_global_linked;
+    
+    if (isLinked) {
+      el.setAttribute('contenteditable', 'false');
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showToast('该模块已链接至全局个人档案，无法在简历中编辑。请在“全局个人档案”页签统一修改。');
+      });
+      return;
+    }
+    
+    if (el.getAttribute('contenteditable') === 'false') return;
+    
     // Photo placeholder: click to upload, not contenteditable
     if (path === 'basic_info._photo') {
       el.addEventListener('click', (e) => {
@@ -1941,6 +2128,7 @@ function autoCompressLayout() {
 
 async function bootstrap() {
   await window.appStore.load();
+  window.globalProfile = window.getGlobalProfile ? window.getGlobalProfile() : null;
   // Initialize delivery records storage
   initDeliveryRecords();
   
@@ -2255,6 +2443,157 @@ bootstrap();
 
 
 
+
+// ============================================================
+// GLOBAL PROFILE (全局个人档案) FUNCTIONS
+// ============================================================
+window.getGlobalProfile = function() {
+  const storeObj = window.loadStore();
+  if (storeObj.globalProfile && typeof storeObj.globalProfile === 'object') {
+    return storeObj.globalProfile;
+  }
+  const defaultProfile = {
+    basic_info: {
+      id: 'basic_info',
+      title: '个人信息',
+      visible: true,
+      data: { name: '', photo: '' },
+      items: [
+        { label: '电话', value: '' },
+        { label: '邮箱', value: '' },
+        { label: '微信', value: '' },
+        { label: 'GitHub', value: '' }
+      ]
+    },
+    education: {
+      id: 'education',
+      title: '教育经历',
+      visible: true,
+      items: []
+    },
+    custom: {
+      id: 'custom',
+      title: '其他',
+      visible: true,
+      items: []
+    }
+  };
+  return defaultProfile;
+};
+
+window.saveGlobalProfileData = function(profileData) {
+  const storeObj = window.loadStore();
+  storeObj.globalProfile = profileData;
+  window.globalProfile = profileData;
+  
+  if (storeObj.resumes && Array.isArray(storeObj.resumes)) {
+    storeObj.resumes.forEach(resume => {
+      if (resume.modules) {
+        for (const [modId, mod] of Object.entries(resume.modules)) {
+          if (mod.is_global_linked && profileData[modId]) {
+            const globalMod = profileData[modId];
+            if (modId === 'basic_info') {
+              mod.data = window.deepCopy(globalMod.data || {});
+              mod.items = window.deepCopy(globalMod.items || []);
+            } else {
+              mod.items = window.deepCopy(globalMod.items || []);
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  window.saveStore(storeObj);
+};
+
+let _profileDirty = false;
+Object.defineProperty(window, 'profileDirty', {
+  get: () => _profileDirty,
+  set: (val) => {
+    _profileDirty = val;
+    window.updateProfileSaveStatus();
+  }
+});
+
+window.initProfileEditor = function() {
+  const globalProfile = window.getGlobalProfile();
+  window.profileEditData = window.deepCopy(globalProfile);
+  window.profileDirty = false;
+  window.globalProfile = globalProfile;
+  window.updateProfileSaveStatus();
+  window.renderProfileEditor();
+};
+
+window.updateProfileSaveStatus = function() {
+  const el = document.getElementById('profile-save-status');
+  if (!el) return;
+  if (window.profileDirty) {
+    el.textContent = '未保存';
+    el.className = 'save-status unsaved';
+  } else {
+    el.textContent = '已保存';
+    el.className = 'save-status saved';
+  }
+};
+
+window.renderProfileEditor = function() {
+  const container = document.getElementById('profile-editor-left');
+  if (!container || !window.profileEditData) return;
+  
+  const basicInfo = window.profileEditData.basic_info;
+  const education = window.profileEditData.education;
+  const custom = window.profileEditData.custom;
+  
+  const basicInfoHtml = window.renderBasicInfoForm(basicInfo);
+  const educationHtml = window.renderItemsForm(education);
+  const customHtml = window.renderItemsForm(custom);
+  
+  container.innerHTML = `
+    <div class="module-panel open" data-module="basic_info" style="margin-bottom: 16px;">
+      <div class="module-panel-header" onclick="window.toggleModulePanel('basic_info')">
+        <span class="module-panel-title">
+          <span class="collapse-icon">▼</span>
+          👤 全局个人信息
+        </span>
+      </div>
+      <div class="module-panel-body">
+        ${basicInfoHtml}
+      </div>
+    </div>
+    
+    <div class="module-panel open" data-module="education" style="margin-bottom: 16px;">
+      <div class="module-panel-header" onclick="window.toggleModulePanel('education')">
+        <span class="module-panel-title">
+          <span class="collapse-icon">▼</span>
+          🎓 全局教育经历
+        </span>
+      </div>
+      <div class="module-panel-body">
+        ${educationHtml}
+      </div>
+    </div>
+    
+    <div class="module-panel open" data-module="custom" style="margin-bottom: 16px;">
+      <div class="module-panel-header" onclick="window.toggleModulePanel('custom')">
+        <span class="module-panel-title">
+          <span class="collapse-icon">▼</span>
+          ✨ 全局其他内容
+        </span>
+      </div>
+      <div class="module-panel-body">
+        ${customHtml}
+      </div>
+    </div>
+  `;
+};
+
+window.saveGlobalProfile = function() {
+  if (!window.profileEditData) return;
+  window.saveGlobalProfileData(window.profileEditData);
+  window.profileDirty = false;
+  window.showToast('全局个人档案保存成功，已同步至所有关联的简历');
+};
 
 // ============================================================
 // 本地物理硬盘直读直写引擎 (Local Disk Bridge)

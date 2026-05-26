@@ -373,3 +373,34 @@
 .a4-canvas .resume-contact-lines {
   justify-content: center !important;
 }
+
+/* ===== 简历主体文字颜色为纯黑色规则 ===== */
+/* 将除名字、模块标题（大字）之外的所有内容字体颜色默认设为黑色，防止灰调不易阅读 */
+.a4-canvas .resume-contact,
+.a4-canvas .resume-contact-lines,
+.a4-canvas .resume-contact-line1,
+.a4-canvas .resume-contact-line2,
+.a4-canvas .resume-contact-line3,
+.a4-canvas .resume-intention,
+.a4-canvas .exp-header,
+.a4-canvas .exp-header *,
+.a4-canvas .exp-left,
+.a4-canvas .exp-right,
+.a4-canvas .exp-sub,
+.a4-canvas .exp-desc,
+.a4-canvas .exp-desc *,
+.a4-canvas .info-table,
+.a4-canvas .info-table td,
+.a4-canvas .info-table td *,
+.a4-canvas .skill-list,
+.a4-canvas .skill-list *,
+.a4-canvas .col-time,
+.a4-canvas .col-org,
+.a4-canvas .col-role,
+.a4-canvas .col-dept,
+.t01-classic-dense .skill-tag,
+.t03-minimal-ats .skill-tag,
+.t04-business-clean .skill-tag {
+  color: #000000 !important;
+}
+
