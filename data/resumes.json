@@ -1,6 +1,6 @@
 {
   "source": "node_local_file_store",
-  "updatedAt": "2026-05-26T13:19:29.607Z",
+  "updatedAt": "2026-05-28T07:13:48.779Z",
   "resumes": [
     {
       "id": "res_mp70raj6_vvxgrr",
@@ -593,7 +593,7 @@
               "major": "",
               "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
               "bullets": [
-                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉： </b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
                 "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>Python 应用基础，数据库技术与管理应用，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
               ],
               "title": "山东医药大学｜信息管理与信息系统｜本科"
@@ -603,14 +603,14 @@
         },
         "internship": {
           "id": "internship",
-          "title": "<span style=\"color: rgb(30, 58, 138);\">实习经历</span>",
+          "title": "实习经历",
           "visible": true,
           "deletable": true,
           "order": 2,
           "sidebar": false,
           "items": [
             {
-              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 商务分析实习生</span>",
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 商务运营实习生</span>",
               "role": "",
               "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
               "bullets": [
@@ -649,9 +649,9 @@
               "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
               "bullets": [
                 "参与大众变速器（DQ/DL产线）AI视觉自动判章系统建设，通过算法判定替代传统人工质检流程，推进产线质检<b>数字化升级</b>；",
-                "协调业务部门、视觉供应商（DT）及 IT 团队完成 QPS/AJS 系统接口梳理、字段定义与 BBP 业务蓝图设计，支持<b>自动判章逻辑</b>落地；",
+                "协调业务部门、视觉供应商及 IT 团队完成 QPS/AJS 系统接口梳理、字段定义与 BBP 业务蓝图设计，支持<b>自动判章逻辑</b>落地；",
                 "跟进 Pilot/UAT 阶段误判数据、公差参数异常及业务需求变更，推动算法规则与系统流程持续优化，保障<b>双产线</b>稳定运行；",
-                "参与信息安全（IS）规范、渗透测试及 CAB 上线流程，支持系统在生产环境完成<b>自动化部署</b>与试运行。"
+                "参与信息安全规范、渗透测试及 CAB 上线流程，支持系统在生产环境完成<b>自动化部署</b>与试运行。"
               ]
             },
             {
@@ -660,7 +660,7 @@
               "time": "<b>2025.12-2026.05</b>",
               "bullets": [
                 "参与大众变速器装配线设备寿命预测 Machine Learning PoC 项目，探索预测性维护在智能制造场景中的<b>落地可行性</b>；",
-                "协调业务部门与算法供应商（Dassault Systèmes）推进历史数据整理、模型验证及特征调优，推动预测效果由初期表现不佳提升至接近 90%；",
+                "协调业务部门与算法供应商推进历史数据整理、模型验证及特征调优，推动预测效果由初期表现不佳提升至接近 90%；",
                 "参与 PoC 阶段问题复盘, &nbsp;识别<b>数据质量</b>、<b>业务知识理解</b>及<b>数据治理缺失</b>为 AI 落地核心<b>瓶颈</b>；",
                 "基于模型效果、业务 ROI 及商业成本综合评估，支持项目阶段性关闭，并调研<b> Dify </b>等开源 AI 平台替代方案。"
               ]
@@ -692,18 +692,18 @@
         }
       },
       "created_at": "2026-05-19T03:27:40.230Z",
-      "updated_at": "2026-05-26T13:18:13.338Z",
+      "updated_at": "2026-05-26T14:20:04.820Z",
       "formatting": {
         "textAlign": "justify",
         "themeColor": "#1f3a8a",
-        "marginY": "0",
+        "marginY": 21,
         "marginX": 30,
         "moduleSpacing": "0",
         "fontFamily": "default",
         "nameSize": 24,
-        "headingSize": 16.5,
-        "bodySize": 13.3,
-        "lineHeight": 1.2
+        "headingSize": 16,
+        "bodySize": 14.2,
+        "lineHeight": 1.15
       }
     },
     {
@@ -949,6 +949,761 @@
         "marginX": 30,
         "moduleSpacing": 0
       }
+    },
+    {
+      "id": "res_mpmr712f_mg2224",
+      "name": "ai产品",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": "",
+        "nameColor": "#942192",
+        "basicInfoColor": "#000000"
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "宋玫融",
+            "photo": "/data/images/res_mpc2oedi_scy04v_94448904832f4da0.jpg",
+            "items": "电话："
+          },
+          "items": [
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027.6"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.8"
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>基于 Semantic Scholar学术数据集，研究<b>大语言模型</b>在文献引用生成中的输出差异与幻觉问题，开展多模型对比实验及引用语境分析，关注模型<b>生成质量评估</b>与<b>数据可靠性验证</b>。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>Python 应用基础，数据库技术与管理应用，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#ff2600"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "实习经历",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ AI 产品运营实习生</span>",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "<b>参与企业级 RAG Agent 搭建</b>，负责知识切片治理、业务俚语体系整理及 200+ Benchmark 测试集设计，支持 UAT 与上线后 Bad Case 持续优化；",
+                "跟进智能体<b>知识库运营</b>与索引优化，协助分析 AI 幻觉、检索错误等问题，推动企业知识问答场景的业务落地。",
+                "基于 <b>Python</b>与<b> Power Automate </b>搭建商务<b>自动化预警</b>流程，实现订单超期、应收账款等数据的自动清洗、计算与邮件触达，替代原有跨系统人工处理流程；",
+                "梳理 M/F 类订单、服务站分组等复杂业务规则，打通订单数据与督导 Mapping 表，构建<b>自动化数据</b>处理 Pipeline，支持<b> TOP10 </b>逾期监控与每日风险预警；",
+                "使用 <b>Power BI </b>搭建业务数据看板，实现超期事项<b>自动预警</b>与<b>可视化监控</b>，提升商务运营数据追踪效率；"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ 数字化项目运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "跟进<b>10+</b>数字化项目研发排期、资源投入及关键风险，定期向Devops Center汇报项目状态与风险点，支持<b>项目决策与资源协调</b>；",
+                "基于 <b>Jira </b>工单数据进行<b> SLA </b>、人员负荷及项目响应效率分析，制作<b>Power BI</b>报表并输出交付效率优化建议；",
+                "负责生产系统变更发布流程管理，跟进审批、上线及风险预警，协调天津和大连厂区的系统上线实施时间和回滚计划，<b>保障核心系统稳定交付</b>；",
+                "累计跟进<b>1600+</b>系统变更与需求工单；推动<b>10+</b>业务项目按期<b>交付</b>，协助提炼项目人力优化和预算分析报告，为管理层优化资源配置提供<b>关键数据支撑</b>。"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "企业级 AI 知识助手（RAG）项目｜联想商务部<br>",
+              "role": "",
+              "time": "<b>2025.12-2026.05</b>",
+              "bullets": [
+                "参与企业级检索增强生成智能体<b>从0到1落地</b>，负责知识库语料治理、业务俚语表整理及知识切片质量校验，优化知识召回准确率与回答效果；",
+                "基于真实业务场景设计<b> 200+ </b>高频 Benchmark 测试问题，参与 UAT 用户验收测试，对 AI 幻觉、召回错误、知识缺失等问题进行分类分析与迭代优化；",
+                "跟进智能体上线后的<b> Bad Case</b> 数据监控与知识库持续运营，推动 AI 助手在<b>业务场景</b>中的稳定落地与持续优化；",
+                "协助输出产品使用说明、测试反馈及运营分析文档，使用 Claude Code、Chat GPT、Gemini 等 AI 工具辅助 Prompt 调试与需求分析。"
+              ]
+            },
+            {
+              "title": "VISA 视觉自动判章系统（预算 ¥58.1万）",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "参与大众变速器（DQ/DL产线）AI视觉自动判章系统建设，通过算法判定替代传统人工质检流程，推进产线质检<b>数字化升级</b>；",
+                "协调业务部门、视觉供应商及 IT 团队完成 QPS/AJS 系统接口梳理、字段定义与 BBP 业务蓝图设计，支持<b>自动判章逻辑</b>落地；",
+                "跟进 Pilot/UAT 阶段误判数据、公差参数异常及业务需求变更，推动算法规则与系统流程持续优化，保障<b>双产线</b>稳定运行；",
+                "参与信息安全规范、渗透测试及 CAB 上线流程，支持系统在生产环境完成<b>自动化部署</b>与试运行。"
+              ]
+            }
+          ],
+          "dividerColor": ""
+        },
+        "custom": {
+          "id": "custom",
+          "title": "其他",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<b>AI 相关技能：熟练掌握</b>&nbsp;Claude Code, Codex, Antigravity, Dify, Trae 等 AI 辅助开发与智能体工具；<b>熟悉 </b>RAG、Agent 等大模型应用场景，具备企业级 AI 智能体项目实践经验；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>熟悉</b> Python、SQL，可进行数据处理、AI评测及自动化流程开发；熟悉 Power BI、Excel 等数据分析与可视化工具；具备需求分析、竞品调研、UAT测试及产品文档输出能力；"
+              ]
+            },
+            {
+              "bullets": [
+                "英语（CET-6 : 494）"
+              ]
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        }
+      },
+      "created_at": "2026-05-26T14:51:41.991Z",
+      "updated_at": "2026-05-28T02:05:58.298Z",
+      "formatting": {
+        "textAlign": "justify",
+        "themeColor": "#1f3a8a",
+        "marginY": "0",
+        "marginX": 30,
+        "moduleSpacing": "0",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 16,
+        "bodySize": 14,
+        "lineHeight": 1.12
+      }
+    },
+    {
+      "id": "res_mpmscxs9_q7ddm6",
+      "name": "产品-数据分析方向",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": "",
+        "nameColor": "#942192",
+        "basicInfoColor": "#000000"
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "宋玫融",
+            "photo": "/data/images/res_mpc2oedi_scy04v_94448904832f4da0.jpg",
+            "items": "电话："
+          },
+          "items": [
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027.6"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.8"
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>基于 Semantic Scholar学术数据集，研究<b>大语言模型</b>在文献引用生成中的输出差异与幻觉问题，开展多模型对比实验及引用语境分析，关注模型<b>生成质量评估</b>与<b>数据可靠性验证</b>。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>Python 应用基础，数据库技术与管理应用，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#ff2600"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "实习经历",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 商务分析实习生</span>",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "基于 <b>Python</b>与<b> Power Automate </b>搭建商务<b>自动化预警</b>流程，实现订单超期、应收账款等数据的自动清洗、计算与邮件触达，替代原有跨系统人工处理流程；",
+                "梳理 M/F 类订单、服务站分组等复杂业务规则，打通订单数据与督导 Mapping 表，构建<b>自动化数据</b>处理 Pipeline，支持<b> TOP10 </b>逾期监控与每日风险预警；",
+                "使用 <b>Power BI </b>搭建业务数据看板，实现超期事项<b>自动预警</b>与<b>可视化监控</b>，提升商务运营数据追踪效率；",
+                "日常商务核心流程落地，全流程规范处理审批、数据统筹、订单注册与合同管理等工作，保障业务顺畅运转。"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ 数字化运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "基于 Jira 工单数据进行<b> SLA </b>、人员负荷及项目响应效率分析，制作<b>Power BI报表</b>并输出交付效率优化建议；",
+                "跟进<b>10+</b>数字化项目研发排期、资源投入及关键风险，定期向Devops Center汇报项目状态与风险点，支持<b>项目决策与资源协调</b>；",
+                "负责生产系统变更发布流程管理，跟进审批、上线及风险预警，协调天津和大连厂区的系统上线实施时间和回滚计划，<b>保障核心系统稳定交付</b>；",
+                "累计跟进<b>1600+</b>系统变更与需求工单；推动<b>10+</b>业务项目按期<b>交付</b>，协助提炼项目人力优化和预算分析报告，为管理层优化资源配置提供<b>关键数据支撑</b>。"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "商务数据自动化预警与逾期监控系统｜联想商务部",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "基于<b> Python（Pandas/OpenPyXL/XlsxWriter）</b>搭建渠道业务数据自动化处理流程，完成订单、应收账款等多源 Excel 数据的清洗、整合与规则化分析，实现日报/周报自动生成；",
+                "结合<b>业务规则</b>设计超期预警与逾期监控逻辑，按订单类型、业务分组、渠道维度进行风险识别与分类统计，支持业务侧快速定位高风险渠道及异常订单；",
+                "自动生成 Excel、HTML 可视化通报及邮件通知素材，覆盖 TOP 逾期渠道统计、超期金额分析、业务摘要等场景，<b>减少大量人工整理与重复性操作</b>；",
+                "设计<b>督导/渠道映射规则</b>与自动邮件地址提取逻辑，提升业务通知效率，推动数据分析结果在商务运营场景中的落地应用。"
+              ]
+            },
+            {
+              "title": "企业级 AI 知识助手（RAG）项目｜大众 IT 部门",
+              "role": "",
+              "time": "<b>2025.12-2026.05</b>",
+              "bullets": [
+                "参与企业级RAG智能体<b>从0到1落地</b>，负责知识库语料治理、业务俚语表整理及知识切片质量校验，优化知识召回准确率与回答效果；",
+                "基于真实业务场景设计<b> 200+</b> 高频 Benchmark 测试问题，参与 UAT 用户验收测试，对 AI 幻觉、召回错误、知识缺失等问题进行分类分析与迭代优化；",
+                "跟进智能体上线后的 <b>Bad Case </b>数据监控与知识库持续运营，推动 AI 助手在业务场景中的稳定落地与持续优化；",
+                "协助输出产品使用说明、测试反馈及运营分析文档，使用<b> Claude Code、Codex、Gemini </b>等 AI 工具辅助 Prompt 调试与需求分析。"
+              ]
+            }
+          ],
+          "dividerColor": ""
+        },
+        "custom": {
+          "id": "custom",
+          "title": "技能",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<b>数据分析：：Python, SQL, Excel, Power BI</b>，具备数据清洗、指标分析及可视化报表能力；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>数据与业务：</b>熟悉数据治理、指标监控、业务流程分析及数据自动化流程搭建；熟悉 Jira,SAP 等企业协同与业务系统；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>AI 与自动化：</b>熟悉<b> RAG, Prompt Engineering, Claude Code, Codex, Power Automate </b>等 AI 与自动化工具"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>语⾔：</b>英语（CET-6 : 494），普通话（⼆级甲等）"
+              ]
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        }
+      },
+      "created_at": "2026-05-26T15:24:17.289Z",
+      "updated_at": "2026-05-26T15:46:55.387Z",
+      "formatting": {
+        "textAlign": "justify",
+        "themeColor": "#1f3a8a",
+        "marginY": 13,
+        "marginX": 30,
+        "moduleSpacing": "0",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 15,
+        "bodySize": 14,
+        "lineHeight": 1.15
+      }
+    },
+    {
+      "id": "res_mpndw7o8_zdye7j",
+      "name": "商务/业务运营",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": "",
+        "nameColor": "#942192",
+        "basicInfoColor": "#000000"
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "宋玫融",
+            "photo": "/data/images/res_mpc2oedi_scy04v_94448904832f4da0.jpg",
+            "items": "电话："
+          },
+          "items": [
+            {
+              "label": "电话",
+              "value": "15564667091"
+            },
+            {
+              "label": "邮箱",
+              "value": "mrsong2003@163.com"
+            },
+            {
+              "label": "毕业时间",
+              "value": "2027.6"
+            },
+            {
+              "label": "到岗时间",
+              "value": "2026.6.8"
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>基于 Semantic Scholar学术数据集，研究<b>大语言模型</b>在文献引用生成中的输出差异与幻觉问题，开展多模型对比实验及引用语境分析，关注模型<b>生成质量评估</b>与<b>数据可靠性验证</b>。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>Python 应用基础，数据库技术与管理应用，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#ff2600"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "实习经历",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 商务运营实习生</span>",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "基于 <b>Python</b>与<b> Power Automate </b>搭建商务<b>自动化预警</b>流程，实现订单超期、应收账款等数据的自动清洗、计算与邮件触达，替代原有跨系统人工处理流程；",
+                "梳理 M/F 类订单、服务站分组等复杂业务规则，打通订单数据与督导 Mapping 表，构建<b>自动化数据</b>处理 Pipeline，支持<b> TOP10 </b>逾期监控与每日风险预警；",
+                "使用 <b>Power BI </b>搭建业务数据看板，实现超期事项<b>自动预警</b>与<b>可视化监控</b>，提升商务运营数据追踪效率；",
+                "日常商务核心流程落地，全流程规范处理审批、数据统筹、订单注册与合同管理等工作，保障业务顺畅运转。"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ 数字化运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "基于 Jira 工单数据进行<b> SLA </b>、人员负荷及项目响应效率分析，制作<b>Power BI报表</b>并输出交付效率优化建议；",
+                "跟进<b>10+</b>数字化项目研发排期、资源投入及关键风险，定期向Devops Center汇报项目状态与风险点，支持<b>项目决策与资源协调</b>；",
+                "负责生产系统变更发布流程管理，跟进审批、上线及风险预警，协调天津和大连厂区的系统上线实施时间和回滚计划，<b>保障核心系统稳定交付</b>；",
+                "累计跟进<b>1600+</b>系统变更与需求工单；推动<b>10+</b>业务项目按期<b>交付</b>，协助提炼项目人力优化和预算分析报告，为管理层优化资源配置提供<b>关键数据支撑</b>。"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "商务数据自动化预警与逾期监控系统｜联想商务部",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.10</b></span>",
+              "bullets": [
+                "基于<b> Python（Pandas/OpenPyXL/XlsxWriter）</b>搭建渠道业务数据自动化处理流程，完成订单、应收账款等多源 Excel 数据的清洗、整合与规则化分析，实现日报/周报自动生成；",
+                "结合<b>业务规则</b>设计超期预警与逾期监控逻辑，按订单类型、业务分组、渠道维度进行风险识别与分类统计，支持业务侧快速定位高风险渠道及异常订单；",
+                "自动生成 Excel、HTML 可视化通报及邮件通知素材，覆盖 TOP 逾期渠道统计、超期金额分析、业务摘要等场景，<b>减少大量人工整理与重复性操作</b>；",
+                "设计<b>督导/渠道映射规则</b>与自动邮件地址提取逻辑，提升业务通知效率，推动数据分析结果在商务运营场景中的落地应用。"
+              ]
+            },
+            {
+              "title": "企业级 AI 知识助手（RAG）项目｜大众 IT 部门",
+              "role": "",
+              "time": "<b>2025.12-2026.05</b>",
+              "bullets": [
+                "参与企业级RAG智能体<b>从0到1落地</b>，负责知识库语料治理、业务俚语表整理及知识切片质量校验，优化知识召回准确率与回答效果；",
+                "基于真实业务场景设计<b> 200+</b> 高频 Benchmark 测试问题，参与 UAT 用户验收测试，对 AI 幻觉、召回错误、知识缺失等问题进行分类分析与迭代优化；",
+                "跟进智能体上线后的 <b>Bad Case </b>数据监控与知识库持续运营，推动 AI 助手在业务场景中的稳定落地与持续优化；",
+                "协助输出产品使用说明、测试反馈及运营分析文档，使用<b> Claude Code、Codex、Gemini </b>等 AI 工具辅助 Prompt 调试与需求分析。"
+              ]
+            }
+          ],
+          "dividerColor": ""
+        },
+        "custom": {
+          "id": "custom",
+          "title": "技能",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<b>数据分析：：Python, SQL, Excel, Power BI</b>，具备数据清洗、指标分析及可视化报表能力；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>数据与业务：</b>熟悉数据治理、指标监控、业务流程分析及数据自动化流程搭建；熟悉 Jira,SAP 等企业协同与业务系统；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>AI 与自动化：</b>熟悉<b> RAG, Prompt Engineering, Claude Code, Codex, Power Automate </b>等 AI 与自动化工具"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>语⾔：</b>英语（CET-6 : 494），普通话（⼆级甲等）"
+              ]
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        }
+      },
+      "created_at": "2026-05-27T01:27:08.504Z",
+      "updated_at": "2026-05-27T02:55:58.242Z",
+      "formatting": {
+        "textAlign": "justify",
+        "themeColor": "#1f3a8a",
+        "marginY": 13,
+        "marginX": 30,
+        "moduleSpacing": "0",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 15,
+        "bodySize": 14,
+        "lineHeight": 1.15
+      }
+    },
+    {
+      "id": "res_mpp2uy69_6gca8l",
+      "name": "产品经理 副本",
+      "template_id": "T01_classic_dense",
+      "meta": {
+        "target_company": "",
+        "target_position": "",
+        "jd_text": "",
+        "note": "",
+        "nameColor": "#942192",
+        "basicInfoColor": "#000000"
+      },
+      "modules": {
+        "basic_info": {
+          "id": "basic_info",
+          "title": "个人信息",
+          "visible": true,
+          "deletable": false,
+          "order": 1,
+          "sidebar": false,
+          "data": {
+            "name": "",
+            "photo": ""
+          },
+          "items": [
+            {
+              "label": "电话",
+              "value": ""
+            },
+            {
+              "label": "邮箱",
+              "value": ""
+            },
+            {
+              "label": "微信",
+              "value": ""
+            },
+            {
+              "label": "GitHub",
+              "value": ""
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": true
+        },
+        "education": {
+          "id": "education",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">教育经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 3,
+          "sidebar": true,
+          "items": [
+            {
+              "school": "天津师范大学｜图书情报专硕研究生",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2024.09-至今</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>入学两年分别获得研究生一等学业奖学金、研究生二等学业奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>研究方向：</b>基于 Semantic Scholar学术数据集，研究<b>大语言模型</b>在文献引用生成中的输出差异与幻觉问题，开展多模型对比实验及引用语境分析，关注模型<b>生成质量评估</b>与<b>数据可靠性验证</b>。</span>"
+              ],
+              "title": "天津师范大学｜图书情报|硕士"
+            },
+            {
+              "school": "滨州医学院",
+              "major": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2020.09-2024.06</b></span>",
+              "bullets": [
+                "<span style=\"color: rgb(17, 24, 39);\"><b>获奖荣誉：</b>国家励志奖学金、校级一等奖学金、科技创新奖学金；</span>",
+                "<span style=\"color: rgb(17, 24, 39);\"><b>核心课程：</b>Python 应用基础，数据库技术与管理应用，数据挖掘概论，人工智能概论，机器学习导论，信息分析与决策，云计算应用基础，大数据分析与处理等。</span>"
+              ],
+              "title": "山东医药大学｜信息管理与信息系统｜本科"
+            }
+          ],
+          "dividerColor": "#ff2600"
+        },
+        "internship": {
+          "id": "internship",
+          "title": "实习经历",
+          "visible": true,
+          "deletable": true,
+          "order": 2,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "<span style=\"color: rgb(17, 24, 39);\">联想（北京）｜ 产品经理实习生</span>",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.12</b></span>",
+              "bullets": [
+                "围绕<b>企业内部知识问答</b>、<b>流程自动化</b>等产品场景，协助推进需求分析、场景梳理、产品测试及功能迭代；",
+                "结合<b>业务需求</b>与<b>用户使用场景</b>，推动知识库治理、检索逻辑优化及系统能力完善，提升复杂业务场景下的信息检索效率与用户使用体验；",
+                "基于真实业务场景设计 <b>Benchmark </b>测试集，跟进 UAT 用户验收测试及问题归因分析，围绕知识缺失、召回错误、意图偏差等问题推动产品持续优化；",
+                "跟进产品上线后的<b>用户反馈</b>与使用数据分析，持续优化产品功能与知识库迭代机制，推动系统在真实业务场景中的稳定落地；",
+                "负责推进<b>自动化运营 workflow </b>建设，完善预警提醒、任务跟进等功能机制，提升业务协同效率与流程透明度。"
+              ]
+            },
+            {
+              "title": "大众（天津）｜ 数字化项目运营实习生",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.12-2026.05</b></span>",
+              "bullets": [
+                "跟进<b>10+</b>数字化项目研发排期、资源投入及关键风险，定期向Devops Center汇报项目状态与风险点，支持<b>项目决策与资源协调</b>；",
+                "基于 <b>Jira </b>工单数据进行<b> SLA </b>、人员负荷及项目响应效率分析，制作<b>Power BI</b>报表并输出交付效率优化建议；",
+                "负责生产系统变更发布流程管理，跟进审批、上线及风险预警，协调天津和大连厂区的系统上线实施时间和回滚计划，<b>保障核心系统稳定交付</b>；",
+                "累计跟进<b>1600+</b>系统变更与需求工单；推动<b>10+</b>业务项目按期<b>交付</b>，协助提炼项目人力优化和预算分析报告，为管理层优化资源配置提供<b>关键数据支撑</b>。"
+              ]
+            }
+          ],
+          "dividerColor": "#1E3A8A"
+        },
+        "project": {
+          "id": "project",
+          "title": "<span style=\"color: rgb(30, 58, 138);\">项目经历</span>",
+          "visible": true,
+          "deletable": true,
+          "order": 4,
+          "sidebar": false,
+          "items": [
+            {
+              "title": "企业级知识问答系统项目｜联想商务部<br>",
+              "role": "",
+              "time": "<b>2025.07-2026.12</b>",
+              "bullets": [
+                "参与企业内部知识问答系统建设，围绕<b>业务协同与信息检索场景</b>，协助推进需求分析、知识库治理及问答能力优化；",
+                "结合真实业务场景整理商务术语、缩写及业务规则，参与<b>知识切片策略优化</b>与知识语料治理，提升复杂业务问题下的检索准确率与回答效果；",
+                "基于高频业务问题设计<b> 200+ Benchmark </b>测试用例，参与系统评测、UAT 用户验收测试及问题归因分析，围绕知识缺失、召回错误、意图偏差等问题推动系统持续优化；",
+                "跟进系统上线后的<b>用户反馈</b>与<b>日志分析</b>，持续优化知识库内容与问答效果，推动系统在企业<b>内部协同场景</b>中的稳定应用。"
+              ]
+            },
+            {
+              "title": "商务流程自动化预警项目｜联想商务部",
+              "role": "",
+              "time": "<span style=\"color: rgb(17, 24, 39);\"><b>2025.07-2025.12</b></span>",
+              "bullets": [
+                "针对订单超期、应收账款跟进等场景中人工统计与跨系统处理效率低的问题，独立设计并落地<b>自动化预警 workflow，</b>推动原有线下运营流程向自动化机制升级；",
+                "梳理 M/F 类订单、产品组分类及超期判定等复杂业务规则，打通业务数据之间的关联逻辑，实现高频风险事项自动识别与监控；",
+                "设计分级预警与自动触达机制，支持逾期事项、应收账款等场景的定时提醒与自动通知，降低人工重复沟通成本，提升<b>业务跟进效率</b>与<b>流程透明度</b>；",
+                "搭建“应收账款预警”“超期预警”“逾期通报”三类自动化工具，将原有日常报表与预警流程缩短至分钟级完成，<b>提升销售回款</b>及业务跟进效率。"
+              ]
+            }
+          ],
+          "dividerColor": ""
+        },
+        "custom": {
+          "id": "custom",
+          "title": "技能",
+          "visible": true,
+          "deletable": true,
+          "order": 5,
+          "sidebar": false,
+          "items": [
+            {
+              "bullets": [
+                "<b>产品能力：</b>具备需求分析、用户场景梳理、产品测试、UAT 验收、竞品调研及产品文档输出能力，关注技术产品在真实业务场景中的落地与持续迭代；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>技术理解：</b>熟悉知识检索、<b>workflow </b>自动化、<b>Benchmark</b> 测试、<b>Bad Case </b>分析等产品优化流程；了解 <b>RAG, Agent </b>等大模型应用场景及基础原理；"
+              ]
+            },
+            {
+              "bullets": [
+                "<b>AI 工具：</b>熟练使用<b> Claude Code, Codex, Antigravity, Dify </b>等工具辅助需求分析、产品测试与方案调研；"
+              ]
+            }
+          ],
+          "dividerColor": "#0433ff",
+          "is_global_linked": false
+        }
+      },
+      "created_at": "2026-05-28T05:53:46.113Z",
+      "updated_at": "2026-05-28T07:13:48.773Z",
+      "formatting": {
+        "textAlign": "justify",
+        "themeColor": "#1f3a8a",
+        "marginY": 15,
+        "marginX": 30,
+        "moduleSpacing": "0",
+        "fontFamily": "default",
+        "nameSize": 24,
+        "headingSize": 16,
+        "bodySize": 14,
+        "lineHeight": 1.12
+      }
     }
   ],
   "deliveryRecords": [
@@ -1001,6 +1756,54 @@
       "notes": "",
       "createdAt": "2026-05-20T03:53:18.454Z",
       "updatedAt": "2026-05-20T13:43:28.159Z"
+    },
+    {
+      "id": "res_mpmr3cb8_n9x9k2",
+      "resumeId": "res_mpc2oedi_scy04v",
+      "resumeName": "产品运营（数据分析方向）",
+      "company": "京东",
+      "position": "用户运营",
+      "email": "chenzixin23@jd.com",
+      "date": "2026-05-26",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-26T14:48:49.940Z"
+    },
+    {
+      "id": "res_mpmr403c_kk9mxb",
+      "resumeId": "res_mpc2oedi_scy04v",
+      "resumeName": "产品运营（数据分析方向）",
+      "company": "理想",
+      "position": "用户运营",
+      "email": "sx_zhengzhengnan@intern.lixiang.com",
+      "date": "2026-05-26",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-26T14:49:20.760Z"
+    },
+    {
+      "id": "res_mpmsco15_jzohqx",
+      "resumeId": "res_mpmr712f_mg2224",
+      "resumeName": "ai产品",
+      "company": "百度",
+      "position": "ai产品",
+      "email": "gaoruoyun@baidu.com",
+      "date": "2026-05-26",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-26T15:24:04.649Z"
+    },
+    {
+      "id": "res_mpmtiz9h_1zegub",
+      "resumeId": "res_mpmscxs9_q7ddm6",
+      "resumeName": "产品-数据分析方向",
+      "company": "字节跳动byteintern",
+      "position": "财务数据分析",
+      "email": "yangjunjun.delmar@bytedance.com",
+      "date": "2026-05-26",
+      "status": "已投递",
+      "notes": "",
+      "createdAt": "2026-05-26T15:56:58.757Z"
     }
   ],
   "settings": {
