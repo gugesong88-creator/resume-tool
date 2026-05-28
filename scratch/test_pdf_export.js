@@ -63,6 +63,16 @@ const puppeteer = require('puppeteer');
             marginYInput.dispatchEvent(new Event('change'));
         });
 
+        // Focus an editable element to simulate editing
+        console.log('✍️ Focusing an editable element to trigger outlines...');
+        await page.evaluate(() => {
+            const editableEl = document.querySelector('[data-editable]');
+            if (editableEl) {
+                editableEl.focus();
+                console.log('Focused element:', editableEl.getAttribute('data-editable'));
+            }
+        });
+
         // Click the "矢量导出 PDF" button
         console.log('🖱️ Clicking "矢量导出 PDF" button...');
         await page.evaluate(() => {
@@ -101,7 +111,21 @@ const puppeteer = require('puppeteer');
         }
         console.log('💚 Success: page-break rules set to avoid on A4 canvas.');
 
-        // 3. Assert 1-page height restriction is applied since the overflow warning is not visible
+        // 3. Assert no inline outline styles exist in the exported HTML
+        // Let's check both for the inline styles that the JS sets: "outline:" and "outline-offset"
+        const cleanHTMLRegex = /style="[^"]*outline\s*:/i;
+        if (cleanHTMLRegex.test(printedHTML) || printedHTML.includes('outline-offset: 2px')) {
+            // Check if it's in a style tag (which is allowed) vs inline style attribute
+            // We search for elements with inline style attribute containing outline
+            const hasInlineOutline = printedHTML.includes('style="outline:') || printedHTML.includes('style="outline-offset:') || printedHTML.includes('2px solid var(--accent)');
+            if (hasInlineOutline) {
+                console.error('HTML dump around data-editable elements:\n', printedHTML.substring(printedHTML.indexOf('data-editable'), printedHTML.indexOf('data-editable') + 500));
+                throw new Error('❌ Test Failed: Inline outline styles remain on elements during print!');
+            }
+        }
+        console.log('💚 Success: Inline outline border styles cleared successfully from print HTML.');
+
+        // 4. Assert 1-page height restriction is applied since the overflow warning is not visible
         const pageWarningVisible = await page.evaluate(() => {
             const warning = document.getElementById('page-overflow-warning');
             return warning && warning.style.display !== 'none';

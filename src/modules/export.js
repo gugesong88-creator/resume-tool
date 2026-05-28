@@ -92,6 +92,10 @@
         if (typeof window.editState === 'undefined' || !window.editState) return;
         if (window.editState.dirty && typeof window.saveCurrentResume === 'function') window.saveCurrentResume();
         
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+        }
+        
         const canvas = document.getElementById('a4-preview');
         const name = window.editState.resume.name || '简历';
 
@@ -115,6 +119,13 @@
         tempDiv.style.setProperty('page-break-inside', 'avoid', 'important');
         
         tempDiv.innerHTML = canvas.innerHTML;
+        
+        // Clear focus outline styles
+        tempDiv.querySelectorAll('[data-editable]').forEach(el => {
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+        });
+        
         document.body.appendChild(tempDiv);
 
         // Check if one page and enforce height
@@ -153,6 +164,11 @@
             alert('执行中断：未捕获有效实体');
             return;
         }
+
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+        }
+
         const t = window.getTemplate ? window.getTemplate(r.template_id) : { cssClass: '' };
         const html = window.renderResumeHTML ? window.renderResumeHTML(t, r.modules, r.meta) : '';
 
@@ -175,6 +191,12 @@
         tempDiv.style.setProperty('page-break-inside', 'avoid', 'important');
 
         tempDiv.innerHTML = html;
+
+        // Clear focus outline styles
+        tempDiv.querySelectorAll('[data-editable]').forEach(el => {
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+        });
 
         if (typeof window.decodeEscapedRichTextInPreview === 'function') window.decodeEscapedRichTextInPreview(tempDiv);
         if (r.formatting && typeof window.applyFormattingToElements === 'function') window.applyFormattingToElements(tempDiv, r.formatting);
@@ -217,6 +239,10 @@
         if (!window.editState) return;
         if (window.editState.dirty && typeof window.saveCurrentResume === 'function') window.saveCurrentResume();
 
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+        }
+
         const t = window.getTemplate(window.editState.resume.template_id);
         const name = window.editState.resume.name || '简历';
         const canvas = document.getElementById('a4-preview');
@@ -229,7 +255,13 @@
         const printBodySize = Number(f.bodySize) || parseFloat(t.fontBody) || 11;
         const printLineHeight = Number(f.lineHeight) || parseFloat(t.lineHeight) || 1.5;
 
-        const resumeHTML = canvas.innerHTML;
+        // Clone canvas and strip residual inline focus outline styles
+        const tempCanvas = canvas.cloneNode(true);
+        tempCanvas.querySelectorAll('[data-editable]').forEach(el => {
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+        });
+        const resumeHTML = tempCanvas.innerHTML;
         const cssClass = t.cssClass;
         const allStyles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]')).map(s => s.outerHTML).join('\n');
 
