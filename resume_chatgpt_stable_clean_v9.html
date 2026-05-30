@@ -1672,8 +1672,15 @@ function onEditableBlur(e) {
       cleanText = '';
     }
 
-    // v5：基本信息字段保存富文本 HTML
-    mod.data[key] = rawHtml || cleanText;
+    if (key === 'name') {
+      mod.data.name = rawHtml || cleanText;
+    } else if (key === 'items') {
+      const itemIdx = parseInt(parts[2]);
+      const itemKey = parts[3];
+      if (mod.items && mod.items[itemIdx]) {
+        mod.items[itemIdx][itemKey] = rawHtml || cleanText;
+      }
+    }
 
     renderEditorPanels();
     renderPreview();

@@ -1,109 +1,106 @@
-# 简历制作工具（本地版）
+# 简历制作工具 (Resume Builder)
 
-本仓库是一个本地运行的简历模板编辑与管理工具，基于单页 HTML 编辑器和一个轻量的本地文件存储服务。适合注重隐私、自定义和离线使用的场景。
+本工具是一个功能完备、隐私安全、可完全本地运行的现代化简历排版与管理应用。项目已完成模块化架构重构，支持全局个人档案同步、精美模板切换、历史状态撤销/重做、本地直写落盘及飞书投递通知等企业级核心能力。
 
-**主要文件**
-- [resume_chatgpt_stable_clean_v9.html](resume_chatgpt_stable_clean_v9.html#L1) — 前端单页应用，包含编辑器、预览与导出逻辑。
-- [server.js](server.js#L1) — Node 本地文件服务器，提供 /api/store 等简单 API，并将内嵌 base64 图片抽取为 [data/images](data/images) 中的文件。
-- [start_local_server.py](start_local_server.py#L1) — Python 可替代的静态文件+保存接口启动脚本。
-- [data/resumes.json](data/resumes.json#L1) — 本地存储的简历数据示例。
+---
 
-**功能概览**
-- 本地单页编辑器（HTML+JS），可编辑多个模块（个人信息、教育、实习、项目等）。
-- 本地 JSON 存储（data/resumes.json），支持多份简历与版本性字段（created_at、updated_at）。
-- 客户端导出 PDF（使用 html2pdf.js）；服务端会把内联 base64 图片存为独立文件以节省 JSON 大小。
-- 简单的投递/记录视图（deliveryRecords 占位）。
-- 可直接用 `node server.js` 启动，也可用 `python3 start_local_server.py` 静默启动并打开浏览器。
+## 🚀 核心特性
 
-快速开始
-1. 安装 Node（可选，若使用 Node 启动）或确保有 Python3（用于备用启动脚本）。
-2. 在项目根目录打开终端：
+1. **模块化核心架构**
+   * **逻辑与表现分离**：代码已拆分为路由、状态管理、模板引擎、工具函数及主编辑器模块。
+   * **数据模式规范**：统一基于 `src/schema.js` 进行基础结构定义与数据校验。
 
-  使用 Node:
+2. **全局个人档案 (Global Profile)**
+   * **一次填写，多份简历同步**：提供独立的全局档案管理页面，保存后可自动应用至所有关联的简历。
+   * **弹性链接机制**：
+     * **链接状态**：简历模块同步全局档案且本地只读，防止多份简历数据产生偏差。
+     * **取消链接**：保留当前全局数据的本地副本并恢复可编辑状态，本地修改不会反向污染全局档案。
 
-  ```bash
-  npm start
-  # 或
-  node server.js
-  ```
+3. **内置多款精美模板**
+   * 预设 4 款针对不同场景优化、极具现代美学设计的简历模板：
+     * **经典高密度型 (T01)**：黑白灰经典设计，适合信息密度高、科研或北大风格简历。
+     * **现代图标型 (T02)**：配备精美微缩图标及左侧侧边栏，适合产品、设计类岗位。
+     * **极简 ATS 友好型 (T03)**：单栏布局，字重与行高专为 ATS 系统解析优化。
+     * **商务洁净型 (T04)**：横向模块线划分清晰，整体格调严谨大气。
+   * 支持免刷新一键切换，主题色调色盘自动同步。
 
-  使用 Python 启动静态服务:
+4. **历史快照与撤销重做 (Undo/Redo)**
+   * 内置基于 `HistoryStack` 的操作历史管理。
+   * 支持通过键盘快捷键（`Ctrl+Z` / `Cmd+Z`，`Ctrl+Shift+Z` / `Cmd+Shift+Z`）以及左上角撤销/重做按钮实时进行回滚。
+   * 支持 500ms 智能输入防抖，自动记录每次有意义的修改状态。
 
-  ```bash
-  python3 start_local_server.py
-  ```
+5. **本地硬盘直读直写 & 瘦身引擎**
+   * 搭载基于 Node.js 的本地服务器引擎，数据直接以 JSON 写入物理磁盘 (`data/resumes.json`)。
+   * **大图抽取技术**：自动将富文本编辑器内插的 Base64 简历照片抽取并保存为本地实体文件 (`data/images/`)，彻底避免 JSON 数据库体积膨胀导致读写性能下降。
 
-3. 浏览器会打开编辑页面：/resume_chatgpt_stable_clean_v9.html。
+6. **飞书投递通知集成**
+   * 本地服务器集成了飞书 Webhook 探针。
+   * 当您在工具中新增一条简历投递记录时，系统会自动向您的飞书群聊推送一条包含投递公司、岗位、日期及备注的卡片通知，实现投递链路的自动化追踪。
 
-Server-side PDF 导出（可选）
+7. **双端高质量导出**
+   * **前端矢量 A4 隔离打印**：使用 `html2pdf.js` 将画布放入完全独立的渲染隔离沙箱中，消除滚动条及页面布局污染，支持直接矢量打印或生成高质量 PDF。
+   * **服务端 Puppeteer 导出**：如果安装了 `puppeteer`，支持通过服务端无头浏览器进行更完美的矢量 PDF 离线渲染。
 
-- 本仓库新增了服务器端高质量 PDF 导出支持（基于 Puppeteer）。当在项目中安装了 `puppeteer` 依赖后，服务器会暴露一个导出接口：
+---
 
-  - `POST /api/export_pdf`，请求体为 JSON：
-    - `{ "html": "<...>" }` —— 直接渲染传入的 HTML 并导出 PDF。
-    - `{ "url": "/resume_chatgpt_stable_clean_v9.html" }` —— 渲染服务器可访问的相对 URL 并导出。
+## 📂 项目结构
 
-  返回值为 `application/pdf`，会以附件形式下载。示例 curl：
+```bash
+├── data/
+│   ├── resumes.json          # 本地 JSON 数据库
+│   └── images/               # 抽取出的简历照片物理文件
+├── src/
+│   ├── api/
+│   │   └── client.js         # 前端 API 交互客户端
+│   ├── modules/
+│   │   ├── editor.js         # 编辑器表单与联动逻辑
+│   │   └── export.js         # 双端 PDF 导出引擎
+│   ├── templates/
+│   │   ├── index.js          # 统一模板引擎注册中心
+│   │   ├── t01-classic-dense.js
+│   │   ├── t02-modern-icon.js
+│   │   ├── t03-minimal-ats.js
+│   │   └── t04-business-clean.js
+│   ├── utils/
+│   │   ├── html.js           # HTML 实体转义与富文本安全过滤
+│   │   └── time.js           # 物理时间格式化及 UUID 生成
+│   ├── schema.js             # 简历实体核心约束 Schema
+│   └── store.js              # 统一状态管理与乐观更新机制
+├── server.js                 # 核心 Node.js 服务器
+├── package.json              # 依赖与脚本定义
+└── resume_chatgpt_stable_clean_v9.html # 编辑器主入口单页
+```
 
-  ```bash
-  # 通过 URL 导出（服务器会加载该页面并渲染）
-  curl -X POST http://localhost:8000/api/export_pdf \
-    -H "Content-Type: application/json" \
-    -d '{"url":"/resume_chatgpt_stable_clean_v9.html"}' --output resume.pdf
+---
 
-  # 直接提交 HTML 导出
-  curl -X POST http://localhost:8000/api/export_pdf \
-    -H "Content-Type: application/json" \
-    -d '{"html":"<html><body><h1>测试</h1></body></html>"}' --output resume.pdf
-  ```
+## ⚡ 快速开始
 
-  注意：`puppeteer` 会在安装时下载 Chromium，首次安装可能较大（几十到上百 MB）。如需跳过下载或使用系统 Chromium，可改用 `puppeteer-core` 并在环境中指定 `PUPPETEER_EXECUTABLE_PATH`。
+### 1. 启动本地服务
+确保已安装 Node.js (16.x 以上)，在项目根目录下执行：
 
-与商用简历工具对比（简要）
+```bash
+# 安装 Puppeteer 依赖（可选，用于服务端矢量导出）
+npm install
 
-优势：
-- 完全本地化：数据存储在本地文件，隐私性好，便于备份与离线使用。
-- 代码简单、易定制：项目文件容易阅读与修改，适合深度定制模板或功能。
-- 数据为可读 JSON，利于程序化处理（批量导出、多语言转换等）。
+# 启动本地服务器
+npm start
+```
 
-主要缺点 / 与商用工具差距：
-- UI 与模板数量：当前仅有内嵌模板与基本样式，缺少丰富模板库与交互式模板市场。
-- 智能辅助：缺少内置的写作/润色 AI 建议、ATS 优化建议、职位匹配（JD 分析）等商用常见能力。
-- 导入/集成：无 LinkedIn/CV 导入、无云端同步、无第三方账号登录与多设备同步功能。
-- 导出可靠性：客户端的 html2pdf 导出对不同浏览器/字体有差异，缺少服务器端高质量 PDF 渲染（如 Puppeteer/Wkhtmltopdf）。
-- 协作与版本控制：没有历史版本、多人协作或回滚功能。
-- 可用性与可访问性：缺少移动端优化、国际化 UI 与无障碍支持。
-- 部署与包装：缺少 Docker、CI、单元/端到端测试和发布说明。
+服务器启动后，会自动调用浏览器打开编辑界面：`http://localhost:8000/resume_chatgpt_stable_clean_v9.html`。
 
-改进建议（按优先级）
+### 2. 飞书集成配置 (可选)
+如果需要启用飞书投递自动通知，您可以在系统环境变量中配置您的 Webhook 地址：
+```bash
+export FEISHU_WEBHOOK="https://open.feishu.cn/open-apis/bot/v2/hook/your-hook-id"
+npm start
+```
+如果不配置，将默认推送至配置的演示 Webhook。
 
-短期（快速可落地）
-- 在仓库中添加本 README 与 LICENSE（推荐 MIT），并补充运行截图与示例数据。已在本仓库创建 README。
-- 把客户端 PDF 导出改为可选的服务器端导出（使用 Puppeteer），提高导出一致性与质量。
-- 增加导入功能：从 Word/Markdown/简单的 LinkedIn 导出（CSV/JSON）导入。 
+---
 
-中期（增强功能）
-- 集成写作/润色 API（如 OpenAI / 本地 LLM）以提供要点重写、成就量化、ATS 关键词建议。
-- 模板系统化：把模板拆成模块化配置，提供多个预设模板与模板预览/切换功能。
-- 添加历史版本与本地备份（按时间戳保存快照），支持恢复。
+## 🛠 开发教训与规范
 
-长期（产品化）
-- 帐号和云同步（可选端到端加密）；团队协作与模板市场。
-- 自动 JD 分析与一键投递集成（支持邮件/第三方投递 API）。
-- 增加可拓展的插件体系，让社区贡献模板和导出器。
-
-开发者说明（快速参考）
-- 数据文件: [data/resumes.json](data/resumes.json#L1)。
-- 图片存放: [data/images](data/images)（server.js 会把内联 base64 图片保存到此目录）。
-- 启动: `npm start`（使用 Node）或 `python3 start_local_server.py`。
-
-贡献与许可
-- 当前仓库未包含 LICENSE 文件。建议在将来添加明确许可证（例如 MIT）以便第三方贡献。
-- 欢迎 Issues/PR：请先在 Issues 中描述改进建议或 bug，再提交小的 PR。
-
-后续我可以帮你：
-- 把客户端 PDF 导出替换成服务器端渲染（Puppeteer）；
-- 添加一个简单的模板切换面板与更多模板样例；
-- 集成一个基础的 AI 文案润色入口（只需接入一个 API key）；
-
-如果你想让我继续实现其中任意一项，请告诉我优先级。 
+在参与本项目开发或调整样式时，**必须**遵循以下核心规范（详见 `LESSONS.md`）：
+1. **主题色作用域隔离**：主题色变量 `--accent` 必须且只能绑定在 `.a4-canvas` 容器上，禁止注入全局 `html`/`body`。
+2. **富文本行内样式穿透**：修改整体色调必须能穿透富文本编辑器的行内 CSS。在 `templates.css` 中需使用 `!important` 级层叠选择器，但显式排除图标。
+3. **状态强同步**：每次模板切换、撤销重做时，内存中的 `formatting` 与 UI 控件（如调色盘）必须执行强同步刷新，避免状态脱节。

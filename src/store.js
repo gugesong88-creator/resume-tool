@@ -19,7 +19,8 @@ class Store {
     return {
       resumes: resumes,
       deliveryRecords: Array.isArray(data.deliveryRecords) ? data.deliveryRecords : [],
-      settings: data.settings && typeof data.settings === 'object' ? data.settings : {}
+      settings: data.settings && typeof data.settings === 'object' ? data.settings : {},
+      globalProfile: data.globalProfile && typeof data.globalProfile === 'object' ? data.globalProfile : undefined
     };
   }
 

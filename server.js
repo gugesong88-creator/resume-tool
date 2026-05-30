@@ -70,7 +70,8 @@ function normalizeStore(input) {
     updatedAt: new Date().toISOString(),
     resumes: resumes,
     deliveryRecords: Array.isArray(store.deliveryRecords) ? store.deliveryRecords : [],
-    settings: store.settings && typeof store.settings === 'object' ? store.settings : {}
+    settings: store.settings && typeof store.settings === 'object' ? store.settings : {},
+    globalProfile: store.globalProfile && typeof store.globalProfile === 'object' ? store.globalProfile : undefined
   };
 }
 
