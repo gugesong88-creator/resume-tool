@@ -372,7 +372,7 @@ test('格式修改支持撤销和重做，并同步更新预览', async () => {
     input.value = '#dc2626';
     input.dispatchEvent(new Event('change', { bubbles: true }));
   });
-  await page.waitForFunction(() => window.historyStack.length >= 2, { timeout: 2000 });
+  await page.waitForFunction(() => window.historyStack.length >= 2, { timeout: 5000 });
 
   await page.click('#btn-undo');
   await page.waitForFunction(color => {

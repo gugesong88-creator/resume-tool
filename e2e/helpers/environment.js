@@ -147,7 +147,10 @@ async function createE2EEnvironment() {
     if (process.env.PUPPETEER_NO_SANDBOX === '1') {
       browserOptions.args = ['--no-sandbox', '--disable-setuid-sandbox'];
     }
-    if (process.platform === 'darwin' && fs.existsSync(MAC_CHROME)) {
+    const configuredChrome = process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_BIN;
+    if (configuredChrome && fs.existsSync(configuredChrome)) {
+      browserOptions.executablePath = configuredChrome;
+    } else if (process.platform === 'darwin' && fs.existsSync(MAC_CHROME)) {
       browserOptions.executablePath = MAC_CHROME;
     }
     browser = await puppeteer.launch(browserOptions);

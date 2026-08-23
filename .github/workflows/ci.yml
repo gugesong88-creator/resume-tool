@@ -19,6 +19,7 @@ jobs:
     env:
       CI: true
       PUPPETEER_NO_SANDBOX: 1
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -32,5 +33,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run repository, unit, build, and browser checks
-        run: npm run ci
+      - name: Run repository hygiene checks
+        run: npm run repo:check
+
+      - name: Run static, unit, and build checks
+        run: npm run verify
+
+      - name: Run browser checks
+        shell: bash
+        run: |
+          set +e
+          npm run test:e2e 2>&1 | tee /tmp/resume-e2e.log
+          test_status=${PIPESTATUS[0]}
+          if [ "$test_status" -ne 0 ]; then
+            node -e "const fs=require('node:fs'); const detail=fs.readFileSync('/tmp/resume-e2e.log','utf8').trim().split('\\n').slice(-60).join('\\n').replace(/%/g,'%25').replace(/\\r/g,'%0D').replace(/\\n/g,'%0A'); console.log('::error title=E2E browser test::'+detail);"
+          fi
+          exit "$test_status"
