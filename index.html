@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 简历模板编辑器</title>
+</head>
+<body>
+
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-left">
+    <span class="nav-logo">📄 Resume Editor</span>
+    <a class="nav-link active" href="#home" data-route="home">我的简历</a>
+    <a class="nav-link" href="#delivery" data-route="delivery">投递记录表</a>
+    <a class="nav-link" href="#profile" data-route="profile">全局个人档案</a>
+  </div>
+  <div id="nav-info"></div>
+</nav>
+
+<!-- ===== HOME VIEW ===== -->
+<div id="view-home" class="view active">
+  <div class="home-container">
+    <div class="home-header">
+      <h1>我的简历</h1>
+      <button class="btn-primary" data-click-action="createResume">+ 创建新简历</button>
+    </div>
+    <div id="resume-list"></div>
+  </div>
+</div>
+
+<!-- ===== EDITOR VIEW ===== -->
+<div id="view-editor" class="view">
+  <div class="editor-toolbar">
+    <div class="toolbar-left">
+      <button class="btn-back" data-click-action="goBack" title="返回">←</button>
+      <input class="resume-name-input" id="editor-resume-name" data-change-action="resume-name" placeholder="简历名称">
+      <button class="btn-outline btn-sm" id="btn-undo" data-click-action="undo" disabled title="撤销 (Cmd/Ctrl+Z)" style="margin-left:8px;">↩ 撤销</button>
+      <button class="btn-outline btn-sm" id="btn-redo" data-click-action="redo" disabled title="重做 (Cmd/Ctrl+Shift+Z)" style="margin-left:4px;">↪ 重做</button>
+      <select class="template-select" id="editor-template-select" disabled title="当前仅保留经典高密度型模板">
+        <option value="T01_classic_dense">经典高密度型</option>
+      </select>
+      <span class="view-mode-group" title="切换编辑区和 A4 预览布局">
+        <button class="btn-sm active" id="view-mode-split" data-view-mode="split" title="左右并排">并排</button>
+        <button class="btn-sm" id="view-mode-preview" data-view-mode="preview" title="只看 A4 预览">预览</button>
+        <button class="btn-sm" id="view-mode-edit" data-view-mode="edit" title="只看左侧编辑">编辑</button>
+      </span>
+    </div>
+    <div class="toolbar-right">
+      <span id="page-overflow-warning" style="color:#DC2626;font-size:11px;font-weight:600;display:none;margin-right:8px;">⚠️ 内容超出一页</span>
+      <button class="btn-outline btn-sm" data-click-action="exportMarkdown" style="margin-right:8px; border-color:var(--border);" title="导出纯文本格式，穿透网申 ATS 解析系统">导出 Markdown</button>
+      <button class="btn-outline btn-sm" data-click-action="runProofreadCheck" title="检查中英文标点、句尾标点、空格等">标点检查</button>
+      <button class="btn-outline btn-sm" data-click-action="createEnglishResumeDraft" title="复制当前结构并生成英文版字段">生成英文版</button>
+      <button class="btn-outline btn-sm" data-click-action="autoCompressLayout" title="自动微调间距与字号以适应一页">压缩到一页</button>
+      <span class="save-status" id="save-status">已保存</span>
+      <button class="btn-outline btn-sm" data-click-action="saveCurrentResume">保存</button>
+      <button class="btn-outline btn-sm" data-click-action="saveAsNew">另存为</button>
+      <button class="btn-outline btn-sm" data-click-action="duplicateCurrentResume">复制一份</button>
+      <button class="btn-primary btn-sm" data-click-action="exportVectorPDF">矢量导出 PDF</button>
+	      <button class="btn-outline btn-sm" data-click-action="exportPDF">快速导出图片</button>
+    </div>
+  </div>
+  <input type="file" id="photo-upload-input" accept="image/*" style="display:none" data-change-action="photo">
+  <div class="formatting-bar" id="formatting-bar">
+    <label>字体</label>
+    <select id="fmt-font-family" data-format-key="fontFamily">
+      <option value="default">默认</option>
+      <option value="SimSun, serif">宋体</option>
+      <option value="SimHei, sans-serif">黑体</option>
+      <option value="KaiTi, serif">楷体</option>
+      <option value="FangSong, serif">仿宋</option>
+      <option value="Microsoft YaHei, sans-serif">微软雅黑</option>
+    </select>
+    <span class="fmt-separator"></span>
+    <label>姓名字号</label>
+    <input type="number" id="fmt-name-size" min="16" max="48" value="24" data-format-key="nameSize">
+    <label>标题字号</label>
+    <input type="number" id="fmt-heading-size" min="10" max="24" value="14" data-format-key="headingSize">
+    <label>正文字号</label>
+    <input type="number" id="fmt-body-size" min="8" max="18" value="11" data-format-key="bodySize">
+    <span class="fmt-separator"></span>
+    <label>行间距</label>
+    <input type="number" id="fmt-line-height" min="1.0" max="2.5" step="0.05" value="1.5" data-format-key="lineHeight">
+    <span class="fmt-separator"></span>
+    <label>选中文字颜色</label>
+    <span class="color-palette" title="先在右侧 A4 预览中选中文字，再点击颜色">
+      <button class="color-btn color-black" title="黑色" data-rich-text-color="#111827"></button>
+      <button class="color-btn color-white" title="白色" data-rich-text-color="#FFFFFF"></button>
+      <button class="color-btn color-darkgray" title="深灰" data-rich-text-color="#374151"></button>
+      <button class="color-btn color-gray" title="灰色" data-rich-text-color="#6B7280"></button>
+      <button class="color-btn color-blue" title="蓝色" data-rich-text-color="#1E3A8A"></button>
+      <button class="color-btn color-red" title="红色" data-rich-text-color="#DC2626"></button>
+      <button class="color-btn color-yellow" title="黄色" data-rich-text-color="#D97706"></button>
+      <button class="color-btn color-green" title="绿色" data-rich-text-color="#059669"></button>
+      <button class="btn-clear-color" title="清除所选文字颜色" data-clear-rich-text-color>清除</button>
+    </span>
+    <span class="fmt-separator"></span>
+    <label>段落</label>
+    <select id="fmt-text-align" data-format-key="textAlign">
+      <option value="left">左对齐</option>
+      <option value="justify">两端对齐</option>
+    </select>
+    <span class="fmt-separator"></span>
+    <label>上下边距</label>
+    <input type="number" id="fmt-margin-y" min="0" max="100" value="48" data-format-key="marginY">
+    <label>左右边距</label>
+    <input type="number" id="fmt-margin-x" min="0" max="100" value="52" data-format-key="marginX">
+    <label>整体色调</label>
+    <input type="color" id="fmt-theme-color" data-format-key="themeColor" style="padding:0;width:24px;height:24px;border:none;cursor:pointer;margin-right:8px;">
+    <label>模块间距</label>
+    <input type="number" id="fmt-module-spacing" min="0" max="50" value="8" data-format-key="moduleSpacing">
+    <span class="fmt-separator"></span>
+    <label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-weight:600;" title="从外部复制内容粘贴到简历中时，是否过滤格式、只保留纯文本">
+      <input type="checkbox" id="fmt-paste-plain" style="cursor:pointer;" data-change-action="paste-plain">仅粘纯文本
+    </label>
+  </div>
+  <div class="editor-container" style="position:relative">
+    <div class="editor-left" id="editor-left-panel"></div>
+    <button class="editor-left-toggle" id="editor-left-toggle" data-click-action="toggleLeftPanel" title="展开/收起编辑面板">◀</button>
+    <div class="editor-right">
+      <div class="a4-canvas" id="a4-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DELIVERY TRACKING VIEW ===== -->
+<div id="view-delivery" class="view">
+  <div class="home-container">
+    <div class="home-header">
+      <h1>投递记录表</h1>
+      <button class="btn-primary" data-click-action="addDeliveryRecord">+ 添加投递记录</button>
+    </div>
+    <div class="delivery-filters">
+      <div class="filter-group">
+        <label>按状态筛选：</label>
+        <select id="status-filter" data-change-action="delivery-filter">
+          <option value="">全部状态</option>
+          <option value="已投递">已投递</option>
+          <option value="面试邀请">面试邀请</option>
+          <option value="已拒绝">已拒绝</option>
+          <option value="已录用">已录用</option>
+          <option value="待定">待定</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>按公司筛选：</label>
+        <input type="text" id="company-filter" placeholder="输入公司名称" data-input-action="delivery-filter">
+      </div>
+      <div class="filter-group">
+        <label>按职位筛选：</label>
+        <input type="text" id="position-filter" placeholder="输入职位名称" data-input-action="delivery-filter">
+      </div>
+    </div>
+    <div class="delivery-table-container">
+      <table class="delivery-table">
+        <thead>
+          <tr>
+            <th>公司</th>
+            <th>职位</th>
+            <th>简历</th>
+            <th>投递日期</th>
+            <th>投递邮箱</th>
+            <th>状态</th>
+            <th>备注</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="delivery-table-body">
+          <!-- Records will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GLOBAL PROFILE VIEW ===== -->
+<div id="view-profile" class="view" style="display:none;">
+  <div class="editor-toolbar">
+    <div class="toolbar-left">
+      <button class="btn-back" data-click-action="goBack" title="返回">←</button>
+      <span style="font-size: 16px; font-weight: 600; color: #1f2937; margin-left: 8px;">全局个人档案</span>
+    </div>
+    <div class="toolbar-right">
+      <span class="save-status" id="profile-save-status">已保存</span>
+      <button class="btn-primary btn-sm" data-click-action="saveGlobalProfile">保存修改</button>
+    </div>
+  </div>
+
+  <div class="editor-container" style="position:relative;">
+    <div class="editor-left" id="profile-editor-left"></div>
+    <div class="editor-right" id="profile-editor-right">
+      <div class="a4-canvas" id="profile-a4-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL CONTAINER ===== -->
+<div id="modal-container"></div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div id="toast-container"></div>
+
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+
+
+
+</html>

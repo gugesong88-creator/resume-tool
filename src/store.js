@@ -5,17 +5,17 @@ class Store {
     this._data = { resumes: [], deliveryRecords: [], settings: {} };
     this._editState = null;
     this._listeners = [];
+    this._saveQueue = Promise.resolve();
+    this._saveRevision = 0;
   }
 
   normalizeStore(data) {
+    if (window.ResumeSchema && typeof window.ResumeSchema.normalizeStore === 'function') {
+      return window.ResumeSchema.normalizeStore(data);
+    }
+
     data = data && typeof data === 'object' ? data : {};
     const resumes = Array.isArray(data.resumes) ? data.resumes : [];
-    resumes.forEach(resume => {
-      if (resume && resume.modules) {
-        delete resume.modules.campus;
-        delete resume.modules.skills;
-      }
-    });
     return {
       resumes: resumes,
       deliveryRecords: Array.isArray(data.deliveryRecords) ? data.deliveryRecords : [],
@@ -26,6 +26,23 @@ class Store {
 
   clone(obj) {
     return obj ? JSON.parse(JSON.stringify(obj)) : null;
+  }
+
+  mergeServerOnlyResumes(localData, serverData) {
+    const local = this.normalizeStore(localData);
+    const server = this.normalizeStore(serverData);
+    const localIds = new Set(local.resumes.map(r => r && r.id).filter(Boolean));
+    const localNames = new Set(local.resumes.map(r => r && r.name).filter(Boolean));
+    const serverOnly = server.resumes.filter(r => {
+      if (!r) return false;
+      if (r.id && localIds.has(r.id)) return false;
+      if (!r.id && r.name && localNames.has(r.name)) return false;
+      return true;
+    });
+    if (serverOnly.length) {
+      local.resumes = local.resumes.concat(serverOnly);
+    }
+    return local;
   }
 
   // ==== 数据加载 ====
@@ -58,8 +75,9 @@ class Store {
   }
 
   // ==== 数据保存 (乐观更新) ====
-  saveStore(storeObj) {
+  saveStore(storeObj, options = {}) {
     this._data = this.normalizeStore(storeObj);
+    const revision = ++this._saveRevision;
     
     // 1. 同步保存到 localStorage
     try {
@@ -68,20 +86,45 @@ class Store {
 
     // 2. 异步同步到服务器 (不阻塞 UI)
     if (window.apiClient) {
-      window.apiClient.saveStore(this._data).then(serverData => {
-        if (serverData && serverData.resumes) {
-          this._data = this.normalizeStore(serverData);
-          
-          // 如果正在编辑，更新内存引用以防止覆盖冲突
-          if (this._editState && this._editState.resume) {
-             const persisted = this._data.resumes.find(r => r.id === this._editState.resume.id);
-             if (persisted) {
-                 this._editState.resume = this.clone(persisted);
-             }
+      const localData = this.clone(this._data);
+      const task = this._saveQueue
+        .catch(() => null)
+        .then(async () => {
+          if (options.allowResumeDeletes) return localData;
+          const serverData = await window.apiClient.fetchStore();
+          return serverData && serverData.resumes
+            ? this.mergeServerOnlyResumes(localData, serverData)
+            : localData;
+        })
+        .then(dataToSave => window.apiClient.saveStore(dataToSave))
+        .then(serverData => {
+          if (serverData && serverData.resumes) {
+            // Older queued responses must never replace a newer in-memory edit.
+            if (revision === this._saveRevision) {
+              this._data = this.normalizeStore(serverData);
+              try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this._data));
+              } catch(e) {}
+
+              // 如果正在编辑，更新内存引用以防止覆盖冲突
+              if (this._editState && this._editState.resume && !this._editState.dirty) {
+                const persisted = this._data.resumes.find(r => r.id === this._editState.resume.id);
+                if (persisted) this._editState.resume = this.clone(persisted);
+              }
+            }
           }
-        }
+          return serverData;
+        });
+
+      this._saveQueue = task.catch(error => {
+        console.warn('Failed to sync store to disk', error);
+        return null;
       });
+
+      return task;
     }
+
+    return Promise.resolve(this.clone(this._data));
   }
 
   // ==== 编辑器状态 ====
@@ -103,8 +146,8 @@ window.loadStore = function() {
   return window.appStore.getStore();
 };
 
-window.saveStore = function(data) {
-  window.appStore.saveStore(data);
+window.saveStore = function(data, options) {
+  return window.appStore.saveStore(data, options);
 };
 
 // 代理遗留的全局变量，使其读写 appStore

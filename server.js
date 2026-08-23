@@ -1,20 +1,32 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const { exec } = require('child_process');
+const { createStorage } = require('./lib/storage');
 
 const PORT = Number(process.env.PORT || 8000);
+const HOST = process.env.HOST || '127.0.0.1';
+const MAX_REQUEST_BYTES = Number(process.env.MAX_REQUEST_BYTES || 25 * 1024 * 1024);
 const ROOT = __dirname;
-const HTML_FILE = 'resume_chatgpt_stable_clean_v9.html';
-const LEGACY_DATA_FILE = path.join(ROOT, 'resume_local_data.json');
-const DATA_DIR = path.join(ROOT, 'data');
+const HTML_FILE = 'index.html';
+const LEGACY_HTML_FILE = 'resume_chatgpt_stable_clean_v9.html';
+const DIST_DIR = path.join(ROOT, 'dist');
+const LEGACY_DATA_FILE = path.resolve(process.env.RESUME_LEGACY_DATA_FILE || path.join(ROOT, 'resume_local_data.json'));
+const DATA_DIR = path.resolve(process.env.RESUME_DATA_DIR || path.join(ROOT, 'data'));
 const IMAGE_DIR = path.join(DATA_DIR, 'images');
 const STORE_FILE = path.join(DATA_DIR, 'resumes.json');
+const storage = createStorage({
+  root: ROOT,
+  dataDir: DATA_DIR,
+  imageDir: IMAGE_DIR,
+  storeFile: STORE_FILE,
+  legacyDataFile: LEGACY_DATA_FILE
+});
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.png': 'image/png',
@@ -37,82 +49,6 @@ try {
   console.warn('Puppeteer not installed. Server-side PDF export disabled. Run `npm install puppeteer` to enable.');
 }
 
-function ensureStorage() {
-  fs.mkdirSync(IMAGE_DIR, { recursive: true });
-  if (!fs.existsSync(STORE_FILE)) {
-    const legacy = readJsonIfExists(LEGACY_DATA_FILE) || {};
-    const migrated = normalizeStore(legacy);
-    writeStore(migrated);
-  }
-}
-
-function readJsonIfExists(file) {
-  try {
-    if (!fs.existsSync(file)) return null;
-    return JSON.parse(fs.readFileSync(file, 'utf8'));
-  } catch (err) {
-    console.warn(`Cannot read ${file}:`, err.message);
-    return null;
-  }
-}
-
-function normalizeStore(input) {
-  const store = input && typeof input === 'object' ? input : {};
-  const resumes = Array.isArray(store.resumes) ? store.resumes : [];
-  resumes.forEach(resume => {
-    if (resume && resume.modules) {
-      delete resume.modules.campus;
-      delete resume.modules.skills;
-    }
-  });
-  return {
-    source: 'node_local_file_store',
-    updatedAt: new Date().toISOString(),
-    resumes: resumes,
-    deliveryRecords: Array.isArray(store.deliveryRecords) ? store.deliveryRecords : [],
-    settings: store.settings && typeof store.settings === 'object' ? store.settings : {},
-    globalProfile: store.globalProfile && typeof store.globalProfile === 'object' ? store.globalProfile : undefined
-  };
-}
-
-function extractImage(dataUrl, resumeId) {
-  const match = /^data:image\/([a-zA-Z0-9.+-]+);base64,(.+)$/.exec(dataUrl || '');
-  if (!match) return dataUrl;
-
-  const ext = match[1].replace('jpeg', 'jpg').replace(/[^a-z0-9]/gi, '').toLowerCase() || 'jpg';
-  const buffer = Buffer.from(match[2], 'base64');
-  const hash = crypto.createHash('sha256').update(buffer).digest('hex').slice(0, 16);
-  const safeResumeId = String(resumeId || 'resume').replace(/[^a-zA-Z0-9_-]/g, '_');
-  const filename = `${safeResumeId}_${hash}.${ext}`;
-  fs.writeFileSync(path.join(IMAGE_DIR, filename), buffer);
-  return `/data/images/${filename}`;
-}
-
-function stripLargeInlinePhotos(store) {
-  const normalized = normalizeStore(store);
-  normalized.resumes = normalized.resumes.map((resume) => {
-    const photo = resume?.modules?.basic_info?.data?.photo;
-    if (typeof photo === 'string' && photo.startsWith('data:image/')) {
-      resume.modules.basic_info.data.photo = extractImage(photo, resume.id);
-    }
-    return resume;
-  });
-  normalized.updatedAt = new Date().toISOString();
-  return normalized;
-}
-
-function readStore() {
-  ensureStorage();
-  return normalizeStore(readJsonIfExists(STORE_FILE));
-}
-
-function writeStore(store) {
-  fs.mkdirSync(IMAGE_DIR, { recursive: true });
-  const normalized = stripLargeInlinePhotos(store);
-  fs.writeFileSync(STORE_FILE, JSON.stringify(normalized, null, 2), 'utf8');
-  return normalized;
-}
-
 function sendJson(res, statusCode, payload) {
   const body = JSON.stringify(payload);
   res.writeHead(statusCode, {
@@ -122,21 +58,50 @@ function sendJson(res, statusCode, payload) {
   res.end(body);
 }
 
-function readRequestBody(req) {
+function readRequestBody(req, maxBytes = MAX_REQUEST_BYTES) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on('data', (chunk) => chunks.push(chunk));
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    let received = 0;
+    let rejected = false;
+
+    req.on('data', (chunk) => {
+      if (rejected) return;
+      received += chunk.length;
+      if (received > maxBytes) {
+        rejected = true;
+        const error = new Error(`请求体超过 ${maxBytes} 字节限制`);
+        error.statusCode = 413;
+        reject(error);
+        return;
+      }
+      chunks.push(chunk);
+    });
+    req.on('end', () => {
+      if (!rejected) resolve(Buffer.concat(chunks).toString('utf8'));
+    });
     req.on('error', reject);
   });
 }
 
 function serveStatic(req, res) {
   const requestPath = decodeURIComponent(new URL(req.url, `http://localhost:${PORT}`).pathname);
-  const relativePath = requestPath === '/' ? HTML_FILE : requestPath.slice(1);
-  const filePath = path.resolve(ROOT, relativePath);
+  const isImageRequest = requestPath.startsWith('/data/images/');
+  const baseDirectory = isImageRequest ? IMAGE_DIR : DIST_DIR;
+  const relativePath = requestPath === '/' || requestPath === `/${LEGACY_HTML_FILE}`
+    ? HTML_FILE
+    : isImageRequest
+      ? requestPath.slice('/data/images/'.length)
+      : requestPath.slice(1);
+  const filePath = path.resolve(baseDirectory, relativePath);
 
-  if (!filePath.startsWith(ROOT) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  const pathFromRoot = path.relative(baseDirectory, filePath);
+  const isOutsideRoot = pathFromRoot.startsWith('..') || path.isAbsolute(pathFromRoot);
+  const normalizedRelativePath = pathFromRoot.split(path.sep).join('/');
+  const isAllowedStaticPath = isImageRequest
+    || normalizedRelativePath === HTML_FILE
+    || normalizedRelativePath.startsWith('assets/');
+
+  if (isOutsideRoot || !isAllowedStaticPath || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Not found');
     return;
@@ -156,23 +121,23 @@ async function handleRequest(req, res) {
     const url = new URL(req.url, `http://localhost:${PORT}`);
 
     if (req.method === 'GET' && url.pathname === '/api/store') {
-      sendJson(res, 200, readStore());
+      sendJson(res, 200, storage.readStore());
       return;
     }
 
     if (req.method === 'GET' && url.pathname === '/resume_local_data.json') {
-      sendJson(res, 200, readStore());
+      sendJson(res, 200, storage.readStore());
       return;
     }
 
     if (req.method === 'POST' && (url.pathname === '/api/store' || url.pathname === '/api/save_to_disk')) {
       const raw = await readRequestBody(req);
       const incoming = JSON.parse(raw || '{}');
-      const oldStore = readStore();
-      const saved = writeStore(incoming);
+      const oldStore = storage.readStore();
+      const saved = storage.writeStore(incoming);
 
       // 只通知“新增投递记录”以减少噪音
-      const FEISHU_WEBHOOK = process.env.FEISHU_WEBHOOK || 'https://open.feishu.cn/open-apis/bot/v2/hook/REMOVED';
+      const feishuWebhook = process.env.FEISHU_WEBHOOK;
       try {
         const oldRecords = Array.isArray(oldStore.deliveryRecords) ? oldStore.deliveryRecords : [];
         const newRecords = Array.isArray(saved.deliveryRecords) ? saved.deliveryRecords : [];
@@ -184,7 +149,7 @@ async function handleRequest(req, res) {
         }
 
         const added = newRecords.filter(n => !oldRecords.some(o => isSame(o, n)));
-        if (added.length) {
+        if (added.length && feishuWebhook) {
           // 构建 Feishu post 消息（中文）
           const contentBlocks = [];
           added.forEach((r) => {
@@ -212,7 +177,7 @@ async function handleRequest(req, res) {
             }
           };
 
-          sendFeishuWebhook(FEISHU_WEBHOOK, postPayload).catch((e) => console.warn('Feishu webhook error:', e && e.message));
+          sendFeishuWebhook(feishuWebhook, postPayload).catch((e) => console.warn('Feishu webhook error:', e && e.message));
         }
       } catch (err) {
         console.warn('Feishu notify failed:', err && err.message);
@@ -235,30 +200,40 @@ async function handleRequest(req, res) {
             return;
           }
 
-          const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-          const page = await browser.newPage();
+          const launchOptions = process.env.PUPPETEER_NO_SANDBOX === '1'
+            ? { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
+            : {};
+          const browser = await puppeteer.launch(launchOptions);
 
-          if (html && typeof html === 'string' && html.trim().length > 0) {
-            await page.setContent(html, { waitUntil: 'networkidle0' });
-          } else if (targetUrl && typeof targetUrl === 'string') {
-            const absolute = targetUrl.startsWith('http') ? targetUrl : `http://localhost:${PORT}/${targetUrl.replace(/^\//, '')}`;
-            await page.goto(absolute, { waitUntil: 'networkidle0' });
-          } else {
-            await browser.close();
-            sendJson(res, 400, { status: 'error', message: 'Provide either `html` or `url` in the POST body' });
+          try {
+            const page = await browser.newPage();
+
+            if (html && typeof html === 'string' && html.trim().length > 0) {
+              await page.setContent(html, { waitUntil: 'networkidle0' });
+            } else if (targetUrl && typeof targetUrl === 'string') {
+              const localOrigin = `http://${HOST}:${PORT}`;
+              const absolute = new URL(targetUrl, `${localOrigin}/`);
+              if (absolute.origin !== localOrigin) {
+                sendJson(res, 400, { status: 'error', message: 'PDF 导出只允许访问本地页面' });
+                return;
+              }
+              await page.goto(absolute.href, { waitUntil: 'networkidle0' });
+            } else {
+              sendJson(res, 400, { status: 'error', message: 'Provide either `html` or `url` in the POST body' });
+              return;
+            }
+
+            const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '12mm', bottom: '12mm', left: '12mm', right: '12mm' } });
+            res.writeHead(200, {
+              'Content-Type': 'application/pdf',
+              'Content-Length': pdfBuffer.length,
+              'Content-Disposition': 'attachment; filename="resume.pdf"'
+            });
+            res.end(pdfBuffer);
             return;
+          } finally {
+            await browser.close();
           }
-
-          const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true, margin: { top: '12mm', bottom: '12mm', left: '12mm', right: '12mm' } });
-          await browser.close();
-
-          res.writeHead(200, {
-            'Content-Type': 'application/pdf',
-            'Content-Length': pdfBuffer.length,
-            'Content-Disposition': 'attachment; filename="resume.pdf"'
-          });
-          res.end(pdfBuffer);
-          return;
         } catch (err) {
           console.error('Export PDF error:', err && err.message);
           sendJson(res, 500, { status: 'error', message: err && err.message });
@@ -275,16 +250,24 @@ async function handleRequest(req, res) {
     res.end('Method not allowed');
   } catch (err) {
     console.error(err);
-    sendJson(res, 500, { status: 'error', message: err.message });
+    sendJson(res, err.statusCode || 500, { status: 'error', message: err.message });
   }
 }
 
-ensureStorage();
+storage.ensureStorage();
 
-http.createServer(handleRequest).listen(PORT, () => {
-  const url = `http://localhost:${PORT}/${HTML_FILE}`;
+http.createServer(handleRequest).listen(PORT, HOST, () => {
+  const url = `http://${HOST}:${PORT}/`;
   console.log(`简历制作工具已启动: ${url}`);
   if (process.env.NO_OPEN !== '1') {
-    exec(`open "${url}"`);
+    let startCmd;
+    if (process.platform === 'win32') {
+      startCmd = `start "" "${url}"`;
+    } else if (process.platform === 'darwin') {
+      startCmd = `open "${url}"`;
+    } else {
+      startCmd = `xdg-open "${url}"`;
+    }
+    exec(startCmd);
   }
 });

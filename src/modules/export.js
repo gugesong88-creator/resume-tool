@@ -24,6 +24,50 @@
 
     const ISOLATED_CSS = 'width:794px;min-height:1123px;padding:48px 52px;background:#fff;box-sizing:border-box;position:fixed;left:0;top:0;z-index:-9999;margin:0;border:none;transform:none;';
 
+    function plainText(value) {
+        const input = String(value || '');
+        if (typeof window.richTextToPlain === 'function') return window.richTextToPlain(input).trim();
+        return input.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').trim();
+    }
+
+    function resumeToMarkdown(resume) {
+        const modules = resume && resume.modules ? resume.modules : {};
+        const basicInfo = modules.basic_info || {};
+        const candidateName = plainText(basicInfo.data && basicInfo.data.name) || resume.name || '未命名简历';
+        const lines = [`# ${candidateName}`, ''];
+
+        const contacts = (basicInfo.items || [])
+            .map(item => {
+                const label = plainText(item && item.label);
+                const value = plainText(item && item.value);
+                return value ? `${label ? `${label}：` : ''}${value}` : '';
+            })
+            .filter(Boolean);
+        if (contacts.length) lines.push(contacts.join(' | '), '');
+
+        Object.values(modules)
+            .filter(module => module && module.id !== 'basic_info' && module.visible !== false)
+            .sort((a, b) => (a.order || 0) - (b.order || 0))
+            .forEach(module => {
+                lines.push(`## ${plainText(module.title) || module.id || '其他'}`, '');
+                (module.items || []).forEach(item => {
+                    const heading = plainText(item.title || item.school || item.company || item.project_name);
+                    const role = plainText(item.role || item.subtitle || item.major);
+                    const time = plainText(item.time || item.date);
+                    if (heading) lines.push(`### ${heading}`);
+                    if (role || time) lines.push(`*${[role, time].filter(Boolean).join(' · ')}*`, '');
+
+                    const bullets = item.bullets || item.details || [];
+                    bullets.map(plainText).filter(Boolean).forEach(bullet => lines.push(`- ${bullet}`));
+                    if (heading || role || time || bullets.length) lines.push('');
+                });
+            });
+
+        return `${lines.join('\n').trim()}\n`;
+    }
+
+    window.resumeToMarkdown = resumeToMarkdown;
+
     window.exportMarkdown = function(id) {
         let r = null;
         if (typeof id === 'string') {
@@ -40,43 +84,7 @@
             return; 
         }
         
-        let md = '# ' + (r.name || '未命名简历') + '\n\n';
-        
-        const bi = r.modules && r.modules.basic_info ? r.modules.basic_info.data : null;
-        if (bi) {
-            const contacts = [];
-            if(bi.phone) contacts.push(bi.phone);
-            if(bi.email) contacts.push(bi.email);
-            if(bi.github) contacts.push(bi.github);
-            if(bi.website) contacts.push(bi.website);
-            if(contacts.length > 0) md += contacts.join(' | ') + '\n\n';
-        } else if (r.contact) {
-            const contacts = [];
-            if(r.contact.phone) contacts.push(r.contact.phone);
-            if(r.contact.email) contacts.push(r.contact.email);
-            if(r.contact.github) contacts.push(r.contact.github);
-            if(r.contact.website) contacts.push(r.contact.website);
-            if(contacts.length > 0) md += contacts.join(' | ') + '\n\n';
-        }
-
-        const sections = r.modules && r.modules.custom_sections ? r.modules.custom_sections : [];
-        sections.forEach(sec => {
-            md += `## ${sec.title}\n\n`;
-            if (sec.items && Array.isArray(sec.items)) {
-                sec.items.forEach(item => {
-                    md += `### ${item.title || ''}\n`;
-                    const subs = [];
-                    if(item.subtitle) subs.push(item.subtitle);
-                    if(item.date) subs.push(item.date);
-                    if(subs.length > 0) md += `*${subs.join(' · ')}*\n\n`;
-                    if(item.desc) {
-                        let text = item.desc.replace(/<br\s*[\/]?>/gi, '\n');
-                        text = text.replace(/<[^>]+>/g, '');
-                        md += text + '\n\n';
-                    }
-                });
-            }
-        });
+        const md = resumeToMarkdown(r);
 
         const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
         const url = URL.createObjectURL(blob);
@@ -88,7 +96,7 @@
         if(typeof showToast === 'function') showToast('Markdown 纯文本已导出');
     };
 
-    window.exportPDF = function() {
+    window.exportPDF = async function() {
         if (typeof window.editState === 'undefined' || !window.editState) return;
         if (window.editState.dirty && typeof window.saveCurrentResume === 'function') window.saveCurrentResume();
         
@@ -138,13 +146,16 @@
 
         if(typeof showToast === 'function') showToast('正在执行渲染，请稍候...');
         
-        if (typeof html2pdf !== 'function') {
+        const html2pdfFactory = window.loadHtml2Pdf
+            ? await window.loadHtml2Pdf()
+            : (typeof window.html2pdf === 'function' ? window.html2pdf : null);
+        if (typeof html2pdfFactory !== 'function') {
             document.body.removeChild(tempDiv);
             if(typeof showToast === 'function') showToast('错误：缺少 html2pdf 库');
             return;
         }
 
-        html2pdf().set(buildRobustOptions(name)).from(tempDiv).save().then(() => {
+        html2pdfFactory().set(buildRobustOptions(name)).from(tempDiv).save().then(() => {
             document.body.removeChild(tempDiv);
             if(typeof showToast === 'function') showToast('✅ 导出成功（快速版）');
         }).catch(e => {
@@ -154,7 +165,7 @@
         });
     };
 
-    window.quickExport = function(id) {
+    window.quickExport = async function(id) {
         let r = null;
         const store = window.loadStore();
         if (store && store.resumes) {
@@ -219,13 +230,16 @@
 
         if(typeof showToast === 'function') showToast('正在生成预览 PDF...');
         
-        if (typeof html2pdf !== 'function') {
+        const html2pdfFactory = window.loadHtml2Pdf
+            ? await window.loadHtml2Pdf()
+            : (typeof window.html2pdf === 'function' ? window.html2pdf : null);
+        if (typeof html2pdfFactory !== 'function') {
             document.body.removeChild(tempDiv);
             if(typeof showToast === 'function') showToast('错误：缺少 html2pdf 库');
             return;
         }
 
-        html2pdf().set(buildRobustOptions(r.name)).from(tempDiv).save().then(() => {
+        html2pdfFactory().set(buildRobustOptions(r.name)).from(tempDiv).save().then(() => {
             document.body.removeChild(tempDiv);
             if(typeof showToast === 'function') showToast('✅ 导出成功');
         }).catch(e => {

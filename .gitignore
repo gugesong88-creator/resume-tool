@@ -1,3 +1,16 @@
 node_modules/
+.npm_cache/
+dist/
 .DS_Store
 *.log
+.env
+.env.*
+!.env.example
+
+# Personal resume data and generated artifacts
+data/resumes.json
+data/images/
+data/backups/
+resume_local_data.json
+*.pdf
+*.zip

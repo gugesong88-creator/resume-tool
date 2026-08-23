@@ -39,8 +39,8 @@ function sanitizeRichHtml(input) {
 
   const raw = String(input);
 
-  // 没有富文本标签时，保持原文本
-  if (!looksLikeRichHtml(raw)) {
+  // 没有 HTML 标签时保持原文本；含未知标签时仍必须进入净化流程。
+  if (!/<\/?[a-z][^>]*>/i.test(raw)) {
     return raw;
   }
 
@@ -78,6 +78,12 @@ function sanitizeRichHtml(input) {
       const tag = child.tagName;
 
       if (!allowedTags.has(tag)) {
+        if (['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'MATH'].includes(tag)) {
+          child.remove();
+          return;
+        }
+        // 先净化后代，再移除不支持的外层标签，避免嵌套属性绕过检查。
+        walk(child);
         unwrapNode(child);
         return;
       }
