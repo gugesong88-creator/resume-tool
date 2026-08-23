@@ -46,6 +46,6 @@ jobs:
           npm run test:e2e 2>&1 | tee /tmp/resume-e2e.log
           test_status=${PIPESTATUS[0]}
           if [ "$test_status" -ne 0 ]; then
-            node -e "const fs=require('node:fs'); const detail=fs.readFileSync('/tmp/resume-e2e.log','utf8').trim().split('\\n').slice(-60).join('\\n').replace(/%/g,'%25').replace(/\\r/g,'%0D').replace(/\\n/g,'%0A'); console.log('::error title=E2E browser test::'+detail);"
+            node -e "const fs=require('node:fs'); const detail=fs.readFileSync('/tmp/resume-e2e.log','utf8').trim().split('\\n').slice(-200).join('\\n').replace(/%/g,'%25').replace(/\\r/g,'%0D').replace(/\\n/g,'%0A'); console.log('::error title=E2E browser test::'+detail);"
           fi
           exit "$test_status"

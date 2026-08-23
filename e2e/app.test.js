@@ -230,7 +230,7 @@ test('编辑器修改会防抖自动保存，并在磁盘确认后更新状态',
   assert.equal(await page.$eval('#save-status', element => element.textContent), '● 有未保存修改');
   await environment.waitForStore(
     store => store.resumes.find(resume => resume.id === 'e2e-resume')?.name === '自动保存回归测试',
-    { timeout: 6000, message: '防抖自动保存没有写入磁盘' }
+    { timeout: process.env.CI ? 15000 : 6000, message: '防抖自动保存没有写入磁盘' }
   );
   await page.waitForFunction(() => document.getElementById('save-status')?.textContent === '✓ 已保存');
   assert.equal(await page.evaluate(() => window.editState?.dirty), false);

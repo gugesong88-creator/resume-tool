@@ -92,7 +92,7 @@ class E2EEnvironment {
   }
 
   async waitForStore(predicate, options = {}) {
-    const timeout = options.timeout ?? 5000;
+    const timeout = options.timeout ?? (process.env.CI ? 15000 : 5000);
     const interval = options.interval ?? 25;
     const deadline = Date.now() + timeout;
 
