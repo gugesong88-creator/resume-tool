@@ -144,6 +144,9 @@ async function createE2EEnvironment() {
     await waitForServer(server);
 
     const browserOptions = { headless: 'new' };
+    if (process.env.PUPPETEER_NO_SANDBOX === '1') {
+      browserOptions.args = ['--no-sandbox', '--disable-setuid-sandbox'];
+    }
     if (process.platform === 'darwin' && fs.existsSync(MAC_CHROME)) {
       browserOptions.executablePath = MAC_CHROME;
     }
