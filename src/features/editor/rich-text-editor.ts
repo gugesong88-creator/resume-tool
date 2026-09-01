@@ -112,6 +112,35 @@ function writeItemValue(
   return true;
 }
 
+function writeEditableState(element: HTMLElement): boolean {
+  const state = runtime.editState;
+  const path = element.dataset.editable;
+  if (!state || !path) return false;
+
+  const parts = path.split('.');
+  const moduleId = parts[0];
+  const module = state.resume.modules[moduleId];
+  if (!module) return false;
+  let { html, text } = editableValue(element);
+
+  if (path.endsWith('._title')) {
+    const clone = element.cloneNode(true) as HTMLElement;
+    clone.querySelectorAll('.section-icon, .section-actions').forEach(node => node.remove());
+    ({ html, text } = editableValue(clone));
+    module.title = html || text || module.title;
+    return true;
+  }
+  if (moduleId === 'basic_info') {
+    writeBasicInfo(module, parts, html, text);
+    return true;
+  }
+  if (moduleId === 'skills' && parts[1] === 'tag') {
+    writeSkillTag(module, parts, html || text);
+    return true;
+  }
+  return writeItemValue(moduleId, module, parts, element, html, text);
+}
+
 export function isNodeInsidePreview(node: Node | null): boolean {
   if (!node) return false;
   const element = node.nodeType === Node.ELEMENT_NODE ? node as Element : node.parentElement;
@@ -211,6 +240,9 @@ export function configureEditableElement(
 ): void {
   element.contentEditable = 'true';
   element.addEventListener('focus', onEditableFocus);
+  element.addEventListener('input', () => {
+    if (writeEditableState(element)) runtime.markDirty();
+  });
   element.addEventListener('blur', event => onBlur(event as FocusEvent));
   element.addEventListener('mouseup', saveRichTextSelection);
   element.addEventListener('keyup', saveRichTextSelection);
@@ -231,37 +263,16 @@ export function configureEditableElement(
 
 export function onEditableBlur(event: FocusEvent): void {
   const element = event.target as HTMLElement | null;
-  const state = runtime.editState;
-  const path = element?.dataset.editable;
-  if (!element || !state || !path) return;
+  if (!element) return;
   element.style.outline = '';
   element.style.outlineOffset = '';
+  if (writeEditableState(element)) finishResumeEdit();
+}
 
-  const parts = path.split('.');
-  const moduleId = parts[0];
-  const module = state.resume.modules[moduleId];
-  if (!module) return;
-  let { html, text } = editableValue(element);
-
-  if (path.endsWith('._title')) {
-    const clone = element.cloneNode(true) as HTMLElement;
-    clone.querySelectorAll('.section-icon, .section-actions').forEach(node => node.remove());
-    ({ html, text } = editableValue(clone));
-    module.title = html || text || module.title;
-    finishResumeEdit();
-    return;
-  }
-  if (moduleId === 'basic_info') {
-    writeBasicInfo(module, parts, html, text);
-    finishResumeEdit();
-    return;
-  }
-  if (moduleId === 'skills' && parts[1] === 'tag') {
-    writeSkillTag(module, parts, html || text);
-    finishResumeEdit();
-    return;
-  }
-  if (writeItemValue(moduleId, module, parts, element, html, text)) finishResumeEdit();
+export function syncActiveEditableState(): boolean {
+  const activeElement = document.activeElement as HTMLElement | null;
+  if (!activeElement?.matches('#a4-preview [data-editable][contenteditable="true"]')) return false;
+  return writeEditableState(activeElement);
 }
 
 export function attachEditableHandlers(canvas: HTMLElement): void {
@@ -298,6 +309,7 @@ Object.assign(window, {
   getCurrentEditableElement,
   saveRichTextSelection,
   restoreRichTextSelection,
+  syncActiveEditableState,
   applySelectedTextColor,
   clearSelectedTextColor,
   attachEditableHandlers,

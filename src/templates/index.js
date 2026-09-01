@@ -17,8 +17,8 @@ function renderResumeHTML(t, modules, meta) {
     const label = item.label || '标签';
     const value = item.value || '';
     const isEmpty = !value;
-    const ph = placeholder || '点击填写';
-    return `<span class="contact-item ${isEmpty ? 'empty-field' : ''}"><span class="static-label" data-editable="basic_info.items.${idx}.label">${window.escHtml(label)}：</span><span data-editable="basic_info.items.${idx}.value" class="${cls||''}" style="${isEmpty ? 'color:#9CA3AF' : ''}">${isEmpty ? ph : window.escHtml(value)}</span></span>`;
+    const ph = placeholder || `点击填写${label}`;
+    return `<span class="contact-item ${isEmpty ? 'empty-field' : ''}" title="${window.escHtml(label)}"><span data-editable="basic_info.items.${idx}.value" aria-label="${window.escHtml(label)}" class="${cls||''}" style="${isEmpty ? 'color:#9CA3AF' : ''}">${isEmpty ? window.escHtml(ph) : window.escHtml(value)}</span></span>`;
   }
 
   const templateDef = getTemplate(t.id);

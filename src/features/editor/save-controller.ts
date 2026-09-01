@@ -8,6 +8,7 @@ interface SaveRuntime extends Window {
   editState: ResumeEditState | null;
   isHistoryNavigating?: boolean;
   recordHistory?: () => void;
+  syncActiveEditableState?: () => boolean;
   escHtml: (value: string) => string;
   uuid: () => string;
   navigate: (route: 'editor', id: string) => void;
@@ -87,10 +88,9 @@ export function markDirty(): void {
 }
 
 export function syncCurrentEditingState(): ResumeDocument | null {
-  const activeEditable = document.activeElement as HTMLElement | null;
-  if (activeEditable?.matches('#a4-preview [data-editable][contenteditable="true"]')) {
-    activeEditable.blur();
-  }
+  // Persist the current contenteditable DOM without forcing blur. Blurring here
+  // rebuilds the preview and steals the caret every time auto-save runs.
+  runtime.syncActiveEditableState?.();
 
   const state = runtime.editState;
   if (!state?.resume) return null;

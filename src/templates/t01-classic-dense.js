@@ -11,13 +11,13 @@ window.AppTemplates.T01_classic_dense = {
   renderHeader(biData, L, escHtml, bi) {
     const { name, photo } = biData;
     const items = bi.items || [];
-    let contactParts = items.map((item, idx) => L(idx, item));
+    const contactParts = items.map((item, idx) => L(idx, item));
 
     return `<div class="resume-header">
       <div class="resume-header-info">
         <div class="resume-name" data-editable="basic_info.name">${escHtml(name)}</div>
-        <div class="resume-contact-lines" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; margin-top: 8px;">
-          ${contactParts.join('')}
+        <div class="resume-contact-lines">
+          ${contactParts.join('<span class="contact-separator" aria-hidden="true">｜</span>')}
         </div>
       </div>
       ${photo ? `<div class="resume-header-photo"><img src="${escHtml(photo)}" alt="照片" onerror="this.style.display='none'"></div>` : `<div class="resume-header-photo resume-photo-placeholder" data-editable="basic_info._photo">📷<br>添加照片</div>`}

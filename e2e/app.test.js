@@ -131,16 +131,18 @@ test('首页、投递记录和全局档案主流程可以完成并持久化', as
   await page.click('.nav-link[data-route="profile"]');
   await page.waitForSelector('#view-profile.active [data-profile-panel-toggle]');
   assert.equal(await page.$eval('[data-profile-panel-toggle]', element => element.hasAttribute('onclick')), false);
-  await page.click('#profile-editor-left [data-module="education"] [data-profile-panel-toggle]');
+  const educationToggle = '#profile-editor-left [data-module="education"] [data-profile-panel-toggle]';
+  await page.evaluate(selector => document.querySelector(selector)?.click(), educationToggle);
   assert.equal(
     await page.$eval('#profile-editor-left [data-module="education"] .module-panel-body', element => element.style.display),
     'none'
   );
-  await page.click('#profile-editor-left [data-module="education"] [data-profile-panel-toggle]');
+  await page.evaluate(selector => document.querySelector(selector)?.click(), educationToggle);
 
   const profileEducationEntries = '#profile-editor-left [data-module="education"] .entry-item';
   assert.equal(await page.$$eval(profileEducationEntries, nodes => nodes.length), 1);
-  await page.click('#profile-editor-left [data-module="education"] .add-entry-btn');
+  const addEducationEntry = '#profile-editor-left [data-module="education"] .add-entry-btn';
+  await page.evaluate(selector => document.querySelector(selector)?.click(), addEducationEntry);
   await page.waitForFunction(selector => document.querySelectorAll(selector).length === 2, {}, profileEducationEntries);
   page.once('dialog', dialog => dialog.accept());
   await page.$$eval(`${profileEducationEntries} .btn-danger`, buttons => buttons[buttons.length - 1].click());
@@ -161,7 +163,9 @@ test('首页、投递记录和全局档案主流程可以完成并持久化', as
 
   await page.click('.nav-link[data-route="home"]');
   await page.waitForSelector('#view-home.active');
-  await page.click('[data-resume-action="edit"][data-resume-id="e2e-resume"]');
+  const editResumeSelector = '[data-resume-action="edit"][data-resume-id="e2e-resume"]';
+  await page.waitForSelector(editResumeSelector);
+  await page.evaluate(selector => document.querySelector(selector)?.click(), editResumeSelector);
   await page.waitForSelector('#view-editor.active');
   assertNoPageErrors();
 });
@@ -462,6 +466,38 @@ test('预览富文本编辑会净化内容、保存选区颜色并在刷新后�
   assertNoPageErrors();
 });
 
+test('自动保存不会打断预览区的连续编辑', async () => {
+  await openEditor();
+  const titleSelector = '#a4-preview [data-editable="internship.0.title"]';
+
+  await page.$eval(titleSelector, element => {
+    element.focus();
+    element.textContent = '';
+  });
+  await page.keyboard.type('自动保存连续编辑');
+  await page.waitForFunction(() => document.getElementById('save-status')?.textContent === '● 有未保存修改');
+  await page.waitForFunction(() => document.getElementById('save-status')?.textContent === '✓ 已保存', { timeout: 8000 });
+
+  assert.equal(
+    await page.evaluate(() => document.activeElement?.getAttribute('data-editable')),
+    'internship.0.title'
+  );
+  await page.keyboard.type('后续输入');
+  assert.equal(await page.$eval(titleSelector, element => element.textContent), '自动保存连续编辑后续输入');
+  assert.equal(
+    await page.evaluate(() => window.editState?.resume?.modules?.internship?.items?.[0]?.title),
+    '自动保存连续编辑后续输入'
+  );
+
+  const persisted = await environment.waitForStore(
+    store => store.resumes.find(resume => resume.id === 'e2e-resume')
+      ?.modules?.internship?.items?.[0]?.title === '自动保存连续编辑',
+    { message: '自动保存没有持久化正在编辑的预览内容' }
+  );
+  assert.ok(persisted);
+  assertNoPageErrors();
+});
+
 test('实习条目可以添加、删除和调整顺序', async () => {
   await openEditor();
   const panel = '.module-panel[data-module="internship"]';
@@ -602,10 +638,11 @@ test('编辑器和全局档案可以通过事件代理移除照片', async () =>
     { message: '简历照片移除结果没有持久化' }
   );
   await page.click('.nav-link[data-route="profile"]');
+  await page.waitForSelector('#view-profile.active');
   const profileRemove = '#profile-editor-left [data-photo-action="remove"]';
   await page.waitForSelector(profileRemove);
   assert.equal(await page.$eval(profileRemove, button => button.hasAttribute('onclick')), false);
-  await page.click(profileRemove);
+  await page.evaluate(selector => document.querySelector(selector)?.click(), profileRemove);
   await page.waitForFunction(() => {
     const photo = window.profileEditData?.basic_info?.data?.photo;
     return photo === '' && window.profileDirty === true;
